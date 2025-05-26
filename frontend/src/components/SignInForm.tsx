@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
-import { mutateLogin } from "@/requests/postRequests";
 import LoadingAlt from "./LoadingAlt";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useUserStore } from "@/store/useUserStore";
@@ -14,6 +13,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "./ui/form";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
+import { useSignIn } from "@/requests/auth/signIn.request";
 
 export default function SignInForm() {
   const router = useRouter();
@@ -40,7 +40,7 @@ export default function SignInForm() {
     },
   });
 
-  const submit = mutateLogin();
+  const submit = useSignIn();
 
   const onSubmit = (data: z.infer<typeof FormSchema>) => {
     setIsLoading(true);

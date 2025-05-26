@@ -2,7 +2,6 @@
 
 import { useForm } from "react-hook-form";
 import Link from "next/link";
-import { mutateRegister } from "@/requests/postRequests";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import LoadingAlt from "./LoadingAlt";
@@ -11,6 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "./ui/form";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
+import { useSignUp } from "@/requests/auth/signUp.request";
 
 export default function SignUpForm() {
   const router = useRouter();
@@ -46,7 +46,7 @@ export default function SignUpForm() {
     },
   });
 
-  const submit = mutateRegister();
+  const submit = useSignUp();
 
   const onSubmit = (data: z.infer<typeof FormSchema>) => {
     setIsLoading(true);

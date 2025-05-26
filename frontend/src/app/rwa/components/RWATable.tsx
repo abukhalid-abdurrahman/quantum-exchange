@@ -14,11 +14,6 @@ import { shortDescription } from "@/scripts/script";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { PaginationButtons } from "@/components/PaginationButtons";
-import {
-  useRwaChangesMultiple,
-  useRwaMultiple,
-  useRwas,
-} from "@/requests/getRequests";
 import Loading from "@/components/Loading";
 import { RwasReq } from "@/types";
 import _ from "lodash";
@@ -27,6 +22,9 @@ import Filters from "./Filters";
 import { useUserStore } from "@/store/useUserStore";
 import PurchaseButton from "@/components/PurchaseButton";
 import { useSearchParams } from "next/navigation";
+import { useGetRwas } from "@/requests/rwa/getRwas.request";
+import { useGetRwaMultiple } from "@/requests/rwa/getRwa.request";
+import { useGetRwaChangesMultiple } from "@/requests/rwa/getRwaChanges.request";
 
 export default function RWATable() {
   const searchParams = useSearchParams();
@@ -43,11 +41,11 @@ export default function RWATable() {
     pageNumber: initialPage,
   });
 
-  const { data: rwas, isFetching: rwasFetching } = useRwas(reqParams);
+  const { data: rwas, isFetching: rwasFetching } = useGetRwas(reqParams);
   const { data: rwaMultiple, isFetching: rwaMultipleFetching } =
-    useRwaMultiple(tokenIds);
+    useGetRwaMultiple(tokenIds);
   const { data: rwaChangesMultiple, isFetching: rwaChangesMultipleFetching } =
-    useRwaChangesMultiple(tokenIds);
+    useGetRwaChangesMultiple(tokenIds);
 
   useEffect(() => {
     if (rwas) {

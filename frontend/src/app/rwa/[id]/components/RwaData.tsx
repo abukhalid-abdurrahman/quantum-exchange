@@ -9,13 +9,14 @@ import {
   shortAddress,
   shortDescription,
 } from "@/scripts/script";
-import { useRwa, useRwaChanges } from "@/requests/getRequests";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import PurchaseButton from "@/components/PurchaseButton";
 import SellBuyData from "./SellBuyData";
 import { SOLANA_ENVIRONMENT } from "@/lib/constants";
+import { useGetRwa } from "@/requests/rwa/getRwa.request";
+import { useGetRwaChanges } from "@/requests/rwa/getRwaChanges.request";
 
 interface RwaDataProps {
   params: any;
@@ -23,12 +24,13 @@ interface RwaDataProps {
 
 export default function RwaData({ params }: RwaDataProps) {
   const tokenId = JSON.parse(params.value)?.id;
-  const { data, isFetching } = useRwa(tokenId);
   const [isCopied, setIsCopied] = useState(false);
-  const { data: sellBuyData, isFetching: isFetchingSellBuy } =
-    useRwaChanges(tokenId);
   const [isAlldataOpen, setIsAlldataOpen] = useState(false);
-
+  
+  const { data, isFetching } = useGetRwa(tokenId);
+  const { data: sellBuyData, isFetching: isFetchingSellBuy } =
+    useGetRwaChanges(tokenId);
+  
   if (isFetching || isFetchingSellBuy) {
     return (
       <Loading

@@ -1,6 +1,6 @@
 import axiosInstance from "@/lib/axiosInstance"
 import axiosInstanceForFiles from "@/lib/axiosInstanceForFiles"
-import { PostWallet } from "@/types"
+import { LinkWallet } from "@/types"
 import { useMutation } from "@tanstack/react-query"
 
 // Pot for Register User
@@ -83,7 +83,7 @@ const postWallet = async (req: any) => {
 
 export const mutateWallet = () => {
   return useMutation({
-    mutationFn: (req: PostWallet) => postWallet(req),
+    mutationFn: (req: LinkWallet) => postWallet(req),
   })
 }
 

@@ -9,12 +9,12 @@ import StatusModal from "./StatusModal";
 import CryptoAddressModal from "./CryptoAddressModal";
 
 import { useSwap } from "@/hooks/swapHooks";
-import { useExchangeRate } from "@/requests/getRequests";
 import { useUserStore } from "@/store/useUserStore";
-import { mutateOrders } from "@/requests/postRequests";
 import LoadingAlt from "./LoadingAlt";
 import { useRouter } from "next/navigation";
 import { Button } from "./ui/button";
+import { useGetExchangeRate } from "@/requests/swap/getExchangeRate.request";
+import { useCreateOrder } from "@/requests/swap/createOrder.request";
 
 export default function SwapForm() {
   const user = useUserStore((state) => state.user);
@@ -43,12 +43,12 @@ export default function SwapForm() {
     setSelectedTo,
   } = useSwap();
 
-  const { data, isFetching } = useExchangeRate(
+  const { data, isFetching } = useGetExchangeRate(
     selectedFrom.token,
     selectedTo.token
   );
 
-  const submit = mutateOrders();
+  const submit = useCreateOrder();
 
   const [isStatusModalOpen, setIsStatusModalOpen] = useState(false);
   const [isCryptoAddressModalOpen, setIsCryptoAddressModalOpen] =

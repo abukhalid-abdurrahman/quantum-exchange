@@ -3,14 +3,14 @@
 import CryptoItem from "@/components/CryptoItem";
 import CopyBtn from "@/components/CopyBtn";
 import { useUserStore } from "@/store/useUserStore";
-import { useUserVirtualAccounts } from "@/requests/getRequests";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useGetVirtualAccounts } from "@/requests/user/getVirtualAccounts.request";
 
 export default function AccountAddresses() {
   const user = useUserStore((state) => state.user);
-  const { data, isFetching } = useUserVirtualAccounts(true, user?.token!);
+  const { data, isFetching } = useGetVirtualAccounts(true, user?.token!);
 
   if (isFetching) {
     return (

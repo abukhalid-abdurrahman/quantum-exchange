@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { PublicKey } from "@solana/web3.js";
 import { useWalletStore } from "@/store/useWalletStore";
-import { mutateWallet } from "@/requests/postRequests";
 import { useUserStore } from "@/store/useUserStore";
+import { useLinkWallet } from "@/requests/user/linkWallet.request";
 
 declare global {
   interface Window {
@@ -16,7 +16,7 @@ export const usePhantomWallet = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const { setPublicKey: setKey } = useWalletStore();
   const { user } = useUserStore();
-  const submit = mutateWallet();
+  const submit = useLinkWallet();
 
   useEffect(() => {
     if (typeof window !== "undefined" && window.solana?.isPhantom) {

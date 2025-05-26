@@ -26,7 +26,7 @@ export interface TokenizationField {
   selectItems?: string[];
 }
 
-export type PostWallet = {
+export type LinkWallet = {
   walletAddress: PublicKey;
   network: string;
 };

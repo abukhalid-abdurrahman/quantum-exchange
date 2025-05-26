@@ -1,4 +1,3 @@
-import { useVirtualAccountBalance } from "@/requests/getRequests";
 import { useEffect, useState } from "react";
 import Loading from "./Loading";
 import Modal from "./Modal";
@@ -7,6 +6,7 @@ import { shortAddress } from "@/scripts/script";
 import Image from "next/image";
 import { statusMessages } from "@/lib/helpers/statusMessages";
 import { Button, buttonVariants } from "./ui/button";
+import { useGetVirtualAccountBalance } from "@/requests/user/getVirtualAccountBalance.request";
 
 interface StatusModalProps {
   orderId: string;
@@ -24,7 +24,7 @@ export default function StatusModal({
   // const [isNonCompleted, setIsNonCompleted] = useState(true)
   const [address, setAddress] = useState("");
   const [messageIndex, setMessageIndex] = useState(0);
-  const { data, refetch } = useVirtualAccountBalance(orderId!, !address);
+  const { data, refetch } = useGetVirtualAccountBalance(orderId!, !address);
 
   useEffect(() => {
     if (data?.data.status === "Completed") {

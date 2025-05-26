@@ -7,7 +7,7 @@ import {
   FormControl,
   FormMessage,
 } from "@/components/ui/form";
-import { uploadFile } from "@/scripts/script";
+import { handleUploadFile } from "@/scripts/script";
 import { useFormContext } from "react-hook-form";
 import { MAX_FILE_SIZE } from "@/lib/constants";
 
@@ -32,7 +32,7 @@ export function DragAndDropUpload({ control, name }: DragAndDropProps) {
     clearErrors(name);
 
     try {
-      const uploadedUrl = await uploadFile(file);
+      const uploadedUrl = await handleUploadFile(file);
       if (uploadedUrl.includes("http")) {
         formField.onChange(uploadedUrl);
       } else {

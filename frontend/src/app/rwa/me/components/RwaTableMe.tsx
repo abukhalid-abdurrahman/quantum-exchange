@@ -14,13 +14,13 @@ import { shortDescription } from "@/scripts/script";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { PaginationButtons } from "@/components/PaginationButtons";
-import { useRwasMe } from "@/requests/getRequests";
 import Loading from "@/components/Loading";
 import { RwasReq } from "@/types";
 import _ from "lodash";
 import Link from "next/link";
 import { useUserStore } from "@/store/useUserStore";
 import { useSearchParams } from "next/navigation";
+import { useGetRwasMe } from "@/requests/rwa/getRwasMe.request";
 
 export default function RwaTableMe() {
   const searchParams = useSearchParams();
@@ -31,7 +31,7 @@ export default function RwaTableMe() {
     pageNumber: initialPage,
   });
 
-  const { data: rwas, isFetching: rwasFetching } = useRwasMe(
+  const { data: rwas, isFetching: rwasFetching } = useGetRwasMe(
     reqParams,
     user!?.token || ""
   );

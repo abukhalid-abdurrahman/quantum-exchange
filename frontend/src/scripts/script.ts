@@ -1,4 +1,4 @@
-import { postFiles } from "@/requests/postRequests";
+import { uploadFile } from "@/requests/file/uploadFile.request";
 import Cookies from "js-cookie";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { Dispatch, SetStateAction } from "react";
@@ -43,9 +43,9 @@ export const redirectOnUnauthorize = (
   }
 };
 
-export const uploadFile = async (file: File): Promise<string> => {
+export const handleUploadFile = async (file: File): Promise<string> => {
   try {
-    const res = await postFiles(file);
+    const res = await uploadFile(file);
     return res.data.data.fileUrl;
   } catch (error) {
     console.error("Upload failed", error);

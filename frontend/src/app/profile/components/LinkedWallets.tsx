@@ -5,12 +5,12 @@ import CryptoItem from "@/components/CryptoItem";
 import { buttonVariants } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { shortAddress } from "@/scripts/script";
-import { useLinkedWallets } from "@/requests/getRequests";
 import { useUserStore } from "@/store/useUserStore";
+import { useGetLinkedWallets } from "@/requests/user/getLinkedWallets.request";
 
 export default function LinkedWallets() {
   const { user } = useUserStore();
-  const { data, isFetching } = useLinkedWallets(user?.token!);
+  const { data, isFetching } = useGetLinkedWallets(user?.token!);
 
   if (isFetching) {
     return (

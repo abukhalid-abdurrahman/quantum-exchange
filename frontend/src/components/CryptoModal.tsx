@@ -5,9 +5,9 @@ import Modal from "./Modal";
 import CryptoItem from "./CryptoItem";
 import { useForm } from "react-hook-form";
 import Image from "next/image";
-import { useNetworks } from "@/requests/getRequests";
 import { useEffect } from "react";
 import { useUserStore } from "@/store/useUserStore";
+import { useGetNetworks } from "@/requests/swap/getNetworks.request";
 
 interface CryptoModalProps {
   isOpen: boolean;
@@ -30,7 +30,7 @@ export default function CryptoModal({
 }: CryptoModalProps) {
   const { register } = useForm();
   const user = useUserStore((state) => state.user)
-  const { data } = useNetworks();
+  const { data } = useGetNetworks();
 
   useEffect(() => {
     if (data) {

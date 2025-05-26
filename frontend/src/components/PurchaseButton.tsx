@@ -3,14 +3,12 @@ import Loading from "@/components/Loading";
 import Modal from "@/components/Modal";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { shortAddress } from "@/scripts/script";
-import {
-  mutateRwaPurchase,
-  mutateRwaTransaction,
-} from "@/requests/postRequests";
 import Image from "next/image";
 import { useState } from "react";
 import { Transaction } from "@solana/web3.js";
 import { useWalletStore } from "@/store/useWalletStore";
+import { useBuyRwa } from "@/requests/rwa/buyRwa.request";
+import { useSendSignedTransaction } from "@/requests/rwa/sendSignedTransaction.request";
 
 interface PurchaseButtonProps {
   tokenId: string;
@@ -29,8 +27,8 @@ export default function PurchaseButton({
   const [message, setMessage] = useState("");
   const { publicKey } = useWalletStore();
 
-  const purchase = mutateRwaPurchase();
-  const submitTransaction = mutateRwaTransaction();
+  const purchase = useBuyRwa();
+  const submitTransaction = useSendSignedTransaction();
 
   const handlePurchase = async () => {
     setIsModalOpen(true);

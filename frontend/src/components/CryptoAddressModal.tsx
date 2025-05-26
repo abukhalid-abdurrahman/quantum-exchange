@@ -1,7 +1,3 @@
-import {
-  useUserVirtualAccounts,
-  useVirtualAccountBalance,
-} from "@/requests/getRequests";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import Loading from "./Loading";
 import Modal from "./Modal";
@@ -13,6 +9,8 @@ import { VirtualAddressMesages } from "@/lib/helpers/virtualAddressMessages";
 import { SelectedCrypto } from "@/lib/cryptoOptions";
 import { useUserStore } from "@/store/useUserStore";
 import { buttonVariants } from "./ui/button";
+import { useGetVirtualAccounts } from "@/requests/user/getVirtualAccounts.request";
+import { useGetVirtualAccountBalance } from "@/requests/user/getVirtualAccountBalance.request";
 
 interface StatusModalProps {
   setIsStatusModalOpen: any;
@@ -46,10 +44,10 @@ export default function CryptoAddressModal({
     refetch: balanceRefetch,
     isError: balanceError,
     isFetching: balanceFetching,
-  } = useVirtualAccountBalance(orderId!, isOpen);
+  } = useGetVirtualAccountBalance(orderId!, isOpen);
   const user = useUserStore((state) => state.user);
   // const { data } = useVirtualAccount(fromNetwork, toNetwork);
-  const { data: accountData } = useUserVirtualAccounts(
+  const { data: accountData } = useGetVirtualAccounts(
     showAddress,
     user?.token!
   );

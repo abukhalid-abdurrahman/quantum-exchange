@@ -1,6 +1,6 @@
 import ChangePasswordForm from "@/app/profile/forms/ChangePasswordForm";
 
-export default function ChangePasswordSection() {
+export default function ChangePassword() {
   return (
     <div className="mt-10">
       <h2 className="h2 text-white mb-4">Change Password</h2>

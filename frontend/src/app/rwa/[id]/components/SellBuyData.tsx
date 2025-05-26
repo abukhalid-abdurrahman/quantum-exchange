@@ -10,15 +10,15 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { shortAddress } from "@/scripts/script";
-import { useRwaPurchaseHistory } from "@/requests/getRequests";
 import { format } from "date-fns";
+import { useGetRwaPurchaseHistory } from "@/requests/rwa/getRwaPurchaseHistory.request";
 
 interface SellBuyDataProps {
   tokenId: string;
 }
 
 export default function SellBuyData({ tokenId }: SellBuyDataProps) {
-  const { data, isFetching } = useRwaPurchaseHistory(tokenId);
+  const { data, isFetching } = useGetRwaPurchaseHistory(tokenId);
 
   return (
     <div className="mt-16 text-white">

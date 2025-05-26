@@ -3,7 +3,7 @@
 import Header from "@/components/Header";
 import { searchParams } from "@/types";
 import AccountAddresses from "@/app/profile/components/AccountAddresses";
-import ChangePasswordForm from "@/app/profile/components/ChangePasswordSection";
+import ChangePassword from "@/app/profile/components/ChangePassword";
 import LinkedWallets from "@/app/profile/components/LinkedWallets";
 
 export default async function page({
@@ -17,7 +17,7 @@ export default async function page({
       <div className="max-w-[512px] mx-auto mt-20 md:mt-14 md:pb-5 sm:!mt-10 xs:!mt-7">
         <AccountAddresses />
         <LinkedWallets />
-        <ChangePasswordForm />
+        <ChangePassword />
       </div>
     </div>
   );

@@ -33,14 +33,14 @@ import { useEffect, useState } from "react";
 import { ASSET_TYPES, MAX_FILE_SIZE } from "@/lib/constants";
 import { TokenizationField } from "@/types";
 import dynamic from "next/dynamic";
-import { uploadFile } from "@/scripts/script";
+import { handleUploadFile } from "@/scripts/script";
 import { DragAndDropUpload } from "@/app/rwa/create/components/DragAndDropUpload";
 import InputAssetField from "@/app/rwa/create/components/InputAssetField";
 import SelectAssetField from "@/app/rwa/create/components/SelectAssetField";
 import TokenizationModal from "./TokenizationModal";
 import DateAssetField from "./DateAssetField";
 import { Loader2 } from "lucide-react";
-import { mutateRwaToken } from "@/requests/postRequests";
+import { useCreateRwa } from "@/requests/rwa/createRwa.request";
 
 const LocationPickerModal = dynamic(
   () => import("@/components/LocationPickerModal"),
@@ -64,7 +64,7 @@ export default function CreateRwa() {
   const [errorMessage, setErrorMessage] = useState("");
   const [tokenId, setTokenId] = useState("");
 
-  const submit = mutateRwaToken();
+  const submit = useCreateRwa();
 
   const getFieldsByAssetType = (type: string): TokenizationField[] => {
     switch (type) {
@@ -316,7 +316,7 @@ export default function CreateRwa() {
 
                               try {
                                 setIsUploading(true);
-                                const uploadedUrl = await uploadFile(file);
+                                const uploadedUrl = await handleUploadFile(file);
                                 if (uploadedUrl.includes("http")) {
                                   field.onChange(uploadedUrl);
                                 } else {

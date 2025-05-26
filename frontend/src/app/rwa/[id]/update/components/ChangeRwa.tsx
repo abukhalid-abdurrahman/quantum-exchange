@@ -29,14 +29,13 @@ import {
 import PageTitle from "@/components/PageTitle";
 import { useEffect, useState } from "react";
 import { ASSET_TYPES } from "@/lib/constants";
-import { useRwa } from "@/requests/getRequests";
 import Loading from "@/components/Loading";
 import Image from "next/image";
 import {
   handleCopy,
   shortAddress,
   shortDescription,
-  uploadFile,
+  handleUploadFile,
 } from "@/scripts/script";
 import { Loader2 } from "lucide-react";
 import UpdatingModal from "./UpdatingModal";
@@ -45,6 +44,8 @@ import { useUserStore } from "@/store/useUserStore";
 import { redirect } from "next/navigation";
 import AllRwaData from "@/components/AllRwaData";
 import { mutateRwaUpdate } from "@/requests/putRequests";
+import { useGetRwa } from "@/requests/rwa/getRwa.request";
+import { useUpdateRwa } from "@/requests/rwa/updateRwa.request";
 
 interface ChangeRwaProps {
   params: any;
@@ -53,7 +54,7 @@ interface ChangeRwaProps {
 export default function ChangeRwa({ params }: ChangeRwaProps) {
   const tokenId = JSON.parse(params.value)?.id;
   const [initialData, setInitialData] = useState<any | null>(null);
-  const [isDataChanged, setIsDataChanged] = useState(false)
+  const [isDataChanged, setIsDataChanged] = useState(false);
   const [netAmount, setNetAmount] = useState<number | string>("");
   const [existedNetAmount, setExistedNetAmount] = useState<number | string>("");
   const [isUpdated, setIsUpdated] = useState(false);
@@ -64,8 +65,8 @@ export default function ChangeRwa({ params }: ChangeRwaProps) {
   const [isCopied, setIsCopied] = useState(false);
   const { user } = useUserStore();
 
-  const { data, isFetching, isFetched } = useRwa(tokenId);
-  const submit = mutateRwaUpdate(tokenId);
+  const { data, isFetching, isFetched } = useGetRwa(tokenId);
+  const submit = useUpdateRwa(tokenId);
 
   const FormSchema = z.object(
     Object.fromEntries(
@@ -88,7 +89,7 @@ export default function ChangeRwa({ params }: ChangeRwaProps) {
   const onSubmit = (data: z.infer<typeof FormSchema>) => {
     setIsError(false);
     setErrorMessage("");
-    setIsDataChanged(false)
+    setIsDataChanged(false);
 
     if (!initialData) return;
 
@@ -97,8 +98,8 @@ export default function ChangeRwa({ params }: ChangeRwaProps) {
     );
 
     if (!isChanged) {
-      setIsDataChanged(true)
-      return
+      setIsDataChanged(true);
+      return;
     }
 
     setIsUpdated(true);
@@ -377,7 +378,7 @@ export default function ChangeRwa({ params }: ChangeRwaProps) {
 
                                 try {
                                   setIsUploading(true);
-                                  const uploadedUrl = await uploadFile(file);
+                                  const uploadedUrl = await handleUploadFile(file);
                                   field.onChange(uploadedUrl);
                                 } catch (error) {
                                   form.setError("proofOfOwnershipDocument", {
@@ -441,7 +442,9 @@ export default function ChangeRwa({ params }: ChangeRwaProps) {
               />
             </div>
             {isDataChanged && (
-              <p className="p-sm text-destructive mt-2">You haven't changed anything.</p>
+              <p className="p-sm text-destructive mt-2">
+                You haven't changed anything.
+              </p>
             )}
             <Button
               variant="gray"
