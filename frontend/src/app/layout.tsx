@@ -22,10 +22,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${dmSans.className} antialiased min-h-screen`}
+        className={`${dmSans.className} antialiased min-h-screen bg-backgroundWebsite`}
       >
         <TanstackProvider>
-          <main className="main w-full h-full bg-backgroundWebsite">
+          <main className="main w-full h-full">
             {children}
           </main>
         </TanstackProvider>

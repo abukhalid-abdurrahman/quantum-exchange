@@ -7,7 +7,7 @@ import {
   FormControl,
   FormMessage,
 } from "@/components/ui/form";
-import { uploadFile } from "@/lib/scripts/script";
+import { uploadFile } from "@/scripts/script";
 import { useFormContext } from "react-hook-form";
 import { MAX_FILE_SIZE } from "@/lib/constants";
 

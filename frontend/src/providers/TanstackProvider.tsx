@@ -1,7 +1,7 @@
 "use client";
 
 import Modal from "@/components/Modal";
-import { removeUser } from "@/lib/scripts/script";
+import { removeUser } from "@/scripts/script";
 import { useUserStore } from "@/store/useUserStore";
 import {
   MutationCache,

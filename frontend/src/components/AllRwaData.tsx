@@ -4,7 +4,7 @@ import {
   tokenizationFieldsAutomobiles,
   tokenizationFieldsBase,
   tokenizationFieldsRealEstate,
-} from "@/lib/helpers/tokenizationFields";
+} from "@/helpers/tokenizationFields";
 import Link from "next/link";
 import { Button } from "./ui/button";
 import Image from "next/image";
@@ -12,7 +12,7 @@ import {
   handleCopy,
   shortAddress,
   shortDescription,
-} from "@/lib/scripts/script";
+} from "@/scripts/script";
 
 const fieldsMeta = [
   ...tokenizationFieldsBase,

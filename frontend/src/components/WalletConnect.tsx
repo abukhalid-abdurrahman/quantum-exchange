@@ -4,7 +4,7 @@ import { Button } from "./ui/button";
 import { useState } from "react";
 import { useWalletStore } from "@/store/useWalletStore";
 import Image from "next/image";
-import { shortAddress } from "@/lib/scripts/script";
+import { shortAddress } from "@/scripts/script";
 import { useUserStore } from "@/store/useUserStore";
 import WalletSelector from "./WalletSelector";
 

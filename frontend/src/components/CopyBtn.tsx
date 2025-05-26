@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { Button } from "./ui/button";
-import { handleCopy } from "@/lib/scripts/script";
+import { handleCopy } from "@/scripts/script";
 
 interface CopyBtnProps {
   address: string;

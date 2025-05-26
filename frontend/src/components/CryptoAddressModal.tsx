@@ -6,7 +6,7 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import Loading from "./Loading";
 import Modal from "./Modal";
 import CopyBtn from "./CopyBtn";
-import { shortAddress } from "@/lib/scripts/script";
+import { shortAddress } from "@/scripts/script";
 import QRCodeDisplay from "./QrCode";
 import CountdownTimer from "./CountdownTimer";
 import { VirtualAddressMesages } from "@/lib/helpers/virtualAddressMessages";

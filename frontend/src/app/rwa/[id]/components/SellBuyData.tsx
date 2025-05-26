@@ -9,7 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { shortAddress } from "@/lib/scripts/script";
+import { shortAddress } from "@/scripts/script";
 import { useRwaPurchaseHistory } from "@/requests/getRequests";
 import { format } from "date-fns";
 

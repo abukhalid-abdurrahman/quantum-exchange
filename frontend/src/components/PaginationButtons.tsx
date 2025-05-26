@@ -9,7 +9,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { getVisiblePages } from "@/lib/scripts/script";
+import { getVisiblePages } from "@/scripts/script";
 import { ReadonlyURLSearchParams } from "next/navigation";
 
 interface PaginationButtonsProps {

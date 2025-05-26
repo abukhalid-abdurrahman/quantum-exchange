@@ -8,7 +8,7 @@ import {
   handleCopy,
   shortAddress,
   shortDescription,
-} from "@/lib/scripts/script";
+} from "@/scripts/script";
 import { useRwa, useRwaChanges } from "@/requests/getRequests";
 import Image from "next/image";
 import Link from "next/link";

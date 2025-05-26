@@ -1,7 +1,7 @@
 "use server";
 
 import Header from "@/components/Header";
-import { searchParams } from "@/lib/types";
+import { searchParams } from "@/types";
 import RwaData from "./components/RwaData";
 
 export default async function page({

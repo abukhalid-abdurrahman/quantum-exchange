@@ -10,13 +10,13 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import Image from "next/image";
-import { shortDescription } from "@/lib/scripts/script";
+import { shortDescription } from "@/scripts/script";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { PaginationButtons } from "@/components/PaginationButtons";
 import { useRwasMe } from "@/requests/getRequests";
 import Loading from "@/components/Loading";
-import { RwasReq } from "@/lib/types";
+import { RwasReq } from "@/types";
 import _ from "lodash";
 import Link from "next/link";
 import { useUserStore } from "@/store/useUserStore";

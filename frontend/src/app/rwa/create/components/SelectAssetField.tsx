@@ -13,7 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { TokenizationField } from "@/lib/types";
+import { TokenizationField } from "@/types";
 import React from "react";
 import { UseFormReturn } from "react-hook-form";
 

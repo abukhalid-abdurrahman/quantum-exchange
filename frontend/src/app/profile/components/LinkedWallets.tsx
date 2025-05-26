@@ -4,7 +4,7 @@ import CopyBtn from "@/components/CopyBtn";
 import CryptoItem from "@/components/CryptoItem";
 import { buttonVariants } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { shortAddress } from "@/lib/scripts/script";
+import { shortAddress } from "@/scripts/script";
 import { useLinkedWallets } from "@/requests/getRequests";
 import { useUserStore } from "@/store/useUserStore";
 

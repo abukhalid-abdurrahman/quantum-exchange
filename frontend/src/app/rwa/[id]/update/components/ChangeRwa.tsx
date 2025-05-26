@@ -37,7 +37,7 @@ import {
   shortAddress,
   shortDescription,
   uploadFile,
-} from "@/lib/scripts/script";
+} from "@/scripts/script";
 import { Loader2 } from "lucide-react";
 import UpdatingModal from "./UpdatingModal";
 import Link from "next/link";

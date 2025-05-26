@@ -1,6 +1,6 @@
 import axiosInstance from "@/lib/axiosInstance"
 import axiosInstanceForFiles from "@/lib/axiosInstanceForFiles"
-import { PostWallet } from "@/lib/types"
+import { PostWallet } from "@/types"
 import { useMutation } from "@tanstack/react-query"
 
 // Pot for Register User

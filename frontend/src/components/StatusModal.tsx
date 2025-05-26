@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Loading from "./Loading";
 import Modal from "./Modal";
 import CopyBtn from "./CopyBtn";
-import { shortAddress } from "@/lib/scripts/script";
+import { shortAddress } from "@/scripts/script";
 import Image from "next/image";
 import { statusMessages } from "@/lib/helpers/statusMessages";
 import { Button, buttonVariants } from "./ui/button";

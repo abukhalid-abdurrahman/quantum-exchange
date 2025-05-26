@@ -2,7 +2,7 @@
 
 import Header from "@/components/Header";
 import PageTitle from "@/components/PageTitle";
-import { searchParams } from "@/lib/types";
+import { searchParams } from "@/types";
 import RwaTableMe from "./components/RwaTableMe";
 
 export default async function page({

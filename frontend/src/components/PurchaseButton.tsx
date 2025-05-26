@@ -2,7 +2,7 @@ import CopyBtn from "@/components/CopyBtn";
 import Loading from "@/components/Loading";
 import Modal from "@/components/Modal";
 import { Button, buttonVariants } from "@/components/ui/button";
-import { shortAddress } from "@/lib/scripts/script";
+import { shortAddress } from "@/scripts/script";
 import {
   mutateRwaPurchase,
   mutateRwaTransaction,

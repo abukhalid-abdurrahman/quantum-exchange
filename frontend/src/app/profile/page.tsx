@@ -1,10 +1,10 @@
 "use server";
 
 import Header from "@/components/Header";
-import { searchParams } from "@/lib/types";
-import AccountAddresses from "./components/AccountAddresses";
-import ChangePasswordForm from "./components/ChangePasswordForm";
-import LinkedWallets from "./components/LinkedWallets";
+import { searchParams } from "@/types";
+import AccountAddresses from "@/app/profile/components/AccountAddresses";
+import ChangePasswordForm from "@/app/profile/components/ChangePasswordSection";
+import LinkedWallets from "@/app/profile/components/LinkedWallets";
 
 export default async function page({
   searchParams,

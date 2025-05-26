@@ -3,7 +3,7 @@
 import Link from "next/link";
 import SignInModal from "./SignInModal";
 import SignUpModal from "./SignUpModal";
-import { searchParams } from "@/lib/types";
+import { searchParams } from "@/types";
 import HeaderBtns from "./HeaderBtns";
 import MobileHeader from "./MobileHeader";
 import WalletConnect from "./WalletConnect";

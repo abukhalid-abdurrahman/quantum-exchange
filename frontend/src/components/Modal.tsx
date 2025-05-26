@@ -1,4 +1,4 @@
-import "@/lib/styles/modal.css";
+import "@/styles/modal.css";
 import Image from "next/image";
 import Link from "next/link";
 

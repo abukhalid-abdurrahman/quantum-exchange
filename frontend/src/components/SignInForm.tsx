@@ -7,7 +7,7 @@ import { mutateLogin } from "@/requests/postRequests";
 import LoadingAlt from "./LoadingAlt";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useUserStore } from "@/store/useUserStore";
-import { parseJwt } from "@/lib/scripts/script";
+import { parseJwt } from "@/scripts/script";
 import Cookies from "js-cookie";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";

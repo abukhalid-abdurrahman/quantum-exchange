@@ -2,7 +2,7 @@
 
 import CreateRwa from "@/app/rwa/create/components/CreateRwa";
 import Header from "@/components/Header";
-import { searchParams } from "@/lib/types";
+import { searchParams } from "@/types";
 
 export default async function page({
   searchParams,
