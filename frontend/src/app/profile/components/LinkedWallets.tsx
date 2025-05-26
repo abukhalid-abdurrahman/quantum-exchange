@@ -1,34 +1,31 @@
 "use client";
 
-import CopyBtn from "@/components/CopyBtn";
 import CryptoItem from "@/components/CryptoItem";
+import CopyBtn from "@/components/CopyBtn";
+import ProfileSkeleton from "./states/ProfileSkeleton";
+import NoLinkedWallets from "./states/NoLinkedWallets";
 import { buttonVariants } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
-import { shortAddress } from "@/scripts/script";
-import { useUserStore } from "@/store/useUserStore";
 import { useGetLinkedWallets } from "@/requests/user/getLinkedWallets.request";
+import { useUserStore } from "@/store/useUserStore";
+import { shortAddress } from "@/scripts/script";
+import { LinkedWallet } from "@/app/profile/types/profile.types";
 
 export default function LinkedWallets() {
   const { user } = useUserStore();
-  const { data, isFetching } = useGetLinkedWallets(user?.token!);
+  const { data, isFetching, refetch } = useGetLinkedWallets(user?.token!);
 
-  if (isFetching) {
-    return (
-      <div className="flex flex-col space-y-3 mt-16">
-        <Skeleton className="w-2/3 h-10 rounded-xl" />
-        <div className="space-y-2">
-          <Skeleton className="w-full h-20" />
-        </div>
-      </div>
-    );
-  }
+  if (isFetching) return <ProfileSkeleton />;
+
+  const wallets = data?.data || [];
 
   return (
-    <div className="mt-10">
+    <div className="">
       <h2 className="h2 text-white mb-4">Linked Wallets</h2>
-      <div className="flex flex-col gap-[5px]">
-        {data?.data.map((wallet: any) => (
-          <div key={wallet.walletAddress} className="flex gap-[5px]">
+      {wallets.length > 0 ? (
+        <>
+        <div className="flex flex-col gap-[5px]">
+        {data?.data.map((wallet: LinkedWallet, i: number) => (
+          <div key={i} className="flex gap-[5px]">
             <CryptoItem
               image={`/${wallet.network}.png`}
               crypto={wallet.network}
@@ -50,6 +47,10 @@ export default function LinkedWallets() {
           </div>
         ))}
       </div>
+        </>
+      ): (
+        <NoLinkedWallets refetch={refetch} />
+      )}
     </div>
   );
 }

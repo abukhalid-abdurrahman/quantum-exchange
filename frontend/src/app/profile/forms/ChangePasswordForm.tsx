@@ -69,7 +69,11 @@ export default function ChangePasswordForm() {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input type={item.type} placeholder={item.placeholder} {...field} />
+                  <Input
+                    type={item.type}
+                    placeholder={item.placeholder}
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -79,7 +83,13 @@ export default function ChangePasswordForm() {
 
         {errorMessage && <p className="p-sm text-red-500">{errorMessage}</p>}
 
-        <Button variant="gray" type="submit" size="xl" className="w-full">
+        <Button
+          variant="gray"
+          type="submit"
+          size="xl"
+          className="w-full"
+          disabled={isLoading ? true : false}
+        >
           {isLoading ? "Changing..." : "Change"}
         </Button>
       </form>

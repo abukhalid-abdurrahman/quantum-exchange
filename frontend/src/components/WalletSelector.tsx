@@ -10,11 +10,13 @@ import Image from "next/image";
 interface WalletSelectorProps {
   showWalletSelector: boolean;
   setShowWalletSelector: (value: SetStateAction<boolean>) => void;
+  refetch?: () => void;
 }
 
 export default function WalletSelector({
   showWalletSelector,
   setShowWalletSelector,
+  refetch,
 }: WalletSelectorProps) {
   const [whatWallet, setWhatWallet] = useState<string | null>(null);
   const { connectPhantomWallet, walletDenied, setWalletDenied, errorMessage } =
@@ -67,6 +69,7 @@ export default function WalletSelector({
           walletDenied={walletDenied}
           publicKey={publicKey}
           onClose={() => setShowWalletSelector(false)}
+          refetch={refetch}
         />
       )}
     </Modal>

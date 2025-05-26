@@ -3,3 +3,8 @@ export type AccountAddress = {
   balance: string;
   address: string;
 };
+
+export type LinkedWallet = {
+  walletAddress: string;
+  network: string;
+};

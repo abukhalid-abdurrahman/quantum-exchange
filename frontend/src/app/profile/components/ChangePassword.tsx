@@ -2,7 +2,7 @@ import ChangePasswordForm from "@/app/profile/forms/ChangePasswordForm";
 
 export default function ChangePassword() {
   return (
-    <div className="mt-10">
+    <div className="">
       <h2 className="h2 text-white mb-4">Change Password</h2>
       <ChangePasswordForm />
     </div>

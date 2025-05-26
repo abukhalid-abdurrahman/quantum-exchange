@@ -10,6 +10,7 @@ type PhantomModalProps = {
   connectPhantomWallet: (publicKey: string | null) => void;
   setWalletDenied: (value: boolean) => void;
   errorMessage: string;
+  refetch?: () => void;
 };
 
 export default function PhantomModal({
@@ -19,10 +20,14 @@ export default function PhantomModal({
   connectPhantomWallet,
   setWalletDenied,
   errorMessage,
+  refetch,
 }: PhantomModalProps) {
   useEffect(() => {
     const timer = setTimeout(() => {
-      if (publicKey) onClose();
+      if (publicKey) {
+        onClose()
+        if (refetch) refetch()
+      };
     }, 3000);
     return () => clearTimeout(timer);
   }, [publicKey, onClose]);
@@ -50,7 +55,7 @@ export default function PhantomModal({
 
     return {
       title: "Connection failed",
-      description: errorMessage || 'Something went wrong',
+      description: errorMessage || "Something went wrong",
       buttonText: "Retry",
       buttonDisabled: false,
       onClick: () => {
