@@ -130,3 +130,4 @@ TokenValidationContextNull=Invalid token data: HttpContext.User.Identity or toke
 TokenValidationInvalidTokenData=Invalid token data.
 TokenValidationInvalidTokenVersion=Invalid token version.
 
+UpdateRwaTokenForbidden=You do not have permission to update the RWA token.

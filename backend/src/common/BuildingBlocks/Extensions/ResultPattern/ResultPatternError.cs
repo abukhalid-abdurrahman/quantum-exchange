@@ -85,4 +85,7 @@ public sealed record ResultPatternError
 
     public static ResultPatternError UnsupportedMediaType(string? message = "Unsupported Media Type!")
         => new(StatusCodes.Status415UnsupportedMediaType, message, ErrorType.UnsupportedMediaType);
+
+    public static ResultPatternError AccessDenied(string? message = "Access Denied!")
+        => new(StatusCodes.Status403Forbidden, message, ErrorType.Forbidden);
 }
