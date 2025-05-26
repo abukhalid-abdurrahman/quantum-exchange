@@ -102,7 +102,7 @@ export default function CreateRwa() {
     setIsError(false);
     setErrorMessage("");
     submit.mutate(data, {
-      onSuccess: (res) => {
+      onSuccess: (res: any) => {
         setIsSuccessfullyDone(true);
         setTokenId(res.data.tokenId);
       },

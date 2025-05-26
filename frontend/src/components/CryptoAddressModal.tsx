@@ -45,7 +45,7 @@ export default function CryptoAddressModal({
     isError: balanceError,
     isFetching: balanceFetching,
   } = useGetVirtualAccountBalance(orderId!, isOpen);
-  const user = useUserStore((state) => state.user);
+  const { user } = useUserStore();
   // const { data } = useVirtualAccount(fromNetwork, toNetwork);
   const { data: accountData } = useGetVirtualAccounts(
     showAddress,
