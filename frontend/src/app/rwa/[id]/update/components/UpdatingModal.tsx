@@ -32,14 +32,15 @@ export default function UpdatingModal({
   isError,
   errorMessage,
   isSuccessfullyDone,
-  setIsSuccessfullyDone
+  setIsSuccessfullyDone,
 }: UpdatingModalProps) {
   return (
     <Modal
       isNonClosable={!isError}
       isNonUrlModal
       className={`${
-        (!isSuccessfullyDone || isError) && "min-h-64 flex justify-center items-center"
+        (!isSuccessfullyDone || isError) &&
+        "min-h-64 flex justify-center items-center"
       }`}
       onCloseFunc={() => setIsUpdated(false)}
     >
@@ -80,7 +81,6 @@ export default function UpdatingModal({
               onClick={() => {
                 setIsUpdated(false);
                 setIsSuccessfullyDone(false);
-                form.reset();
               }}
               className="w-full mt-2"
             >
