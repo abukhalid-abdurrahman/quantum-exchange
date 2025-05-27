@@ -49,7 +49,6 @@ export const useUserVirtualAccounts = (isEnabled: boolean, token: string) => {
   return useQuery({
     queryKey: [token, "user-accounts"],
     queryFn: () => getUserVirtualAccounts(),
-    gcTime: 0,
     enabled: isEnabled,
   });
 };
@@ -67,7 +66,6 @@ export const useVirtualAccountBalance = (
   return useQuery({
     queryKey: [orderId, "virtual-account-balance"],
     queryFn: () => getVirtualAccountBalance(orderId),
-    gcTime: 0,
     enabled: !!orderId && !!completed,
   });
 };
@@ -119,9 +117,9 @@ const getRwasMe = async (reqParams: RwasReq) => {
   return res.data;
 };
 
-export const useRwasMe = (reqParams: any) => {
+export const useRwasMe = (reqParams: any, token: string) => {
   return useQuery({
-    queryKey: ["rwas", "me", reqParams],
+    queryKey: ["rwas", "me", reqParams, token],
     queryFn: () => getRwasMe(reqParams),
   });
 };
@@ -199,7 +197,7 @@ const getRwaMe = async (reqParams: any) => {
 
 export const useRwaMe = (token: string, reqParams: any) => {
   return useQuery({
-    queryKey: ["rwa-me", token],
+    queryKey: ["rwa", "me", token],
     queryFn: () => getRwaMe(reqParams),
   });
 };
@@ -217,16 +215,17 @@ export const useLinkedWallets = (token: string) => {
   });
 };
 
-
 // Get purchase history
 const getRwaPurchaseHistory = async (tokenId: string) => {
-  const res = await axiosInstance.get(`/nft-purchase-ownership-histories/${tokenId}`)
-  return res.data
-}
+  const res = await axiosInstance.get(
+    `/nft-purchase-ownership-histories/${tokenId}`
+  );
+  return res.data;
+};
 
 export const useRwaPurchaseHistory = (tokenId: string) => {
   return useQuery({
     queryKey: ["rwa-purchase-history", tokenId],
     queryFn: () => getRwaPurchaseHistory(tokenId),
   });
-}
+};

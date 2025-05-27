@@ -1,6 +1,6 @@
 namespace Application.DTOs.RwaToken.Responses;
 
-public record GetRwaTokenDetailResponse(
+public sealed record GetRwaTokenDetailResponse(
     Guid TokenId,
     string Title,
     string AssetDescription,
@@ -8,7 +8,7 @@ public record GetRwaTokenDetailResponse(
     string UniqueIdentifier,
     int Royalty,
     decimal Price,
-    string Network,
+    string? Network,
     string Image,
     string OwnerContact,
     NftAssetType AssetType,
@@ -24,6 +24,6 @@ public record GetRwaTokenDetailResponse(
     long Version,
     DateTimeOffset CreatedAt,
     DateTimeOffset? UpdatedAt,
-    string OwnerEmail,
-    string OwnerUsername
+    string? OwnerEmail,
+    string? OwnerUsername
 );

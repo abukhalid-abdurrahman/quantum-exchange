@@ -8,7 +8,6 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 
 interface UpdatingModalProps {
-  formData: any;
   setIsUpdated: Dispatch<SetStateAction<boolean>>;
   form: UseFormReturn<
     {
@@ -19,36 +18,29 @@ interface UpdatingModalProps {
       [x: string]: any;
     }
   >;
-  tokenId: string
+  tokenId: string;
+  isError: boolean;
+  errorMessage: string;
+  isSuccessfullyDone: boolean;
+  setIsSuccessfullyDone: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function UpdatingModal({
-  formData,
   setIsUpdated,
   form,
-  tokenId
+  tokenId,
+  isError,
+  errorMessage,
+  isSuccessfullyDone,
+  setIsSuccessfullyDone,
 }: UpdatingModalProps) {
-  const [isSuccessfullyDone, setIsSuccessfullyDone] = useState(false);
-  const [isError, setIsError] = useState(false);
-
-  const submit = mutateRwaUpdate(tokenId);
-  useEffect(() => {
-    submit.mutate(formData, {
-      onSuccess: (res) => {
-        setIsSuccessfullyDone(true);
-      },
-      onError: () => {
-        setIsError(true)
-      }
-    });
-  }, []);
-
   return (
     <Modal
       isNonClosable={!isError}
       isNonUrlModal
       className={`${
-        (!isSuccessfullyDone || isError) && "min-h-64 flex justify-center items-center"
+        (!isSuccessfullyDone || isError) &&
+        "min-h-64 flex justify-center items-center"
       }`}
       onCloseFunc={() => setIsUpdated(false)}
     >
@@ -89,7 +81,6 @@ export default function UpdatingModal({
               onClick={() => {
                 setIsUpdated(false);
                 setIsSuccessfullyDone(false);
-                form.reset();
               }}
               className="w-full mt-2"
             >
@@ -97,11 +88,7 @@ export default function UpdatingModal({
             </Button>
           </>
         )}
-        {!isSuccessfullyDone && isError && (
-          <p className="p">
-            Something went wrong. Please try again later.
-          </p>
-        )}
+        {!isSuccessfullyDone && isError && <p className="p">{errorMessage}</p>}
       </div>
     </Modal>
   );

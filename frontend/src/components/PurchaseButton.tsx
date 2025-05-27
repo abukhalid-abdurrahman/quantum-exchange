@@ -9,9 +9,8 @@ import {
 } from "@/requests/postRequests";
 import Image from "next/image";
 import { useState } from "react";
-import { Connection, Transaction } from "@solana/web3.js";
+import { Transaction } from "@solana/web3.js";
 import { useWalletStore } from "@/store/useWalletStore";
-import { SOLANA_NET } from "@/lib/constants";
 
 interface PurchaseButtonProps {
   tokenId: string;
@@ -27,6 +26,7 @@ export default function PurchaseButton({
   const [isError, setIsError] = useState(false);
   const [transactionId, setTransactionId] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [message, setMessage] = useState("");
   const { publicKey } = useWalletStore();
 
   const purchase = mutateRwaPurchase();
@@ -37,6 +37,7 @@ export default function PurchaseButton({
     setIsError(false);
     setIsSuccessfullyDone(false);
     setErrorMessage("");
+    setMessage("");
 
     try {
       const provider = (window as any).solana;
@@ -52,7 +53,7 @@ export default function PurchaseButton({
         return;
       }
 
-      const connectRes = await provider.connect();
+      await provider.connect();
 
       purchase.mutate(
         {
@@ -61,8 +62,8 @@ export default function PurchaseButton({
         },
         {
           onSuccess: async (res) => {
+            setMessage("Please check your Phantom wallet to confirm the transaction")
             try {
-              const connection = new Connection(SOLANA_NET!, "confirmed");
               const txBase64 = res.data;
               const transaction = Transaction.from(
                 Buffer.from(txBase64, "base64")
@@ -147,7 +148,14 @@ export default function PurchaseButton({
           onCloseFunc={() => setIsModalOpen(false)}
         >
           <div className="flex flex-col items-center justify-center">
-            {!isSuccessfullyDone && !isError && <Loading />}
+            {!isSuccessfullyDone && !isError && (
+              <>
+                <Loading />
+                {message && (
+                  <p className="p text-black mt-6 text-center max-w-[80%]">{message}</p>
+                )}
+              </>
+            )}
             {isSuccessfullyDone && !isError && (
               <>
                 <Image

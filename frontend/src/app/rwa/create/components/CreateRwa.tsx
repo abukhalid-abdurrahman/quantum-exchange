@@ -30,7 +30,7 @@ import {
 } from "@/components/ui/select";
 import PageTitle from "@/components/PageTitle";
 import { useEffect, useState } from "react";
-import { ASSET_TYPES } from "@/lib/constants";
+import { ASSET_TYPES, MAX_FILE_SIZE } from "@/lib/constants";
 import { TokenizationField } from "@/lib/types";
 import dynamic from "next/dynamic";
 import { uploadFile } from "@/lib/scripts/script";
@@ -61,6 +61,7 @@ export default function CreateRwa() {
   const [netAmount, setNetAmount] = useState<number | string>("");
   const [isSuccessfullyDone, setIsSuccessfullyDone] = useState(false);
   const [isError, setIsError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const [tokenId, setTokenId] = useState("");
 
   const submit = mutateRwaToken();
@@ -98,13 +99,19 @@ export default function CreateRwa() {
 
   const onSubmit = (data: z.infer<typeof FormSchema>) => {
     setIsTokenized(true);
+    setIsError(false);
+    setErrorMessage("");
     submit.mutate(data, {
       onSuccess: (res) => {
         setIsSuccessfullyDone(true);
         setTokenId(res.data.tokenId);
       },
-      onError: () => {
+      onError: (error: any) => {
         setIsError(true);
+        setErrorMessage(
+          error.response?.data?.error?.message ||
+            "Something went wrong. Please try again later."
+        );
       },
     });
   };
@@ -221,7 +228,11 @@ export default function CreateRwa() {
                   render={({ field }) => (
                     <FormItem className="w-1/3">
                       <FormControl>
-                        <Input type="number" placeholder="Price in zBTC" {...field} />
+                        <Input
+                          type="number"
+                          placeholder="Price in zBTC"
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -294,7 +305,7 @@ export default function CreateRwa() {
                                 return;
                               }
 
-                              const maxSizeInBytes = 10 * 1024 * 1024;
+                              const maxSizeInBytes = MAX_FILE_SIZE;
                               if (file.size > maxSizeInBytes) {
                                 form.setError("proofOfOwnershipDocument", {
                                   type: "manual",
@@ -306,11 +317,16 @@ export default function CreateRwa() {
                               try {
                                 setIsUploading(true);
                                 const uploadedUrl = await uploadFile(file);
+                                if (uploadedUrl.includes("http")) {
+                                  field.onChange(uploadedUrl);
+                                } else {
+                                  throw new Error("File must be smaller than 10MB");
+                                }
                                 field.onChange(uploadedUrl);
-                              } catch (error) {
+                              } catch (error: any) {
                                 form.setError("proofOfOwnershipDocument", {
                                   type: "manual",
-                                  message: "Upload failed. Try again.",
+                                  message: error.message || "Upload failed",
                                 });
                               } finally {
                                 setIsUploading(false);
@@ -415,6 +431,7 @@ export default function CreateRwa() {
                     "ownerContact",
                     "image",
                     "proofOfOwnershipDocument",
+                    "assetType"
                   ]);
                   if (isValid) {
                     setIsSecondStep(true);
@@ -450,6 +467,7 @@ export default function CreateRwa() {
       )}
       {isTokenized && (
         <TokenizationModal
+          errorMessage={errorMessage}
           isError={isError}
           isSuccessfullyDone={isSuccessfullyDone}
           setIsSuccessfullyDone={setIsSuccessfullyDone}

@@ -27,6 +27,10 @@ public static class ResultExtensions
             ErrorType.NotFound => new NotFoundObjectResult(apiResponse),
             ErrorType.BadRequest => new BadRequestObjectResult(apiResponse),
             ErrorType.UnsupportedMediaType => new UnsupportedMediaTypeResult(),
+            ErrorType.Forbidden => new ObjectResult(apiResponse)
+            {
+                StatusCode = StatusCodes.Status403Forbidden
+            },
             ErrorType.None => new OkObjectResult(apiResponse),
             _ => new ObjectResult(apiResponse) { StatusCode = StatusCodes.Status500InternalServerError }
         };
@@ -50,6 +54,11 @@ public static class ResultExtensions
             ErrorType.AlreadyExist => new ConflictObjectResult(apiResponse),
             ErrorType.NotFound => new NotFoundObjectResult(apiResponse),
             ErrorType.BadRequest => new BadRequestObjectResult(apiResponse),
+            ErrorType.UnsupportedMediaType => new UnsupportedMediaTypeResult(),
+            ErrorType.Forbidden => new ObjectResult(apiResponse)
+            {
+                StatusCode = StatusCodes.Status403Forbidden
+            },
             ErrorType.None => new OkObjectResult(apiResponse),
             _ => new ObjectResult(apiResponse) { StatusCode = StatusCodes.Status500InternalServerError }
         };

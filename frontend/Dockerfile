@@ -1,19 +1,18 @@
-# Билдим как раньше
-FROM node:22-alpine AS builder
+FROM node:23-alpine AS builder
 
 WORKDIR /app
 
-COPY package*.json ./
-RUN npm install --frozen-lockfile --force
+COPY package.json yarn.lock ./
+RUN yarn install
 
 COPY . .
 
 ENV NEXT_PUBLIC_API_URL=NEXT_PUBLIC_API_URL
-ENV NEXT_PUBLIC_SOLANA_NET=NEXT_PUBLIC_SOLANA_NET
+ENV NEXT_PUBLIC_SOLANA_ENVIRONMENT=NEXT_PUBLIC_SOLANA_ENVIRONMENT
 
-RUN npm run build
+RUN yarn build
 
-FROM node:22-alpine AS runner
+FROM node:23-alpine AS runner
 
 WORKDIR /app
 
@@ -25,4 +24,4 @@ RUN chmod +x /entrypoint.sh
 EXPOSE 3000
 
 ENTRYPOINT ["/entrypoint.sh"]
-CMD ["npm", "start"]
+CMD ["yarn", "start"]

@@ -21,11 +21,20 @@ public sealed class NftPurchaseService(
                 return Result<string>.Failure(ResultPatternError.NotFound(Messages.UserNotFound));
 
             RwaToken? existingRwa = await dbContext.RwaTokens
-                .Include(x => x.VirtualAccount)
-                .ThenInclude(x => x.Network)
+                .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.Id == request.RwaId);
             if (existingRwa is null)
                 return Result<string>.Failure(ResultPatternError.NotFound(Messages.RwaTokenNotFound));
+
+            if (existingRwa.VirtualAccountId is null)
+                return Result<string>.Failure(ResultPatternError.BadRequest(Messages.NftAlreadyTransferred));
+
+            VirtualAccount? seller = await dbContext.VirtualAccounts
+                .AsNoTrackingWithIdentityResolution()
+                .Include(x => x.Network)
+                .FirstOrDefaultAsync(x => x.Id == existingRwa.VirtualAccountId);
+            if (seller is null)
+                return Result<string>.Failure(ResultPatternError.NotFound(Messages.VirtualAccountNotFound));
 
             WalletLinkedAccount? buyer = await dbContext.WalletLinkedAccounts
                 .AsNoTracking()
@@ -34,11 +43,15 @@ public sealed class NftPurchaseService(
                 return Result<string>.Failure(
                     ResultPatternError.NotFound(Messages.CreateNftPurchaseBuyerAccountNotFound));
 
-            string base58SecretKey = existingRwa.VirtualAccount.PrivateKey;
+            if (seller.UserId == buyer.UserId)
+                return Result<string>.Failure(
+                    ResultPatternError.BadRequest(Messages.CannotPurchaseOwnNft));
 
-            if (existingRwa.VirtualAccount.Network.Name == Networks.Solana)
+            string base58SecretKey = seller.PrivateKey;
+
+            if (seller.Network.Name == Networks.Solana)
             {
-                Mnemonic mnemonic = new(existingRwa.VirtualAccount.SeedPhrase);
+                Mnemonic mnemonic = new(seller.SeedPhrase);
                 Wallet wallet = new(mnemonic);
                 base58SecretKey = Base58.Encode(wallet.Account.PrivateKey);
             }
@@ -47,7 +60,7 @@ public sealed class NftPurchaseService(
             Result<CreateTransactionResponse> resultOfTransaction =
                 await solShiftService.CreateTransactionAsync(new(
                     buyer.PublicKey,
-                    existingRwa.VirtualAccount.PublicKey,
+                    seller.PublicKey,
                     base58SecretKey,
                     existingRwa.MintAccount,
                     existingRwa.Price,
@@ -63,7 +76,7 @@ public sealed class NftPurchaseService(
                 CreatedBy = accessor.GetId(),
                 CreatedByIp = accessor.GetRemoteIpAddress(),
                 BuyerWalletId = buyer.Id,
-                SellerWalletId = existingRwa.VirtualAccountId,
+                SellerWalletId = seller.Id,
                 TransactionDate = DateTimeOffset.UtcNow,
                 TransactionHash = transactionHash,
                 RwaTokenId = existingRwa.Id,
@@ -110,7 +123,8 @@ public sealed class NftPurchaseService(
             if (!resultOfSendTransaction.IsSuccess)
                 return Result<string>.Failure(resultOfSendTransaction.Error);
 
-            existingRwaToken.VirtualAccountId = existingRwaTokenOwner.BuyerWalletId;
+            existingRwaToken.VirtualAccountId = null;
+            existingRwaToken.WalletLinkedAccountId = existingRwaTokenOwner.BuyerWalletId;
             existingRwaTokenOwner.TransactionSignature = resultOfSendTransaction.Value.Data.TransactionId;
             existingRwaTokenOwner.TransferStatus = RwaTokenOwnershipTransferStatus.Completed;
 

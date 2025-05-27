@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -14,24 +14,34 @@ import { shortDescription } from "@/lib/scripts/script";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { PaginationButtons } from "@/components/PaginationButtons";
-import {
-  useRwasMe,
-} from "@/requests/getRequests";
+import { useRwasMe } from "@/requests/getRequests";
 import Loading from "@/components/Loading";
 import { RwasReq } from "@/lib/types";
 import _ from "lodash";
 import Link from "next/link";
 import { useUserStore } from "@/store/useUserStore";
-import PurchaseButton from "@/components/PurchaseButton";
+import { useSearchParams } from "next/navigation";
 
 export default function RwaTableMe() {
+  const searchParams = useSearchParams();
+  const initialPage = parseInt(searchParams.get("page") || "1");
   const { user } = useUserStore();
   const [reqParams, setReqParams] = useState<RwasReq>({
     pageSize: 10,
-    pageNumber: 1,
+    pageNumber: initialPage,
   });
 
-  const { data: rwas, isFetching: rwasFetching } = useRwasMe(reqParams);
+  const { data: rwas, isFetching: rwasFetching } = useRwasMe(
+    reqParams,
+    user!?.token || ""
+  );
+
+  useEffect(() => {
+    setReqParams((prev) => ({
+      ...prev,
+      pageNumber: initialPage,
+    }));
+  }, [initialPage]);
 
   return (
     <div>
@@ -42,7 +52,7 @@ export default function RwaTableMe() {
         />
       ) : (
         <>
-          {rwas.data.data.length > 0 ? (
+          {rwas?.data?.data.length > 0 ? (
             <Table className="min-w-[965px]">
               <TableHeader>
                 <TableRow className="hover:bg-transparent border-primary">
@@ -58,7 +68,7 @@ export default function RwaTableMe() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {rwas.data.data.map((rwa: any) => {
+                {rwas?.data?.data.map((rwa: any) => {
                   return (
                     <TableRow
                       key={rwa.tokenId}
@@ -70,14 +80,12 @@ export default function RwaTableMe() {
                             className="flex gap-3 items-center"
                             href={`/rwa/${rwa.tokenId}`}
                           >
-                            <Image
+                            <img
                               src={
                                 rwa.image !== "string" ? rwa.image : "/nft.avif"
                               }
                               alt={rwa.title}
-                              width={50}
-                              height={50}
-                              className="rounded-md"
+                              className="rounded-md w-[50px] h-[50px]"
                             />
                             <div className="flex flex-col">
                               <p className="p">{rwa.title}</p>
@@ -171,9 +179,9 @@ export default function RwaTableMe() {
       {rwas?.data?.totalPages > 1 && (
         <PaginationButtons
           className="mt-10"
-          pages={rwas.data.totalPages}
+          pages={rwas?.data.totalPages}
           currentPage={reqParams.pageNumber}
-          setCurrentPage={setReqParams}
+          searchParams={searchParams}
         />
       )}
     </div>

@@ -32,28 +32,40 @@ import { ASSET_TYPES } from "@/lib/constants";
 import { useRwa } from "@/requests/getRequests";
 import Loading from "@/components/Loading";
 import Image from "next/image";
-import { shortDescription, uploadFile } from "@/lib/scripts/script";
+import {
+  handleCopy,
+  shortAddress,
+  shortDescription,
+  uploadFile,
+} from "@/lib/scripts/script";
 import { Loader2 } from "lucide-react";
 import UpdatingModal from "./UpdatingModal";
 import Link from "next/link";
 import { useUserStore } from "@/store/useUserStore";
 import { redirect } from "next/navigation";
 import AllRwaData from "@/components/AllRwaData";
+import { mutateRwaUpdate } from "@/requests/putRequests";
 
 interface ChangeRwaProps {
   params: any;
 }
 
 export default function ChangeRwa({ params }: ChangeRwaProps) {
-  const tokenId = JSON.parse(params.value).id;
+  const tokenId = JSON.parse(params.value)?.id;
+  const [initialData, setInitialData] = useState<any | null>(null);
+  const [isDataChanged, setIsDataChanged] = useState(false)
   const [netAmount, setNetAmount] = useState<number | string>("");
   const [existedNetAmount, setExistedNetAmount] = useState<number | string>("");
   const [isUpdated, setIsUpdated] = useState(false);
-  const [formData, setFormData] = useState<z.infer<typeof FormSchema>>();
+  const [isSuccessfullyDone, setIsSuccessfullyDone] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const [isAlldataOpen, setIsAlldataOpen] = useState(false);
+  const [isCopied, setIsCopied] = useState(false);
   const { user } = useUserStore();
 
   const { data, isFetching, isFetched } = useRwa(tokenId);
+  const submit = mutateRwaUpdate(tokenId);
 
   const FormSchema = z.object(
     Object.fromEntries(
@@ -73,10 +85,49 @@ export default function ChangeRwa({ params }: ChangeRwaProps) {
   const price = form.watch("price");
   const royalty = form.watch("royalty");
 
-  const onSubmit = async (data: z.infer<typeof FormSchema>) => {
-    setFormData(data);
+  const onSubmit = (data: z.infer<typeof FormSchema>) => {
+    setIsError(false);
+    setErrorMessage("");
+    setIsDataChanged(false)
+
+    if (!initialData) return;
+
+    const isChanged = Object.entries(data).some(
+      ([key, value]) => initialData[key] !== value
+    );
+
+    if (!isChanged) {
+      setIsDataChanged(true)
+      return
+    }
+
     setIsUpdated(true);
+
+    submit.mutate(data, {
+      onSuccess: () => {
+        setIsSuccessfullyDone(true);
+      },
+      onError: (error: any) => {
+        setIsError(true);
+        setErrorMessage(
+          error.response?.data?.error?.message ||
+            "Something went wrong. Please try again later."
+        );
+      },
+    });
   };
+
+  useEffect(() => {
+    if (data) {
+      const values = data.data;
+      Object.entries(values).forEach(
+        ([key, value]: [key: string, value: any]) => {
+          form.setValue(key, value);
+        }
+      );
+      setInitialData(values);
+    }
+  }, [data]);
 
   useEffect(() => {
     if (price && royalty) {
@@ -176,6 +227,7 @@ export default function ChangeRwa({ params }: ChangeRwaProps) {
                     <Select
                       onValueChange={field.onChange}
                       defaultValue={field.value}
+                      value={field.value || data?.data.network}
                     >
                       <FormControl>
                         <SelectTrigger className="w-[180px]">
@@ -259,48 +311,85 @@ export default function ChangeRwa({ params }: ChangeRwaProps) {
                       </FormLabel>
                       <FormControl>
                         <div className="relative">
-                          <Input
-                            type="file"
-                            accept="image/*"
-                            disabled={isUploading}
-                            className={
-                              isUploading ? "cursor-not-allowed opacity-50" : ""
-                            }
-                            onChange={async (e) => {
-                              const file = e.target.files?.[0];
-                              if (!file) return;
-
-                              if (!file.type.startsWith("image/")) {
-                                form.setError("proofOfOwnershipDocument", {
-                                  type: "manual",
-                                  message: "File must be an image",
-                                });
-                                return;
+                          {field.value ? (
+                            <div
+                              className={`${buttonVariants({
+                                variant: "empty",
+                                size: "xl",
+                              })} min-h-[50px] h-auto py-2
+                            w-full justify-between px-5 gap-2 flex-wrap`}
+                            >
+                              <p className="p-sm text-black">
+                                You already have a file uploaded.
+                              </p>
+                              <div className="flex gap-2">
+                                <Link
+                                  href={field.value}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className={buttonVariants({
+                                    variant: "gray",
+                                    size: "sm",
+                                  })}
+                                >
+                                  View
+                                </Link>
+                                <Button
+                                  variant="destructive"
+                                  size="sm"
+                                  type="button"
+                                  onClick={() => field.onChange("")}
+                                >
+                                  Change
+                                </Button>
+                              </div>
+                            </div>
+                          ) : (
+                            <Input
+                              type="file"
+                              accept="image/*"
+                              disabled={isUploading}
+                              className={
+                                isUploading
+                                  ? "cursor-not-allowed opacity-50"
+                                  : ""
                               }
+                              onChange={async (e) => {
+                                const file = e.target.files?.[0];
+                                if (!file) return;
 
-                              const maxSizeInBytes = 10 * 1024 * 1024;
-                              if (file.size > maxSizeInBytes) {
-                                form.setError("proofOfOwnershipDocument", {
-                                  type: "manual",
-                                  message: "File must be smaller than 10MB",
-                                });
-                                return;
-                              }
+                                if (!file.type.startsWith("image/")) {
+                                  form.setError("proofOfOwnershipDocument", {
+                                    type: "manual",
+                                    message: "File must be an image",
+                                  });
+                                  return;
+                                }
 
-                              try {
-                                setIsUploading(true);
-                                const uploadedUrl = await uploadFile(file);
-                                field.onChange(uploadedUrl);
-                              } catch (error) {
-                                form.setError("proofOfOwnershipDocument", {
-                                  type: "manual",
-                                  message: "Upload failed. Try again.",
-                                });
-                              } finally {
-                                setIsUploading(false);
-                              }
-                            }}
-                          />
+                                const maxSizeInBytes = 10 * 1024 * 1024;
+                                if (file.size > maxSizeInBytes) {
+                                  form.setError("proofOfOwnershipDocument", {
+                                    type: "manual",
+                                    message: "File must be smaller than 10MB",
+                                  });
+                                  return;
+                                }
+
+                                try {
+                                  setIsUploading(true);
+                                  const uploadedUrl = await uploadFile(file);
+                                  field.onChange(uploadedUrl);
+                                } catch (error) {
+                                  form.setError("proofOfOwnershipDocument", {
+                                    type: "manual",
+                                    message: "Upload failed. Try again.",
+                                  });
+                                } finally {
+                                  setIsUploading(false);
+                                }
+                              }}
+                            />
+                          )}
                           {isUploading && (
                             <div className="absolute right-3 top-1/2 -translate-y-1/2">
                               <Loader2
@@ -325,6 +414,7 @@ export default function ChangeRwa({ params }: ChangeRwaProps) {
                     <Select
                       onValueChange={field.onChange}
                       defaultValue={field.value}
+                      value={field.value || data?.data.assetType}
                     >
                       <FormControl>
                         <SelectTrigger className="w-[180px]">
@@ -350,6 +440,9 @@ export default function ChangeRwa({ params }: ChangeRwaProps) {
                 )}
               />
             </div>
+            {isDataChanged && (
+              <p className="p-sm text-destructive mt-2">You haven't changed anything.</p>
+            )}
             <Button
               variant="gray"
               type="submit"
@@ -361,11 +454,9 @@ export default function ChangeRwa({ params }: ChangeRwaProps) {
           </div>
           <div className="w-1/2 aspect-[3/2] rounded-2xl md:w-full md:aspect-auto">
             <div className="relative aspect-[3/2] w-full max-w-full bg-neutral-700/50 rounded-2xl p-5 flex items-center justify-center overflow-hidden">
-              <Image
-                src={data.data.image}
-                alt={data.data.title}
-                width={350}
-                height={350}
+              <img
+                src={data?.data.image}
+                alt={data?.data.title}
                 className="object-contain !max-h-full !w-auto rounded-2xl"
               />
             </div>
@@ -377,7 +468,7 @@ export default function ChangeRwa({ params }: ChangeRwaProps) {
                 })} !px-5 !w-full flex justify-between flex-wrap`}
               >
                 <span className="text-gray-500">Version:</span>
-                {data.data.version}
+                {data?.data.version}
               </div>
               <div
                 className={`${buttonVariants({
@@ -386,9 +477,24 @@ export default function ChangeRwa({ params }: ChangeRwaProps) {
                 })} !px-5 !w-full flex justify-between flex-wrap`}
               >
                 <span className="text-gray-500">IPFS CID:</span>{" "}
-                <Link href={data.data.image}>
-                  {shortDescription(data.data.image)}
-                </Link>
+                <span
+                  className="cursor-pointer relative"
+                  onClick={() => {
+                    handleCopy(
+                      data?.data.image.replace("https://ipfs.io/ipfs/", ""),
+                      { setIsCopied }
+                    );
+                  }}
+                >
+                  {shortAddress(
+                    data?.data.image.replace("https://ipfs.io/ipfs/", "")
+                  )}
+                  {isCopied && (
+                    <span className="absolute right-0 -top-6 bg-white text-black text-xs px-2 py-1 rounded-md opacity-90 transition">
+                      Copied
+                    </span>
+                  )}
+                </span>
               </div>
               <div className="flex gap-2 md:flex-wrap">
                 <div
@@ -398,7 +504,7 @@ export default function ChangeRwa({ params }: ChangeRwaProps) {
                   })} !px-5 !w-full flex justify-between flex-wrap`}
                 >
                   <span className="text-gray-500">Price:</span>
-                  {data.data.price} zBTC
+                  {data?.data.price} zBTC
                 </div>
                 <div
                   className={`${buttonVariants({
@@ -407,7 +513,7 @@ export default function ChangeRwa({ params }: ChangeRwaProps) {
                   })} !px-5 !w-full flex justify-between flex-wrap`}
                 >
                   <span className="text-gray-500">Royalty:</span>
-                  {data.data.royalty}%
+                  {data?.data.royalty}%
                 </div>
               </div>
               <div
@@ -440,16 +546,19 @@ export default function ChangeRwa({ params }: ChangeRwaProps) {
           </div>
         </form>
       </Form>
-      {isUpdated && formData && (
+      {isUpdated && (
         <UpdatingModal
-          formData={formData}
+          errorMessage={errorMessage}
+          isError={isError}
+          isSuccessfullyDone={isSuccessfullyDone}
+          setIsSuccessfullyDone={setIsSuccessfullyDone}
           setIsUpdated={setIsUpdated}
           form={form}
-          tokenId={data.data.tokenId}
+          tokenId={data?.data.tokenId}
         />
       )}
       {isAlldataOpen && (
-        <AllRwaData data={data.data} setIsOpen={setIsAlldataOpen} />
+        <AllRwaData data={data?.data} setIsOpen={setIsAlldataOpen} />
       )}
     </>
   );

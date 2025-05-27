@@ -2,19 +2,17 @@ import { NextRequest, NextResponse } from "next/server";
 
 export function middleware(req: NextRequest) {
   const token = req.cookies.get("oasisToken")?.value;
-  const isAuthenticated = !!token;
+  const { pathname, search } = req.nextUrl;
+  const isAuthPage = pathname === "/signin" || pathname === "/signup";
 
-  const { pathname, searchParams } = req.nextUrl;
-
-  if (isAuthenticated && (searchParams.has("signin") || searchParams.has("signup"))) {
-    const url = new URL("/", req.url);
-    return NextResponse.redirect(url);
+  if (token && isAuthPage) {
+    return NextResponse.redirect(new URL("/", req.url));
   }
 
-  if (!isAuthenticated && pathname !== "/") {
+  if (!token && pathname !== "/") {
     const url = new URL("/", req.url);
     url.searchParams.set("signin", "true");
-    url.searchParams.set("callbackUrl", pathname);
+    url.searchParams.set("callbackUrl", pathname + search);
     return NextResponse.redirect(url);
   }
 
@@ -22,5 +20,5 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!_next|public|api|favicon.ico|.*\\..*).*)"],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|.*\\..*|api).*)"],
 };
