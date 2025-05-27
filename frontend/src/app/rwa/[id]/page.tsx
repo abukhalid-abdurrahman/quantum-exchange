@@ -1,16 +1,15 @@
 "use server";
 
 import Header from "@/components/Header";
-import { searchParams } from "@/types";
 import RwaData from "./components/RwaData";
+import { searchParams } from "@/types";
+import { Params } from "@/types/params.type";
 
-export default async function page({
-  searchParams,
-  params,
-}: {
+interface PageProps extends Params {
   searchParams: Promise<searchParams>;
-  params: any;
-}) {
+}
+
+export default async function page({ searchParams, params }: PageProps) {
   return (
     <>
       <Header searchParams={searchParams} />
