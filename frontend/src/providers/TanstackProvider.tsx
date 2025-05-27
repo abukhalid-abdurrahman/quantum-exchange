@@ -27,6 +27,7 @@ export default function TanstackProvider({
         refetchOnWindowFocus: false,
         refetchOnReconnect: false,
         refetchOnMount: true,
+        gcTime: 0,
       },
     },
     queryCache: new QueryCache({

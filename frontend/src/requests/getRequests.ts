@@ -17,7 +17,6 @@ export const useExchangeRate = (fromToken: string, toToken: string) => {
   return useQuery({
     queryKey: [fromToken, toToken, "exchange-rate"],
     queryFn: () => getExchangeRate(fromToken, toToken),
-    gcTime: 0,
     refetchInterval: 300000,
   });
 };
@@ -50,7 +49,6 @@ export const useUserVirtualAccounts = (isEnabled: boolean, token: string) => {
   return useQuery({
     queryKey: [token, "user-accounts"],
     queryFn: () => getUserVirtualAccounts(),
-    gcTime: 0,
     enabled: isEnabled,
   });
 };
@@ -68,7 +66,6 @@ export const useVirtualAccountBalance = (
   return useQuery({
     queryKey: [orderId, "virtual-account-balance"],
     queryFn: () => getVirtualAccountBalance(orderId),
-    gcTime: 0,
     enabled: !!orderId && !!completed,
   });
 };
@@ -137,7 +134,6 @@ export const useRwa = (tokenId: string) => {
   return useQuery({
     queryKey: ["rwa", tokenId],
     queryFn: () => getRwa(tokenId),
-    gcTime: 0,
   });
 };
 
@@ -147,7 +143,6 @@ export const useRwaMultiple = (tokenIds: string[]) => {
     queries: tokenIds.map((id) => ({
       queryKey: ["rwa", "multiple", id],
       queryFn: () => getRwa(id),
-      gcTime: 0,
       enabled: !!tokenIds,
     })),
     combine: (results) => {
@@ -169,7 +164,6 @@ export const useRwaChanges = (tokenId: string) => {
   return useQuery({
     queryKey: ["rwa-changes", tokenId],
     queryFn: () => getRwaChanges(tokenId),
-    gcTime: 0,
   });
 };
 
@@ -205,7 +199,6 @@ export const useRwaMe = (token: string, reqParams: any) => {
   return useQuery({
     queryKey: ["rwa", "me", token],
     queryFn: () => getRwaMe(reqParams),
-    gcTime: 0,
   });
 };
 
