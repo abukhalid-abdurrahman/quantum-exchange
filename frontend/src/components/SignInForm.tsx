@@ -17,8 +17,8 @@ import { useSignIn } from "@/requests/auth/signIn.request";
 
 export default function SignInForm() {
   const router = useRouter();
-  const searchParams = useSearchParams()
-  const callbackUrl = searchParams.get('callbackUrl') || '/';
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl") || "/";
   const [isLoading, setIsLoading] = useState(false);
   const setUser = useUserStore((state) => state.setUser);
   const [errorMessage, setErrorMessage] = useState("");
@@ -58,7 +58,7 @@ export default function SignInForm() {
           expires: expiresDate,
         });
         
-        router.push(callbackUrl)
+        router.push(callbackUrl);
       },
       onError: (error: any) => {
         setErrorMessage(error.response?.data?.error?.message || "An error occurred");

@@ -18,5 +18,5 @@ export default function ProfileForm() {
         <p className="p pl-8">0.0</p>
       </div>
     </div>
-  )
+  );
 }

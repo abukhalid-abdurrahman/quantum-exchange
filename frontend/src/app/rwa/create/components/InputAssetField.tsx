@@ -47,7 +47,7 @@ export default function InputAssetField({
                   setIsMapOpen(true);
                 }}
                 placeholder={item.placeholder}
-                value={coords ? coords.latitude + " " + coords.longitude : ""}
+                value={coords ? `${coords.latitude  } ${  coords.longitude}` : ""}
                 onChange={() => {}}
                 className="cursor-pointer"
               />

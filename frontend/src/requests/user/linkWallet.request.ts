@@ -3,7 +3,7 @@ import { LinkWallet } from "@/types";
 import { useMutation } from "@tanstack/react-query";
 
 const linkWallet = async (req: any) => {
-  const res = await axiosInstance.post(`/linked-accounts`, req);
+  const res = await axiosInstance.post("/linked-accounts", req);
   return res.data;
 };
 

@@ -53,7 +53,7 @@ export default function SwapForm() {
   const [isStatusModalOpen, setIsStatusModalOpen] = useState(false);
   const [isCryptoAddressModalOpen, setIsCryptoAddressModalOpen] =
     useState(false);
-  const [orderError, setOrderError] = useState('');
+  const [orderError, setOrderError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState<any>();
   const [responseData, setResponseData] = useState<{
@@ -82,7 +82,7 @@ export default function SwapForm() {
 
   useEffect(() => {
     if (isOrderCompleted) {
-      setOrderError('');
+      setOrderError("");
       setFormData(null);
       setResponseData(null);
       setIsStatusModalOpen(false);
@@ -110,7 +110,7 @@ export default function SwapForm() {
           setResponseData(response);
         },
         onError: (error: any) => {
-          setOrderError(error.response?.data?.error?.message || 'An error occurred');
+          setOrderError(error.response?.data?.error?.message || "An error occurred");
         },
       });
       setIsCryptoAddressModalOpen(true);

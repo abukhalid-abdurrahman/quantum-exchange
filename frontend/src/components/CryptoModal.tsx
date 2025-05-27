@@ -29,14 +29,14 @@ export default function CryptoModal({
   selectNetwork,
 }: CryptoModalProps) {
   const { register } = useForm();
-  const user = useUserStore((state) => state.user)
+  const user = useUserStore((state) => state.user);
   const { data } = useGetNetworks();
 
   useEffect(() => {
     if (data) {
-      selectNetwork(data.data.data[1])
+      selectNetwork(data.data.data[1]);
     }
-  }, [data])
+  }, [data]);
 
   if (!isOpen) return null;
 

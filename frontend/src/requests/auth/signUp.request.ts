@@ -2,7 +2,7 @@ import axiosInstance from "@/lib/axiosInstance";
 import { useMutation } from "@tanstack/react-query";
 
 const signUp = async (req: any) => {
-  const res = await axiosInstance.post(`/auth/register`, req);
+  const res = await axiosInstance.post("/auth/register", req);
   return res.data;
 };
 

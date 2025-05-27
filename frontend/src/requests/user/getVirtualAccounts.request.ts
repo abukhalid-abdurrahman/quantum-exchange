@@ -2,7 +2,7 @@ import axiosInstance from "@/lib/axiosInstance";
 import { useQuery } from "@tanstack/react-query";
 
 const getVirtualAccounts = async () => {
-  const res = await axiosInstance.get(`/accounts/list`);
+  const res = await axiosInstance.get("/accounts/list");
   return res.data;
 };
 

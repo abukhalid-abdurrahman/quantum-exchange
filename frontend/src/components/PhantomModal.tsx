@@ -25,8 +25,8 @@ export default function PhantomModal({
   useEffect(() => {
     const timer = setTimeout(() => {
       if (publicKey) {
-        onClose()
-        if (refetch) refetch()
+        onClose();
+        if (refetch) refetch();
       };
     }, 3000);
     return () => clearTimeout(timer);

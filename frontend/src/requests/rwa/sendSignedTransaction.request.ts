@@ -2,7 +2,7 @@ import axiosInstance from "@/lib/axiosInstance";
 import { useMutation } from "@tanstack/react-query";
 
 const sendSignedTransaction = async (req: any) => {
-  const res = await axiosInstance.post(`/nft-purchase/send`, req);
+  const res = await axiosInstance.post("/nft-purchase/send", req);
   return res.data;
 };
 

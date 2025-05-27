@@ -22,7 +22,7 @@ export function useSwap() {
 
   const selectNetwork = (crypto: any) => {
     setSelectedNetwork(crypto);
-  }
+  };
 
   const selectCrypto = (crypto: SelectedCrypto) => {
     if (currentTarget === "from") {

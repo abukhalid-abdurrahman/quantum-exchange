@@ -97,7 +97,7 @@ export const tokenizationFieldsBase: TokenizationField[] = [
       ],
       { message: "Asset type is required" }
     ),
-    defaultValue: ''
+    defaultValue: ""
   },
 ];
 

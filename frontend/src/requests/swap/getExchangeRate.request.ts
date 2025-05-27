@@ -2,7 +2,7 @@ import axiosInstance from "@/lib/axiosInstance";
 import { useQuery } from "@tanstack/react-query";
 
 const getExchangeRate = async (fromToken: string, toToken: string) => {
-  const res = await axiosInstance.get(`/exchange-rate`, {
+  const res = await axiosInstance.get("/exchange-rate", {
     params: {
       fromToken: fromToken,
       toToken: toToken,

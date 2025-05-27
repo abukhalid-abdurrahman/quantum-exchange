@@ -33,7 +33,7 @@ export default function RwaTableMe() {
 
   const { data: rwas, isFetching: rwasFetching } = useGetRwasMe(
     reqParams,
-    user!?.token || ""
+    user?.token || ""
   );
 
   useEffect(() => {
@@ -126,7 +126,7 @@ export default function RwaTableMe() {
                               ((rwa.price - rwa.oldPrice) / rwa.oldPrice) * 100;
                             const isPositive = diff > 0;
                             const isNeutral = diff === 0;
-                            const percentage = Math.abs(diff).toFixed(2) + "%";
+                            const percentage = `${Math.abs(diff).toFixed(2)  }%`;
 
                             return (
                               <span
@@ -150,7 +150,7 @@ export default function RwaTableMe() {
                           })()}
                       </TableCell>
                       <TableCell className="text-right space-x-2">
-                        {rwa.ownerUsername === user!?.UserName && (
+                        {rwa.ownerUsername === user?.UserName && (
                           <Link
                             href={`/rwa/${rwa.tokenId}/update`}
                             className={buttonVariants({

@@ -76,7 +76,7 @@ export default function Chart({ className, data, firstData }: ChartProps) {
     candleSeries.setData(convertedData as any);
 
     chart.timeScale().fitContent();
-    console.log(convertedData)
+    console.log(convertedData);
     return () => chart.remove();
   }, []);
 

@@ -2,7 +2,7 @@ import axiosInstance from "@/lib/axiosInstance";
 import { useQuery } from "@tanstack/react-query";
 
 const getTransactionStatus = async (transactionId: string) => {
-  const res = await axiosInstance.get(`/transaction-status`, {
+  const res = await axiosInstance.get("/transaction-status", {
     params: {
       transactionId: transactionId,
     },

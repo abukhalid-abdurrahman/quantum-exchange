@@ -92,7 +92,7 @@ export default function LocationPickerModal({
 
   return (
     <Modal isNonUrlModal onCloseFunc={() => setIsOpen(false)}>
-      <div ref={mapRef} style={{ width: "100%", height: 400, borderRadius: 15, overflow: 'hidden' }} />
+      <div ref={mapRef} style={{ width: "100%", height: 400, borderRadius: 15, overflow: "hidden" }} />
       <div className="mt-2 text-right">
         <Button
           onClick={handleConfirm}

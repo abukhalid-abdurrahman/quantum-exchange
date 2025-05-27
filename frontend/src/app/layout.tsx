@@ -4,7 +4,7 @@ import "./globals.css";
 import TanstackProvider from "@/providers/TanstackProvider";
 
 const dmSans = DM_Sans({
-  weight: ["400", "600", '700'],
+  weight: ["400", "600", "700"],
   subsets: ["latin"],
 });
 

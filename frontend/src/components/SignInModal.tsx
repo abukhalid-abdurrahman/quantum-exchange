@@ -7,5 +7,5 @@ export default function SignInModal() {
       <h2 className="h2 mb-6 text-black">Sign In</h2>
       <SignInForm />
     </Modal>
-  )
+  );
 }

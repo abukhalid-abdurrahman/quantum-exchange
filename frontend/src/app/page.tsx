@@ -12,7 +12,7 @@ export default async function page({
   return (
     <div
       style={{
-        backgroundImage: `url(/bg3.png)`,
+        backgroundImage: "url(/bg3.png)",
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
       }}

@@ -60,7 +60,7 @@ export default function PurchaseButton({
         },
         {
           onSuccess: async (res) => {
-            setMessage("Please check your Phantom wallet to confirm the transaction")
+            setMessage("Please check your Phantom wallet to confirm the transaction");
             try {
               const txBase64 = res.data;
               const transaction = Transaction.from(

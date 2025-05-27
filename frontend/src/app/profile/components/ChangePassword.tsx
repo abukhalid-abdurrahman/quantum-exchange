@@ -6,5 +6,5 @@ export default function ChangePassword() {
       <h2 className="h2 text-white mb-4">Change Password</h2>
       <ChangePasswordForm />
     </div>
-  )
+  );
 }

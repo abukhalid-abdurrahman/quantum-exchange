@@ -7,5 +7,5 @@ export default function SignUpModal() {
       <h2 className="h2 mb-6 text-black">Sign Up</h2>
       <SignUpForm />
     </Modal>
-  )
+  );
 }

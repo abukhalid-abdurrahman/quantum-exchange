@@ -4,7 +4,7 @@ import { useQueries, useQuery } from "@tanstack/react-query";
 
 // Get for Exchange Rate
 const getExchangeRate = async (fromToken: string, toToken: string) => {
-  const res = await axiosInstance.get(`/exchange-rate`, {
+  const res = await axiosInstance.get("/exchange-rate", {
     params: {
       fromToken: fromToken,
       toToken: toToken,
@@ -24,7 +24,7 @@ export const useExchangeRate = (fromToken: string, toToken: string) => {
 
 // Get for Transaction Status
 const getTransactionStatus = async (transactionId: string) => {
-  const res = await axiosInstance.get(`/transaction-status`, {
+  const res = await axiosInstance.get("/transaction-status", {
     params: {
       transactionId: transactionId,
     },
@@ -42,7 +42,7 @@ export const useTransactionStatus = (transactionId: string) => {
 
 // Get for User virtual Accounts
 const getUserVirtualAccounts = async () => {
-  const res = await axiosInstance.get(`/accounts/list`);
+  const res = await axiosInstance.get("/accounts/list");
   return res.data;
 };
 
@@ -75,7 +75,7 @@ export const useVirtualAccountBalance = (
 
 // Get Networks
 const getNetworks = async () => {
-  const res = await axiosInstance.get(`/networks`);
+  const res = await axiosInstance.get("/networks");
   return res.data;
 };
 
@@ -191,7 +191,7 @@ export const useRwaChangesMultiple = (tokenIds: string[]) => {
 
 // Get RWAs by user
 const getRwaMe = async (reqParams: any) => {
-  const res = await axiosInstance.get(`/rwa/me`, {
+  const res = await axiosInstance.get("/rwa/me", {
     params: {
       RwaId: reqParams.rwaId,
       PageSize: reqParams.pageSize,
@@ -225,13 +225,13 @@ export const useLinkedWallets = (token: string) => {
 
 // Get purchase history
 const getRwaPurchaseHistory = async (tokenId: string) => {
-  const res = await axiosInstance.get(`/nft-purchase-ownership-histories/${tokenId}`)
-  return res.data
-}
+  const res = await axiosInstance.get(`/nft-purchase-ownership-histories/${tokenId}`);
+  return res.data;
+};
 
 export const useRwaPurchaseHistory = (tokenId: string) => {
   return useQuery({
     queryKey: ["rwa-purchase-history", tokenId],
     queryFn: () => getRwaPurchaseHistory(tokenId),
   });
-}
+};
