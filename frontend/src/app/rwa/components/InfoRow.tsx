@@ -1,4 +1,4 @@
-import { InfoRowProps } from "@/app/rwa/types/rwaProps.interfaces";
+import { InfoRowProps } from "@/types/rwa/rwaProps.type";
 import { buttonVariants } from "@/components/ui/button";
 
 export default function InfoRow({ label, value }: InfoRowProps) {

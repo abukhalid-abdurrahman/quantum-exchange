@@ -1,4 +1,4 @@
-import { RwaPurchaseHistoryRowProps } from "@/app/rwa/types/rwaProps.interfaces";
+import { RwaPurchaseHistoryRowProps } from "@/types/rwa/rwaProps.type";
 import { TableRow, TableCell } from "@/components/ui/table";
 import { shortAddress } from "@/scripts/script";
 import { format } from "date-fns";

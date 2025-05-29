@@ -1,5 +1,9 @@
 "use client";
 
+import PurchaseButton from "@/components/PurchaseButton";
+import Loading from "@/components/Loading";
+import Link from "next/link";
+import Filters from "./Filters";
 import {
   Table,
   TableBody,
@@ -12,14 +16,10 @@ import { shortDescription } from "@/scripts/script";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { PaginationButtons } from "@/components/PaginationButtons";
-import Loading from "@/components/Loading";
-import Link from "next/link";
-import Filters from "./Filters";
 import { useUserStore } from "@/store/useUserStore";
-import PurchaseButton from "@/components/PurchaseButton";
 import { useSearchParams } from "next/navigation";
 import { useRwasData } from "@/hooks/useRwasData";
-import { CombinedRwa } from "@/types/rwa.type";
+import { CombinedRwa } from "@/types/rwa/rwa.type";
 
 export default function RWATable() {
   const searchParams = useSearchParams();
@@ -33,7 +33,7 @@ export default function RWATable() {
   return (
     <div>
       <div className="w-full mb-5 flex justify-end text-sm">
-        <Filters reqParams={reqParams} setReqParams={setReqParams} />
+        <Filters setReqParams={setReqParams} />
       </div>
       {isSomeFetching ? (
         <Loading
@@ -52,7 +52,6 @@ export default function RWATable() {
                   <TableHead className="text-right">Network</TableHead>
                   <TableHead className="text-right">Price</TableHead>
                   <TableHead className="text-right">Asset Type</TableHead>
-                  {/* <TableHead className="text-right">Geolocation</TableHead> */}
                   <TableHead className="text-right">Price Change (%)</TableHead>
                   <TableHead className="text-right"></TableHead>
                 </TableRow>

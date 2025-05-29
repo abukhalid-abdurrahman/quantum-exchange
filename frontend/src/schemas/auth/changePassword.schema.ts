@@ -1,4 +1,4 @@
-import { FormField } from "@/types/formField.type";
+import { FormField } from "@/types/form/formField.type";
 import { z } from "zod";
 
 export const changePasswordSchema = z

@@ -6,13 +6,13 @@ import {
   CombinedRwa,
   Rwa,
   RwaChanges,
+  RwaFiltersParams,
   RwaWithPagination,
-} from "@/types/rwa.type";
-import { RwasRequestParams } from "@/types/hooks-types/useRwasData.type";
+} from "@/types/rwa/rwa.type";
 
 export const useRwasData = (initialPage: number) => {
   const [tokenIds, setTokenIds] = useState<string[]>([]);
-  const [reqParams, setReqParams] = useState<RwasRequestParams>({
+  const [reqParams, setReqParams] = useState<RwaFiltersParams>({
     assetType: null,
     priceMin: null,
     priceMax: null,
@@ -64,8 +64,10 @@ export const useRwasData = (initialPage: number) => {
   }, [rwaMultiple.isFetching, rwaChangesMultiple.isFetching, rwas.isFetching]);
 
   useEffect(() => {
-    if (rwas.data?.data) {
-      const ids = rwas.data.data.map((rwa: RwaWithPagination) => rwa.tokenId);
+    if (rwas?.data?.data?.data) {
+      const ids = rwas.data.data.data.map(
+        (rwa: RwaWithPagination) => rwa.tokenId
+      );
       setTokenIds(ids);
     }
   }, [rwas.data]);

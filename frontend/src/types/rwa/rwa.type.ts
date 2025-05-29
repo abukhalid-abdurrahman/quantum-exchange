@@ -59,3 +59,13 @@ export interface RwaChanges extends Rwa {
 }
 
 export type CombinedRwa = RwaChanges & Rwa;
+
+export type RwaFiltersParams = {
+  assetType?: string | null;
+  priceMin?: number | null;
+  priceMax?: number | null;
+  sortBy?: string | null;
+  sortOrder?: string | null;
+  pageSize: number;
+  pageNumber: number;
+};

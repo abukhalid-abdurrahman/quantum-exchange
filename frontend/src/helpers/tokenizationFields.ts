@@ -18,12 +18,9 @@ export const tokenizationFieldsBase: TokenizationField[] = [
     name: "title",
     placeholder: "Title",
     type: "string",
-    validation: z
-      .string()
-      .min(1, { message: "Title is required" })
-      .max(32, {
-        message: "Title must be less than 32 characters",
-      }),
+    validation: z.string().min(1, { message: "Title is required" }).max(32, {
+      message: "Title must be less than 32 characters",
+    }),
   },
   {
     name: "assetDescription",
@@ -91,13 +88,10 @@ export const tokenizationFieldsBase: TokenizationField[] = [
     placeholder: "Asset Type",
     type: "string",
     validation: z.enum(
-      ASSET_TYPES.map((asset) => asset.replace(/\s/g, "")) as [
-        string,
-        ...string[]
-      ],
+      ASSET_TYPES.map((asset) => asset.value) as [string, ...string[]],
       { message: "Asset type is required" }
     ),
-    defaultValue: ""
+    defaultValue: "",
   },
 ];
 

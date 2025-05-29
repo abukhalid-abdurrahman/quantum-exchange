@@ -12,7 +12,7 @@ import { useRwaData } from "@/hooks/useRwaData";
 import { buttonVariants, Button } from "@/components/ui/button";
 import { SOLANA_ENVIRONMENT } from "@/lib/constants";
 import { useState } from "react";
-import { RwaDataProps } from "@/app/rwa/types/rwaProps.interfaces";
+import { RwaDataProps } from "@/types/rwa/rwaProps.type";
 
 export default function RwaData({ params }: RwaDataProps) {
   const tokenId = JSON.parse(params.value)?.id;

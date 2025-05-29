@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { handleCopy, shortAddress } from "@/scripts/script";
-import { CopyIpfsButtonProps } from "@/app/rwa/types/rwaProps.interfaces";
+import { CopyIpfsButtonProps } from "@/types/rwa/rwaProps.type";
 
 export default function CopyIpfsButton({ cid }: CopyIpfsButtonProps) {
   const [isCopied, setIsCopied] = useState(false);

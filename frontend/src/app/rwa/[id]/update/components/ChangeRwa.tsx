@@ -378,7 +378,8 @@ export default function ChangeRwa({ params }: ChangeRwaProps) {
 
                                 try {
                                   setIsUploading(true);
-                                  const uploadedUrl = await handleUploadFile(file);
+                                  const uploadedUrl =
+                                    await handleUploadFile(file);
                                   field.onChange(uploadedUrl);
                                 } catch (error) {
                                   form.setError("proofOfOwnershipDocument", {
@@ -425,12 +426,9 @@ export default function ChangeRwa({ params }: ChangeRwaProps) {
                       <SelectContent>
                         <SelectGroup>
                           <SelectLabel>Asset Types</SelectLabel>
-                          {ASSET_TYPES.map((item) => (
-                            <SelectItem
-                              key={item}
-                              value={item.replace(/\s/g, "")}
-                            >
-                              {item}
+                          {ASSET_TYPES.map((item, i) => (
+                            <SelectItem key={i} value={item.value}>
+                              {item.name}
                             </SelectItem>
                           ))}
                         </SelectGroup>

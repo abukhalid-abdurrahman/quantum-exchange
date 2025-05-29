@@ -316,11 +316,14 @@ export default function CreateRwa() {
 
                               try {
                                 setIsUploading(true);
-                                const uploadedUrl = await handleUploadFile(file);
+                                const uploadedUrl =
+                                  await handleUploadFile(file);
                                 if (uploadedUrl.includes("http")) {
                                   field.onChange(uploadedUrl);
                                 } else {
-                                  throw new Error("File must be smaller than 10MB");
+                                  throw new Error(
+                                    "File must be smaller than 10MB"
+                                  );
                                 }
                                 field.onChange(uploadedUrl);
                               } catch (error: any) {
@@ -363,12 +366,9 @@ export default function CreateRwa() {
                       <SelectContent>
                         <SelectGroup>
                           <SelectLabel>Asset Types</SelectLabel>
-                          {ASSET_TYPES.map((item) => (
-                            <SelectItem
-                              key={item}
-                              value={item.replace(/\s/g, "")}
-                            >
-                              {item}
+                          {ASSET_TYPES.map((item, i) => (
+                            <SelectItem key={i} value={item.value}>
+                              {item.name}
                             </SelectItem>
                           ))}
                         </SelectGroup>
@@ -431,7 +431,7 @@ export default function CreateRwa() {
                     "ownerContact",
                     "image",
                     "proofOfOwnershipDocument",
-                    "assetType"
+                    "assetType",
                   ]);
                   if (isValid) {
                     setIsSecondStep(true);

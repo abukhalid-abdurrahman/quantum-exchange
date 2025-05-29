@@ -5,7 +5,7 @@ import Loading from "@/components/Loading";
 import {
   RwaPurchaseHistoryProps,
   SellBuyDataProps,
-} from "@/app/rwa/types/rwaProps.interfaces";
+} from "@/types/rwa/rwaProps.type";
 import {
   Table,
   TableBody,
