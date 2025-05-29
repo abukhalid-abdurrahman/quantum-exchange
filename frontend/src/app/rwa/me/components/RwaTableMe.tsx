@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   Table,
   TableBody,
@@ -14,7 +14,11 @@ import { shortDescription } from "@/lib/scripts/script";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { PaginationButtons } from "@/components/PaginationButtons";
-import { useRwasMe } from "@/requests/getRequests";
+import {
+  useRwaChangesMultiple,
+  useRwaMultiple,
+  useRwasMe,
+} from "@/requests/getRequests";
 import Loading from "@/components/Loading";
 import { RwasReq } from "@/lib/types";
 import _ from "lodash";
@@ -25,6 +29,7 @@ import { useSearchParams } from "next/navigation";
 export default function RwaTableMe() {
   const searchParams = useSearchParams();
   const initialPage = parseInt(searchParams.get("page") || "1");
+  const [tokenIds, setTokenIds] = useState<string[]>([]);
   const { user } = useUserStore();
   const [reqParams, setReqParams] = useState<RwasReq>({
     pageSize: 10,
@@ -33,8 +38,54 @@ export default function RwaTableMe() {
 
   const { data: rwas, isFetching: rwasFetching } = useRwasMe(
     reqParams,
-    user!?.token || ""
+    user!?.token
   );
+  const { data: rwaMultiple, isFetching: rwaMultipleFetching } =
+    useRwaMultiple(tokenIds);
+  const { data: rwaChangesMultiple, isFetching: rwaChangesMultipleFetching } =
+    useRwaChangesMultiple(tokenIds);
+
+  useEffect(() => {
+    if (rwas) {
+      const getAlltokenIds = (rwas: any) => {
+        return rwas?.data?.data.map((rwa: any) => rwa.tokenId);
+      };
+      setTokenIds(getAlltokenIds(rwas));
+    }
+  }, [rwas]);
+
+  const fullRwas = useMemo(() => {
+    const normalize = (arr: any[]) => {
+      return arr
+        .filter(Boolean)
+        .map((item) => ({
+          ...item,
+          tokenId: item?.tokenId ?? item?.rwaTokenId,
+        }))
+        .filter((item) => item.tokenId !== undefined);
+    };
+
+    const base = normalize(rwaMultiple.map((rwa) => rwa?.data));
+    const changes = normalize(
+      rwaChangesMultiple.map((rwa) => rwa?.data?.[rwa.data.length - 1])
+    );
+
+    const combinedMap = new Map<string, any>();
+
+    for (const item of [...base, ...changes]) {
+      const existing = combinedMap.get(item.tokenId);
+      if (existing) {
+        combinedMap.set(item.tokenId, {
+          ...existing,
+          ...item,
+        });
+      } else {
+        combinedMap.set(item.tokenId, item);
+      }
+    }
+
+    return Array.from(combinedMap.values());
+  }, [rwas, rwaMultiple, rwaChangesMultiple]);
 
   useEffect(() => {
     setReqParams((prev) => ({
@@ -43,16 +94,22 @@ export default function RwaTableMe() {
     }));
   }, [initialPage]);
 
+  useEffect(() => {
+    console.log(fullRwas);
+  }, [fullRwas]);
+
   return (
     <div>
-      {rwasFetching ? (
+      {rwaMultipleFetching?.some((item) => item === true) ||
+      rwaChangesMultipleFetching?.some((item) => item === true) ||
+      rwasFetching ? (
         <Loading
           className="flex justify-center mt-14"
           classNameLoading="!border-white !border-r-transparent !w-14 !h-14"
         />
       ) : (
         <>
-          {rwas?.data?.data.length > 0 ? (
+          {fullRwas.length > 0 ? (
             <Table className="min-w-[965px]">
               <TableHeader>
                 <TableRow className="hover:bg-transparent border-primary">
@@ -68,7 +125,7 @@ export default function RwaTableMe() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {rwas?.data?.data.map((rwa: any) => {
+                {fullRwas.map((rwa: any) => {
                   return (
                     <TableRow
                       key={rwa.tokenId}
@@ -115,12 +172,14 @@ export default function RwaTableMe() {
                       {rwa.geolocation}
                     </TableCell> */}
                       <TableCell className="text-right">
-                        {rwa?.oldPrice - rwa?.price || (
-                          <>
-                            <p className="p opacity-60">---</p>
-                          </>
+                        {typeof rwa?.oldPrice === "number" &&
+                        typeof rwa?.price === "number" ? (
+                          <>{rwa.oldPrice - rwa.price}</>
+                        ) : (
+                          <p className="p opacity-60">---</p>
                         )}
-                        {rwa?.oldPrice &&
+                        {typeof rwa?.oldPrice === "number" &&
+                          typeof rwa?.price === "number" &&
                           (() => {
                             const diff =
                               ((rwa.price - rwa.oldPrice) / rwa.oldPrice) * 100;
