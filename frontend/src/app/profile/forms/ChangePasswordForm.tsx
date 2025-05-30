@@ -20,7 +20,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import { removeUser } from "@/scripts/script";
+import { removeUser } from "@/utils/removeUser.util";
 import { useChangePassword } from "@/requests/auth/changePassword.request";
 
 export default function ChangePasswordForm() {

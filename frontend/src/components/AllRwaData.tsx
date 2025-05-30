@@ -8,11 +8,8 @@ import {
 import Link from "next/link";
 import { Button } from "./ui/button";
 import Image from "next/image";
-import {
-  handleCopy,
-  shortAddress,
-  shortDescription,
-} from "@/scripts/script";
+import { handleCopy } from "@/utils/handleCopy.util";
+import { shortAddress, shortDescription } from "@/utils/shortSomething";
 
 const fieldsMeta = [
   ...tokenizationFieldsBase,

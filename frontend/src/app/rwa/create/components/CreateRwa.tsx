@@ -33,7 +33,7 @@ import { useEffect, useState } from "react";
 import { ASSET_TYPES, MAX_FILE_SIZE } from "@/lib/constants";
 import { TokenizationField } from "@/types";
 import dynamic from "next/dynamic";
-import { handleUploadFile } from "@/scripts/script";
+import { handleUploadFile } from "@/utils/handleUploadFile.util";
 import { DragAndDropUpload } from "@/app/rwa/create/components/DragAndDropUpload";
 import InputAssetField from "@/app/rwa/create/components/InputAssetField";
 import SelectAssetField from "@/app/rwa/create/components/SelectAssetField";

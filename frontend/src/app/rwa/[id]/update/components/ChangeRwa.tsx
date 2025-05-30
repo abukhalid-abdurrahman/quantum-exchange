@@ -31,12 +31,7 @@ import { useEffect, useState } from "react";
 import { ASSET_TYPES } from "@/lib/constants";
 import Loading from "@/components/Loading";
 import Image from "next/image";
-import {
-  handleCopy,
-  shortAddress,
-  shortDescription,
-  handleUploadFile,
-} from "@/scripts/script";
+import { handleCopy } from "@/utils/handleCopy.util";
 import { Loader2 } from "lucide-react";
 import UpdatingModal from "./UpdatingModal";
 import Link from "next/link";
@@ -46,6 +41,8 @@ import AllRwaData from "@/components/AllRwaData";
 import { mutateRwaUpdate } from "@/requests/putRequests";
 import { useGetRwa } from "@/requests/rwa/getRwa.request";
 import { useUpdateRwa } from "@/requests/rwa/updateRwa.request";
+import { shortAddress } from "@/utils/shortSomething";
+import { handleUploadFile } from "@/utils/handleUploadFile.util";
 
 interface ChangeRwaProps {
   params: any;

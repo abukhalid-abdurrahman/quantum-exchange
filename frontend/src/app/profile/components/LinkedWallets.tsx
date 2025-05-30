@@ -7,7 +7,7 @@ import NoLinkedWallets from "./states/NoLinkedWallets";
 import { buttonVariants } from "@/components/ui/button";
 import { useGetLinkedWallets } from "@/requests/user/getLinkedWallets.request";
 import { useUserStore } from "@/store/useUserStore";
-import { shortAddress } from "@/scripts/script";
+import { shortAddress } from "@/utils/shortSomething";
 import { LinkedWallet } from "@/types/user/profile.types";
 
 export default function LinkedWallets() {

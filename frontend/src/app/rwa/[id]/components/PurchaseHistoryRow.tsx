@@ -1,6 +1,6 @@
 import { RwaPurchaseHistoryRowProps } from "@/types/rwa/rwaProps.type";
 import { TableRow, TableCell } from "@/components/ui/table";
-import { shortAddress } from "@/scripts/script";
+import { shortAddress } from "@/utils/shortSomething";
 import { format } from "date-fns";
 
 export default function RwaPurchasHistoryeRow({

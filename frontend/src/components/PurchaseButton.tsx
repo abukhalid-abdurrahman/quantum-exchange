@@ -2,7 +2,7 @@ import CopyBtn from "@/components/CopyBtn";
 import Loading from "@/components/Loading";
 import Modal from "@/components/Modal";
 import { Button, buttonVariants } from "@/components/ui/button";
-import { shortAddress } from "@/scripts/script";
+import { shortAddress } from "@/utils/shortSomething";
 import Image from "next/image";
 import { useState } from "react";
 import { Transaction } from "@solana/web3.js";
@@ -60,7 +60,9 @@ export default function PurchaseButton({
         },
         {
           onSuccess: async (res) => {
-            setMessage("Please check your Phantom wallet to confirm the transaction");
+            setMessage(
+              "Please check your Phantom wallet to confirm the transaction"
+            );
             try {
               const txBase64 = res.data;
               const transaction = Transaction.from(
@@ -150,7 +152,9 @@ export default function PurchaseButton({
               <>
                 <Loading />
                 {message && (
-                  <p className="p text-black mt-6 text-center max-w-[80%]">{message}</p>
+                  <p className="p text-black mt-6 text-center max-w-[80%]">
+                    {message}
+                  </p>
                 )}
               </>
             )}

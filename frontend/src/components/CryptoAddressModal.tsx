@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import Loading from "./Loading";
 import Modal from "./Modal";
 import CopyBtn from "./CopyBtn";
-import { shortAddress } from "@/scripts/script";
+import { shortAddress } from "@/utils/shortSomething";
 import QRCodeDisplay from "./QrCode";
 import CountdownTimer from "./CountdownTimer";
 import { VirtualAddressMesages } from "@/lib/helpers/virtualAddressMessages";
@@ -182,7 +182,9 @@ export default function CryptoAddressModal({
                 </p>
                 <p className="">{shortAddress(address!)}</p>
               </div> */}
-              <div className={`${buttonVariants({ variant: "empty", size: "xl" })} flex gap-2 bg-gray py-3 px-5 rounded-xl justify-between items-center flex-1 relative`}>
+              <div
+                className={`${buttonVariants({ variant: "empty", size: "xl" })} flex gap-2 bg-gray py-3 px-5 rounded-xl justify-between items-center flex-1 relative`}
+              >
                 <p className="sm:text-sm sm:absolute sm:-top-[21px] sm:left-0">
                   Your {fromNetwork.token} virtual account:
                 </p>

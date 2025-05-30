@@ -10,7 +10,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import Image from "next/image";
-import { shortDescription } from "@/scripts/script";
+import { shortDescription } from "@/utils/shortSomething";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { PaginationButtons } from "@/components/PaginationButtons";
@@ -126,7 +126,7 @@ export default function RwaTableMe() {
                               ((rwa.price - rwa.oldPrice) / rwa.oldPrice) * 100;
                             const isPositive = diff > 0;
                             const isNeutral = diff === 0;
-                            const percentage = `${Math.abs(diff).toFixed(2)  }%`;
+                            const percentage = `${Math.abs(diff).toFixed(2)}%`;
 
                             return (
                               <span
@@ -134,8 +134,8 @@ export default function RwaTableMe() {
                                   isPositive
                                     ? "text-green-500"
                                     : isNeutral
-                                    ? "text-textGray"
-                                    : "text-red-600"
+                                      ? "text-textGray"
+                                      : "text-red-600"
                                 }`}
                               >
                                 {isPositive && (

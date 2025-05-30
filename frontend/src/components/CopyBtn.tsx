@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { Button } from "./ui/button";
-import { handleCopy } from "@/scripts/script";
+import { handleCopy } from "@/utils/handleCopy.util";
 
 interface CopyBtnProps {
   address: string;
@@ -15,14 +15,21 @@ export default function CopyBtn({ address }: CopyBtnProps) {
   return (
     <div className="relative">
       <Button
-        variant='empty' size='icon'
+        variant="empty"
+        size="icon"
         className="flex justify-center gap-2 bg-gray w-[48px] h-[48px] rounded-xl items-center 
         aspect-square sm:w-[46px] sm:h-[46px] hover:bg-darkGray transition-all"
         onClick={() => {
           handleCopy(address, { setIsCopied });
         }}
       >
-        <Image src="/copy.svg" alt="copy" width={22} height={22} className="xxs:w-5" />
+        <Image
+          src="/copy.svg"
+          alt="copy"
+          width={22}
+          height={22}
+          className="xxs:w-5"
+        />
       </Button>
 
       {isCopied && (

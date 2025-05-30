@@ -6,7 +6,7 @@ import Link from "next/link";
 import LoadingAlt from "./LoadingAlt";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useUserStore } from "@/store/useUserStore";
-import { parseJwt } from "@/scripts/script";
+import { parseJwt } from "@/utils/parseJwt.util";
 import Cookies from "js-cookie";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -57,11 +57,13 @@ export default function SignInForm() {
         Cookies.set("oasisToken", token, {
           expires: expiresDate,
         });
-        
+
         router.push(callbackUrl);
       },
       onError: (error: any) => {
-        setErrorMessage(error.response?.data?.error?.message || "An error occurred");
+        setErrorMessage(
+          error.response?.data?.error?.message || "An error occurred"
+        );
       },
       onSettled: () => {
         setIsLoading(false);
@@ -96,7 +98,7 @@ export default function SignInForm() {
             <>
               <FormItem className="w-full">
                 <FormControl>
-                  <Input placeholder="Password" type='password' {...field} />
+                  <Input placeholder="Password" type="password" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

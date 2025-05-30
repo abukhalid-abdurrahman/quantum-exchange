@@ -4,15 +4,13 @@ import { Button } from "./ui/button";
 import { useState } from "react";
 import { useWalletStore } from "@/store/useWalletStore";
 import Image from "next/image";
-import { shortAddress } from "@/scripts/script";
+import { shortAddress } from "@/utils/shortSomething";
 import { useUserStore } from "@/store/useUserStore";
 import WalletSelector from "./WalletSelector";
 
 export default function WalletConnect({ className }: { className?: string }) {
   const [showWalletSelector, setShowWalletSelector] = useState(false);
-  const {
-    disconnectWallet,
-  } = usePhantomWallet();
+  const { disconnectWallet } = usePhantomWallet();
   const { publicKey } = useWalletStore();
   const { user } = useUserStore();
 
