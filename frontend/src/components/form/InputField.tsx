@@ -1,27 +1,97 @@
-import { FormControl, FormField, FormItem } from "@/components/ui/form";
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { FieldProps } from "@/types/form/formProps.type";
+import { showLoadingOnUploading } from "@/utils/showLoadingOnUploading.util";
+import { Loader2 } from "lucide-react";
+import { useState } from "react";
 
-export default function InputField({ form, inputClasses, input }: FieldProps) {
+export default function InputField({
+  form,
+  input,
+  formMessageClasses,
+  formLabelClasses,
+  inputFieldClasses,
+  withFormLabel = false,
+  isFileField = false,
+  setIsMapOpen,
+  coords,
+}: FieldProps) {
   return (
     <FormField
       control={form.control}
       name={input.name}
-      render={({ field }) => (
-        <>
+      render={({ field }) => {
+        const [isUploading, setIsUploading] = useState(false);
+        return (
           <FormItem className="w-full">
+            {withFormLabel && (
+              <FormLabel className={formLabelClasses}>
+                {input.placeholder}
+              </FormLabel>
+            )}
             <FormControl>
-              <Input
-                type={input.type}
-                className={`${inputClasses} text-right`}
-                placeholder={input.placeholder}
-                {...field}
-                value={field.value === null ? "" : field.value}
-              />
+              {isFileField ? (
+                <div className="relative">
+                  <Input
+                    type="file"
+                    accept="image/*"
+                    disabled={isUploading}
+                    className={
+                      isUploading
+                        ? "cursor-not-allowed opacity-50"
+                        : "cursor-pointer"
+                    }
+                    onChange={async (e) => {
+                      showLoadingOnUploading(e, form, field, setIsUploading);
+                    }}
+                  />
+                  {isUploading && (
+                    <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                      <Loader2 className="animate-spin text-white" size={18} />
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div>
+                  {input.name === "geolocation" ? (
+                    <Input
+                      onClick={() => {
+                        if (setIsMapOpen) setIsMapOpen(true);
+                      }}
+                      placeholder={input.placeholder}
+                      className="cursor-pointer"
+                      {...field}
+                      value={
+                        coords ? `${coords.latitude} ${coords.longitude}` : ""
+                      }
+                      onChange={field.onChange}
+                    />
+                  ) : (
+                    <Input
+                      type={input.type}
+                      className={`${inputFieldClasses}`}
+                      placeholder={input.placeholder}
+                      {...field}
+                      value={field.value ?? ""}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        field.onChange(value === "" ? null : value);
+                      }}
+                    />
+                  )}
+                </div>
+              )}
             </FormControl>
+            <FormMessage className={formMessageClasses} />
           </FormItem>
-        </>
-      )}
+        );
+      }}
     />
   );
 }

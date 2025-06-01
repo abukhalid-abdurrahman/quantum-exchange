@@ -5,7 +5,7 @@ import {
   MIN_NUMBER,
   PROPERTY_TYPES,
 } from "@/lib/constants";
-import { TokenizationField } from "@/types";
+import { TokenizationField } from "@/types/form/tokenizationField.type";
 
 export const tokenizationFieldsBase: TokenizationField[] = [
   {
@@ -143,19 +143,25 @@ export const tokenizationFieldsAutomobiles: TokenizationField[] = [
     name: "insuranceStatus",
     placeholder: "Insurance Status",
     type: "string",
-    validation: z.enum([...INSURANSE_STATUSES] as [string, ...string[]], {
-      message: "Please select a valid insurance status",
-    }),
+    validation: z.enum(
+      INSURANSE_STATUSES.map((item) => item.value) as [string, ...string[]],
+      {
+        message: "Please select a valid insurance status",
+      }
+    ),
     defaultValue: "",
     HTMLType: "select",
-    selectItems: [...INSURANSE_STATUSES],
+    selectItems: INSURANSE_STATUSES.map((item) => item.value) as [
+      string,
+      ...string[],
+    ],
   },
 ];
 
 export const tokenizationFieldsRealEstate: TokenizationField[] = [
   {
     name: "geolocation",
-    placeholder: "Asset Location (Geolocation / Country)",
+    placeholder: "Asset Location (Geolocation)",
     type: "object",
     validation: z.object({
       latitude: z
@@ -199,10 +205,16 @@ export const tokenizationFieldsRealEstate: TokenizationField[] = [
     placeholder: "Property Type",
     type: "string",
     HTMLType: "select",
-    selectItems: [...PROPERTY_TYPES],
-    validation: z.enum([...PROPERTY_TYPES] as [string, ...string[]], {
-      message: "Please select a valid property type",
-    }),
+    selectItems: PROPERTY_TYPES.map((item) => item.value) as [
+      string,
+      ...string[],
+    ],
+    validation: z.enum(
+      PROPERTY_TYPES.map((item) => item.value) as [string, ...string[]],
+      {
+        message: "Please select a valid property type",
+      }
+    ),
     defaultValue: "",
   },
   {
@@ -222,10 +234,16 @@ export const tokenizationFieldsRealEstate: TokenizationField[] = [
     placeholder: "Insurance Status",
     type: "string",
     HTMLType: "select",
-    selectItems: [...INSURANSE_STATUSES],
-    validation: z.enum([...INSURANSE_STATUSES] as [string, ...string[]], {
-      message: "Please select a valid insurance status",
-    }),
+    selectItems: INSURANSE_STATUSES.map((item) => item.value) as [
+      string,
+      ...string[],
+    ],
+    validation: z.enum(
+      INSURANSE_STATUSES.map((item) => item.value) as [string, ...string[]],
+      {
+        message: "Please select a valid insurance status",
+      }
+    ),
     defaultValue: "",
   },
 ];

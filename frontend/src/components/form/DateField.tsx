@@ -11,30 +11,16 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { TokenizationField } from "@/types";
 import { cn } from "@/lib/utils";
+import { FieldProps } from "@/types/form/formProps.type";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
-import { UseFormReturn } from "react-hook-form";
 
-interface DateAssetFieldProps {
-  item: TokenizationField;
-  form: UseFormReturn<
-    {
-      [x: string]: any;
-    },
-    any,
-    {
-      [x: string]: any;
-    }
-  >;
-}
-
-export default function DateAssetField({ item, form }: DateAssetFieldProps) {
+export default function DateField({ input, form }: FieldProps) {
   return (
     <FormField
       control={form.control}
-      name={item.name}
+      name={input.name}
       render={({ field }) => (
         <FormItem className="flex flex-col">
           <Popover>
@@ -51,7 +37,7 @@ export default function DateAssetField({ item, form }: DateAssetFieldProps) {
                   {field.value ? (
                     format(new Date(field.value), "PPP")
                   ) : (
-                    <span>Valuation date</span>
+                    <span>{input.placeholder}</span>
                   )}
                   <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                 </Button>

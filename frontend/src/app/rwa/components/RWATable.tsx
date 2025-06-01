@@ -13,13 +13,13 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { shortDescription } from "@/utils/shortSomething";
-import { ChevronDown, ChevronUp } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { PaginationButtons } from "@/components/PaginationButtons";
 import { useUserStore } from "@/store/useUserStore";
 import { useSearchParams } from "next/navigation";
 import { useRwasData } from "@/hooks/useRwasData";
 import { CombinedRwa } from "@/types/rwa/rwa.type";
+import { PriceChangeIndicator } from "@/app/rwa/components/PriceChangeIndicator";
 
 export default function RWATable() {
   const searchParams = useSearchParams();
@@ -70,9 +70,7 @@ export default function RWATable() {
                             href={`/rwa/${rwa.tokenId}`}
                           >
                             <img
-                              src={
-                                rwa.image !== "string" ? rwa.image : "/nft.avif"
-                              }
+                              src={rwa.image}
                               alt={rwa.title}
                               className="rounded-md w-[50px] h-[50px]"
                             />
@@ -95,39 +93,10 @@ export default function RWATable() {
                         {rwa.assetType}
                       </TableCell>
                       <TableCell className="text-right">
-                        {(rwa?.oldPrice && rwa?.oldPrice - rwa?.price) || (
-                          <>
-                            <p className="p opacity-60">---</p>
-                          </>
-                        )}
-                        {rwa?.oldPrice &&
-                          (() => {
-                            const diff =
-                              ((rwa.price - rwa.oldPrice) / rwa.oldPrice) * 100;
-                            const isPositive = diff > 0;
-                            const isNeutral = diff === 0;
-                            const percentage = `${Math.abs(diff).toFixed(2)}%`;
-
-                            return (
-                              <span
-                                className={`flex items-center text-xs justify-end ${
-                                  isPositive
-                                    ? "text-green-500"
-                                    : isNeutral
-                                      ? "text-textGray"
-                                      : "text-red-600"
-                                }`}
-                              >
-                                {isPositive && (
-                                  <ChevronUp size={15} className="inline" />
-                                )}
-                                {!isPositive && !isNeutral && (
-                                  <ChevronDown size={15} className="inline" />
-                                )}
-                                {percentage}
-                              </span>
-                            );
-                          })()}
+                        <PriceChangeIndicator
+                          price={rwa.price}
+                          oldPrice={rwa.oldPrice}
+                        />
                       </TableCell>
                       <TableCell className="text-right space-x-2">
                         {rwa.ownerUsername === user?.UserName && (

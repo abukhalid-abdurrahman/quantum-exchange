@@ -1,7 +1,6 @@
 "use client";
 
 import { FiltersFormProps } from "@/types/rwa/rwaProps.type";
-import InputField from "@/components/form/InputField";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import {
@@ -15,7 +14,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import SelectField from "@/components/form/SelectField";
+import InputFilterField from "@/app/rwa/components/form/InputFilterField";
+import SelectFilterField from "@/app/rwa/components/form/SelectFilterField";
 
 export default function FiltersForm({
   setReqParams,
@@ -53,7 +53,7 @@ export default function FiltersForm({
                 (item) => item.name === "priceMin" || item.name === "priceMax"
               )
               .map((item, i) => (
-                <InputField
+                <InputFilterField
                   key={i}
                   form={form}
                   inputClasses={inputClasses}
@@ -70,7 +70,7 @@ export default function FiltersForm({
               item.name === "sortOrder"
           )
           .map((item, i) => (
-            <SelectField
+            <SelectFilterField
               key={i}
               form={form}
               inputClasses={inputClasses}

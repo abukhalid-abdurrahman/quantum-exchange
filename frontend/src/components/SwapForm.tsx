@@ -110,7 +110,9 @@ export default function SwapForm() {
           setResponseData(response);
         },
         onError: (error: any) => {
-          setOrderError(error.response?.data?.error?.message || "An error occurred");
+          setOrderError(
+            error.response?.data?.error?.message || "An error occurred"
+          );
         },
       });
       setIsCryptoAddressModalOpen(true);
@@ -162,8 +164,8 @@ export default function SwapForm() {
               )}
             </div>
             <Button
-              variant='empty'
-              size='lg'
+              variant="empty"
+              size="lg"
               type="button"
               className="text-lg rounded-full bg-darkGray px-4 flex justify-center gap-[7px] items-center sm:text-base xxs:py-1 hover:shadow-md transition-all"
               onClick={() => openCryptoModal("from")}
@@ -213,8 +215,8 @@ export default function SwapForm() {
               />
             </div>
             <Button
-              variant='empty'
-              size='lg'
+              variant="empty"
+              size="lg"
               type="button"
               className="text-lg rounded-full bg-darkGray py-2 px-4 flex gap-[7px] justify-center items-center sm:text-base xxs:py-1 hover:shadow-md transition-all"
               onClick={() => openCryptoModal("to")}
@@ -253,8 +255,8 @@ export default function SwapForm() {
 
         <Button
           type="submit"
-          variant='gray'
-          size='xxl'
+          variant="gray"
+          size="xxl"
           onClick={() => {
             setIsOrderCompleted(false);
           }}

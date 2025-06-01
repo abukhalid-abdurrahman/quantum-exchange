@@ -21,6 +21,12 @@ export const ASSET_TYPES: SelectItems[] = [
   // "Collectibles",
   // "Other",
 ] as const;
+export const NETWORKS: SelectItems[] = [
+  {
+    name: "Solana",
+    value: "Solana",
+  },
+] as const;
 export const SORT_BY: SelectItems[] = [
   {
     name: "Price",
@@ -30,7 +36,7 @@ export const SORT_BY: SelectItems[] = [
     name: "Date of Creation",
     value: "CreatedAt",
   },
-];
+] as const;
 export const SORT_ORDER: SelectItems[] = [
   {
     name: "Asc",
@@ -40,18 +46,48 @@ export const SORT_ORDER: SelectItems[] = [
     name: "Desc",
     value: "Desc",
   },
-];
-export const PROPERTY_TYPES: string[] = [
-  "Residential",
-  "Commercial",
-  "Industrial",
-  "Agricultural",
-  "MixedUse",
-  "Other",
 ] as const;
-export const INSURANSE_STATUSES: string[] = [
-  "Active",
-  "Expired",
-  "Pending",
-  "Cancelled",
+export const PROPERTY_TYPES: SelectItems[] = [
+  {
+    name: "Residential",
+    value: "Residential",
+  },
+  {
+    name: "Commercial",
+    value: "Commercial",
+  },
+  {
+    name: "Industrial",
+    value: "Industrial",
+  },
+  {
+    name: "Agricultural",
+    value: "Agricultural",
+  },
+  {
+    name: "MixedUse",
+    value: "MixedUse",
+  },
+  {
+    name: "Other",
+    value: "Other",
+  },
+] as const;
+export const INSURANSE_STATUSES: SelectItems[] = [
+  {
+    name: "Active",
+    value: "Active",
+  },
+  {
+    name: "Expired",
+    value: "Expired",
+  },
+  {
+    name: "Pending",
+    value: "Pending",
+  },
+  {
+    name: "Cancelled",
+    value: "Cancelled",
+  },
 ] as const;

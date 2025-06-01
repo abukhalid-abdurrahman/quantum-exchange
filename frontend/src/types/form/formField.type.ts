@@ -6,6 +6,6 @@ export type SelectItems = {
 export type FormField = {
   name: string;
   placeholder: string;
-  type: "text" | "number" | "password";
+  type: "text" | "number" | "password" | "file" | "date";
   selectItems?: SelectItems[];
 };

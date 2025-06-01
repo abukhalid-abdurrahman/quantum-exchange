@@ -1,0 +1,122 @@
+import { ASSET_TYPES, MIN_NUMBER, NETWORKS } from "@/lib/constants";
+import { FormField } from "@/types/form/formField.type";
+import { z } from "zod";
+
+export const tokenizeBaseSchema = z.object({
+  image: z.string().url({ message: "Please provide a valid image" }),
+  title: z.string().min(1, { message: "Title is required" }).max(32, {
+    message: "Title must be less than 32 characters",
+  }),
+  assetDescription: z
+    .string()
+    .min(1, { message: "Asset Description is required" })
+    .max(1000, { message: "Description must be less than 1000 characters" }),
+  proofOfOwnershipDocument: z.string().url({
+    message: "Please provide a valid image of the ownership document",
+  }),
+  uniqueIdentifier: z
+    .string()
+    .min(1, { message: "Unique identifier is required" })
+    .max(10, {
+      message: "Identifier must be less than 10 characters",
+    }),
+  network: z.enum(NETWORKS.map((item) => item.value) as [string, ...string[]], {
+    message: "Network is required",
+  }),
+  royalty: z.preprocess(
+    (val) => {
+      if (val === "" || val === undefined) return null;
+      return Number(val);
+    },
+    z
+      .number({ invalid_type_error: "Royalty must be a number" })
+      .min(MIN_NUMBER, { message: "Royalty must be more than 0%" })
+      .max(100, { message: "Royalty must be no more than 100%" })
+      .nullable()
+  ),
+  price: z.preprocess(
+    (val) => {
+      if (val === "" || val === undefined) return null;
+      return Number(val);
+    },
+    z
+      .number({ invalid_type_error: "Price must be a number" })
+      .min(0.0001, { message: "The price must be greater than 0.0001" })
+      .nullable()
+  ),
+  ownerContact: z.string().min(1, { message: "Owner contact is required" }),
+  assetType: z.enum(
+    ASSET_TYPES.map((item) => item.value) as [string, ...string[]],
+    { message: "Asset type is required" }
+  ),
+});
+
+export type TokenizationBaseSchema = z.infer<typeof tokenizeBaseSchema>;
+
+export const tokenizeBaseSchemaDefaultValues: TokenizationBaseSchema = {
+  image: "",
+  title: "",
+  assetDescription: "",
+  proofOfOwnershipDocument: "",
+  uniqueIdentifier: "",
+  network: "",
+  royalty: null,
+  price: null,
+  ownerContact: "",
+  assetType: "",
+};
+
+export const tokenizeBaseSchemaFields: FormField[] = [
+  {
+    name: "image",
+    placeholder: "Image",
+    type: "text",
+  },
+  {
+    name: "title",
+    placeholder: "Title",
+    type: "text",
+  },
+  {
+    name: "assetDescription",
+    placeholder: "Description",
+    type: "text",
+  },
+  {
+    name: "proofOfOwnershipDocument",
+    placeholder: "Proof of ownership document",
+    type: "file",
+  },
+  {
+    name: "uniqueIdentifier",
+    placeholder: "Unique identifier",
+    type: "text",
+  },
+  {
+    name: "network",
+    placeholder: "Network",
+    type: "text",
+    selectItems: NETWORKS,
+  },
+  {
+    name: "royalty",
+    placeholder: "Royalty",
+    type: "number",
+  },
+  {
+    name: "price",
+    placeholder: "Price",
+    type: "number",
+  },
+  {
+    name: "ownerContact",
+    placeholder: "Owner contact",
+    type: "text",
+  },
+  {
+    name: "assetType",
+    placeholder: "Asset Type",
+    type: "text",
+    selectItems: ASSET_TYPES,
+  },
+];

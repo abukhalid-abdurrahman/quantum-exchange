@@ -3,55 +3,43 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from "@/components/ui/form";
 import {
   Select,
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { FieldProps } from "@/types/form/formProps.type";
+import { FilterFieldProps } from "@/types/form/filterFieldProps.type";
 
-export default function SelectField({
+export default function SelectFilterField({
   form,
+  inputClasses,
   input,
-  formItemClasses,
-  formLabelClasses,
-  selectTriggerClasses,
-  formMessageClasses,
-  withSelectLabel = true,
-  withFormLabel,
-}: FieldProps) {
+}: FilterFieldProps) {
   return (
     <FormField
       control={form.control}
       name={input.name}
       render={({ field }) => (
-        <FormItem className={formItemClasses}>
-          {withFormLabel && (
-            <FormLabel className={formLabelClasses}>
-              {input.placeholder}
-            </FormLabel>
-          )}
+        <FormItem className="flex gap-2 items-center lg:justify-between">
+          <FormLabel className="lg:text-base">{input.placeholder}</FormLabel>
           <Select
             onValueChange={field.onChange}
             value={field.value}
             defaultValue={field.value}
           >
             <FormControl>
-              <SelectTrigger className={`${selectTriggerClasses}`}>
+              <SelectTrigger
+                className={`${inputClasses} !mt-0 lg:max-w-[300px] sm:!max-w-[160px]`}
+              >
                 <SelectValue placeholder={input.placeholder} />
               </SelectTrigger>
             </FormControl>
             <SelectContent>
               <SelectGroup>
-                {withSelectLabel && (
-                  <SelectLabel>{input.placeholder}</SelectLabel>
-                )}
                 {input?.selectItems?.map((item, i) => (
                   <SelectItem key={i} value={item.value}>
                     {item.name}
@@ -60,7 +48,6 @@ export default function SelectField({
               </SelectGroup>
             </SelectContent>
           </Select>
-          <FormMessage className={formMessageClasses} />
         </FormItem>
       )}
     />
