@@ -175,12 +175,14 @@ export default function RWATable() {
                       {rwa.geolocation}
                     </TableCell> */}
                       <TableCell className="text-right">
-                        {rwa?.oldPrice - rwa?.price || (
-                          <>
-                            <p className="p opacity-60">---</p>
-                          </>
+                        {typeof rwa?.oldPrice === "number" &&
+                        typeof rwa?.price === "number" ? (
+                          <>{rwa.oldPrice - rwa.price}</>
+                        ) : (
+                          <p className="p opacity-60">---</p>
                         )}
-                        {rwa?.oldPrice &&
+                        {typeof rwa?.oldPrice === "number" &&
+                          typeof rwa?.price === "number" &&
                           (() => {
                             const diff =
                               ((rwa.price - rwa.oldPrice) / rwa.oldPrice) * 100;
