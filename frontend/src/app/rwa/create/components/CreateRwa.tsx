@@ -73,6 +73,24 @@ export default function CreateRwa() {
     });
   };
 
+  const checkFirstStep = async () => {
+    const isValid = await form.trigger([
+      "title",
+      "assetDescription",
+      "uniqueIdentifier",
+      "network",
+      "price",
+      "royalty",
+      "ownerContact",
+      "image",
+      "proofOfOwnershipDocument",
+      "assetType",
+    ]);
+    if (isValid) {
+      setIsSecondStep(true);
+    }
+  };
+
   useEffect(() => {
     if (assetType) {
       setSelectedAssetType(assetType);
@@ -199,23 +217,7 @@ export default function CreateRwa() {
                 Prev Step
               </Button>
               <Button
-                onClick={async () => {
-                  const isValid = await form.trigger([
-                    "title",
-                    "assetDescription",
-                    "uniqueIdentifier",
-                    "network",
-                    "price",
-                    "royalty",
-                    "ownerContact",
-                    "image",
-                    "proofOfOwnershipDocument",
-                    "assetType",
-                  ]);
-                  if (isValid) {
-                    setIsSecondStep(true);
-                  }
-                }}
+                onClick={checkFirstStep}
                 variant="gray"
                 type="button"
                 size="xl"

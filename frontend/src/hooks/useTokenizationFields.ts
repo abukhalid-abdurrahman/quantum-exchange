@@ -6,9 +6,9 @@ import {
 import { getFieldsByAssetType } from "@/utils/getFieldsByAssetType.util";
 import { useMemo } from "react";
 
-export const useTokenizationFields = (assetType: string) => {
+export const useTokenizationFields = (assetType?: string) => {
   const selectedAssetType = useMemo(() => {
-    return assetType;
+    return assetType || "";
   }, [assetType]);
 
   const tokenizeSchema = tokenizeBaseSchema.merge(

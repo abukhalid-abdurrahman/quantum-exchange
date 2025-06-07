@@ -15,8 +15,7 @@ const eslintConfig = [
       "react-hooks/rules-of-hooks": "off",
       "@next/next/no-img-element": "off",
       "@typescript-eslint/no-explicit-any": "warn",
-      // "react/no-unescaped-entities": "off",
-      // "@next/next/no-page-custom-font": "off",
+      "react/no-unescaped-entities": "off",
     },
   }),
 ];

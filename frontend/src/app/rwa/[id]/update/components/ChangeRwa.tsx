@@ -1,89 +1,58 @@
 "use client";
 
+import PageTitle from "@/components/PageTitle";
+import SelectField from "@/components/form/SelectField";
+import InputField from "@/components/form/InputField";
+import InfoRow from "@/app/rwa/components/InfoRow";
+import CopyIpfsButton from "@/app/rwa/components/CopyIpfsButton";
+import Loading from "@/components/Loading";
+import UpdatingModal from "./UpdatingModal";
+import AllRwaData from "@/components/AllRwaData";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Button, buttonVariants } from "@/components/ui/button";
-import {
-  getDefaultValuesFromFields,
-  tokenizationFieldsBase,
-} from "@/lib/helpers/tokenizationFields";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import PageTitle from "@/components/PageTitle";
+import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
-import { ASSET_TYPES } from "@/lib/constants";
-import Loading from "@/components/Loading";
-import Image from "next/image";
-import { handleCopy } from "@/utils/handleCopy.util";
-import { Loader2 } from "lucide-react";
-import UpdatingModal from "./UpdatingModal";
-import Link from "next/link";
 import { useUserStore } from "@/store/useUserStore";
 import { redirect } from "next/navigation";
-import AllRwaData from "@/components/AllRwaData";
-import { mutateRwaUpdate } from "@/requests/putRequests";
 import { useGetRwa } from "@/requests/rwa/getRwa.request";
 import { useUpdateRwa } from "@/requests/rwa/updateRwa.request";
-import { shortAddress } from "@/utils/shortSomething";
-import { handleUploadFile } from "@/utils/handleUploadFile.util";
+import { Params } from "@/types/params.type";
+import { useTokenizationFields } from "@/hooks/useTokenizationFields";
+import { tokenizeBaseSchemaFields } from "@/schemas/rwa/tokenizeBase.schema";
+import { useNetAmount } from "@/hooks/useNetAmount";
+import { useExistedNetAmount } from "@/hooks/useExistedNetAmount";
 
-interface ChangeRwaProps {
-  params: any;
-}
-
-export default function ChangeRwa({ params }: ChangeRwaProps) {
+export default function ChangeRwa({ params }: Params) {
   const tokenId = JSON.parse(params.value)?.id;
   const [initialData, setInitialData] = useState<any | null>(null);
   const [isDataChanged, setIsDataChanged] = useState(false);
-  const [netAmount, setNetAmount] = useState<number | string>("");
-  const [existedNetAmount, setExistedNetAmount] = useState<number | string>("");
   const [isUpdated, setIsUpdated] = useState(false);
   const [isSuccessfullyDone, setIsSuccessfullyDone] = useState(false);
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [isAlldataOpen, setIsAlldataOpen] = useState(false);
-  const [isCopied, setIsCopied] = useState(false);
   const { user } = useUserStore();
 
   const { data, isFetching, isFetched } = useGetRwa(tokenId);
   const submit = useUpdateRwa(tokenId);
 
-  const FormSchema = z.object(
-    Object.fromEntries(
-      tokenizationFieldsBase
-        .filter((field) => field.name !== "image")
-        .map((field) => [field.name, field.validation])
-    )
-  );
+  const { tokenizeSchema, defaultTokenizeValues } = useTokenizationFields();
 
-  const defaultValues = getDefaultValuesFromFields(tokenizationFieldsBase);
-
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
-    defaultValues,
+  const form = useForm<z.infer<typeof tokenizeSchema>>({
+    resolver: zodResolver(tokenizeSchema),
+    defaultValues: defaultTokenizeValues,
   });
 
   const price = form.watch("price");
   const royalty = form.watch("royalty");
 
-  const onSubmit = (data: z.infer<typeof FormSchema>) => {
+  const netAmount = useNetAmount(price, royalty);
+  const existedNetAmount = useExistedNetAmount(data);
+
+  const onSubmit = (data: z.infer<typeof tokenizeSchema>) => {
     setIsError(false);
     setErrorMessage("");
     setIsDataChanged(false);
@@ -128,28 +97,6 @@ export default function ChangeRwa({ params }: ChangeRwaProps) {
   }, [data]);
 
   useEffect(() => {
-    if (price && royalty) {
-      setNetAmount(() => {
-        return (royalty * price) / 100;
-      });
-    } else {
-      setNetAmount("");
-    }
-  }, [price, royalty]);
-
-  useEffect(() => {
-    if (data) {
-      if (data.data.price && data.data.royalty) {
-        setExistedNetAmount(() => {
-          return (data.data.royalty * data.data.price) / 100;
-        });
-      } else {
-        setExistedNetAmount("");
-      }
-    }
-  }, [data]);
-
-  useEffect(() => {
     if (isFetched && data) {
       if (data.data.ownerUsername === user?.UserName) {
         return;
@@ -157,7 +104,7 @@ export default function ChangeRwa({ params }: ChangeRwaProps) {
         redirect("/");
       }
     }
-  }, [isFetched]);
+  }, [data, isFetched, user?.UserName]);
 
   if (isFetching || !isFetched) {
     return (
@@ -167,6 +114,8 @@ export default function ChangeRwa({ params }: ChangeRwaProps) {
       />
     );
   }
+
+  const ipfsCID = data.data.image.replace("https://ipfs.io/ipfs/", "");
 
   return (
     <>
@@ -178,101 +127,34 @@ export default function ChangeRwa({ params }: ChangeRwaProps) {
           <div className="w-1/2 md:w-full">
             <PageTitle title="Update RWA" />
             <div className="flex flex-col gap-2 firstStep">
-              <FormField
-                control={form.control}
-                name="title"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input placeholder="Title" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="assetDescription"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input placeholder="Description" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="uniqueIdentifier"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input placeholder="Unique Identifier" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="network"
-                render={({ field }) => (
-                  <FormItem>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                      value={field.value || data?.data.network}
-                    >
-                      <FormControl>
-                        <SelectTrigger className="w-[180px]">
-                          <SelectValue placeholder="Network" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectGroup>
-                          <SelectLabel>Networks</SelectLabel>
-                          <SelectItem value="Solana">Solana</SelectItem>
-                        </SelectGroup>
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              {tokenizeBaseSchemaFields
+                .filter(
+                  (item) =>
+                    item.name === "title" ||
+                    item.name === "assetDescription" ||
+                    item.name === "uniqueIdentifier" ||
+                    item.name === "network"
+                )
+                .map((item, i) => (
+                  <div key={i}>
+                    {item?.selectItems ? (
+                      <SelectField form={form} input={item} />
+                    ) : (
+                      <InputField form={form} input={item} />
+                    )}
+                  </div>
+                ))}
 
               <div className="flex justify-between gap-2">
-                <FormField
-                  control={form.control}
-                  name="price"
-                  render={({ field }) => (
-                    <FormItem className="w-1/3">
-                      <FormControl>
-                        <Input
-                          type="number"
-                          placeholder="Price in zBTC"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="royalty"
-                  render={({ field }) => (
-                    <FormItem className="w-1/3">
-                      <FormControl>
-                        <Input type="number" placeholder="Royalty" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                {tokenizeBaseSchemaFields
+                  .filter(
+                    (item) => item.name === "price" || item.name === "royalty"
+                  )
+                  .map((item, i) => (
+                    <div key={i}>
+                      <InputField form={form} input={item} />
+                    </div>
+                  ))}
                 <div className="w-1/3">
                   <Input
                     type="number"
@@ -283,158 +165,28 @@ export default function ChangeRwa({ params }: ChangeRwaProps) {
                 </div>
               </div>
 
-              <FormField
-                control={form.control}
-                name="ownerContact"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input placeholder="Owner contact" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="proofOfOwnershipDocument"
-                render={({ field }) => {
-                  const [isUploading, setIsUploading] = useState(false);
-
-                  return (
-                    <FormItem>
-                      <FormLabel className="text-white">
-                        Proof of Ownership Document
-                      </FormLabel>
-                      <FormControl>
-                        <div className="relative">
-                          {field.value ? (
-                            <div
-                              className={`${buttonVariants({
-                                variant: "empty",
-                                size: "xl",
-                              })} min-h-[50px] h-auto py-2
-                            w-full justify-between px-5 gap-2 flex-wrap`}
-                            >
-                              <p className="p-sm text-black">
-                                You already have a file uploaded.
-                              </p>
-                              <div className="flex gap-2">
-                                <Link
-                                  href={field.value}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className={buttonVariants({
-                                    variant: "gray",
-                                    size: "sm",
-                                  })}
-                                >
-                                  View
-                                </Link>
-                                <Button
-                                  variant="destructive"
-                                  size="sm"
-                                  type="button"
-                                  onClick={() => field.onChange("")}
-                                >
-                                  Change
-                                </Button>
-                              </div>
-                            </div>
-                          ) : (
-                            <Input
-                              type="file"
-                              accept="image/*"
-                              disabled={isUploading}
-                              className={
-                                isUploading
-                                  ? "cursor-not-allowed opacity-50"
-                                  : ""
-                              }
-                              onChange={async (e) => {
-                                const file = e.target.files?.[0];
-                                if (!file) return;
-
-                                if (!file.type.startsWith("image/")) {
-                                  form.setError("proofOfOwnershipDocument", {
-                                    type: "manual",
-                                    message: "File must be an image",
-                                  });
-                                  return;
-                                }
-
-                                const maxSizeInBytes = 10 * 1024 * 1024;
-                                if (file.size > maxSizeInBytes) {
-                                  form.setError("proofOfOwnershipDocument", {
-                                    type: "manual",
-                                    message: "File must be smaller than 10MB",
-                                  });
-                                  return;
-                                }
-
-                                try {
-                                  setIsUploading(true);
-                                  const uploadedUrl =
-                                    await handleUploadFile(file);
-                                  field.onChange(uploadedUrl);
-                                } catch (error) {
-                                  form.setError("proofOfOwnershipDocument", {
-                                    type: "manual",
-                                    message: "Upload failed. Try again.",
-                                  });
-                                } finally {
-                                  setIsUploading(false);
-                                }
-                              }}
-                            />
-                          )}
-                          {isUploading && (
-                            <div className="absolute right-3 top-1/2 -translate-y-1/2">
-                              <Loader2
-                                className="animate-spin text-white"
-                                size={18}
-                              />
-                            </div>
-                          )}
-                        </div>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  );
-                }}
-              />
-
-              <FormField
-                control={form.control}
-                name="assetType"
-                render={({ field }) => (
-                  <FormItem>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                      value={field.value || data?.data.assetType}
-                    >
-                      <FormControl>
-                        <SelectTrigger className="w-[180px]">
-                          <SelectValue placeholder="Asset type" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectGroup>
-                          <SelectLabel>Asset Types</SelectLabel>
-                          {ASSET_TYPES.map((item, i) => (
-                            <SelectItem key={i} value={item.value}>
-                              {item.name}
-                            </SelectItem>
-                          ))}
-                        </SelectGroup>
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              {tokenizeBaseSchemaFields
+                .filter(
+                  (item) =>
+                    item.name === "ownerContact" ||
+                    item.name === "proofOfOwnershipDocument" ||
+                    item.name === "assetType"
+                )
+                .map((item, i) => (
+                  <div key={i}>
+                    {item?.selectItems ? (
+                      <SelectField form={form} input={item} />
+                    ) : (
+                      <InputField
+                        isFileField={item.name === "proofOfOwnershipDocument"}
+                        withFormLabel={item.name === "proofOfOwnershipDocument"}
+                        formLabelClasses="text-white"
+                        form={form}
+                        input={item}
+                      />
+                    )}
+                  </div>
+                ))}
             </div>
             {isDataChanged && (
               <p className="p-sm text-destructive mt-2">
@@ -459,78 +211,16 @@ export default function ChangeRwa({ params }: ChangeRwaProps) {
               />
             </div>
             <div className="flex flex-col gap-2 mt-2">
-              <div
-                className={`${buttonVariants({
-                  variant: "gray",
-                  size: "lg",
-                })} !px-5 !w-full flex justify-between flex-wrap`}
-              >
-                <span className="text-gray-500">Version:</span>
-                {data?.data.version}
-              </div>
-              <div
-                className={`${buttonVariants({
-                  variant: "gray",
-                  size: "lg",
-                })} !px-5 !w-full flex justify-between flex-wrap`}
-              >
-                <span className="text-gray-500">IPFS CID:</span>{" "}
-                <span
-                  className="cursor-pointer relative"
-                  onClick={() => {
-                    handleCopy(
-                      data?.data.image.replace("https://ipfs.io/ipfs/", ""),
-                      { setIsCopied }
-                    );
-                  }}
-                >
-                  {shortAddress(
-                    data?.data.image.replace("https://ipfs.io/ipfs/", "")
-                  )}
-                  {isCopied && (
-                    <span className="absolute right-0 -top-6 bg-white text-black text-xs px-2 py-1 rounded-md opacity-90 transition">
-                      Copied
-                    </span>
-                  )}
-                </span>
-              </div>
-              <div className="flex gap-2 md:flex-wrap">
-                <div
-                  className={`${buttonVariants({
-                    variant: "gray",
-                    size: "lg",
-                  })} !px-5 !w-full flex justify-between flex-wrap`}
-                >
-                  <span className="text-gray-500">Price:</span>
-                  {data?.data.price} zBTC
-                </div>
-                <div
-                  className={`${buttonVariants({
-                    variant: "gray",
-                    size: "lg",
-                  })} !px-5 !w-full flex justify-between flex-wrap`}
-                >
-                  <span className="text-gray-500">Royalty:</span>
-                  {data?.data.royalty}%
-                </div>
-              </div>
-              <div
-                className={`${buttonVariants({
-                  variant: "gray",
-                  size: "lg",
-                })} !px-5 !w-full flex justify-between flex-wrap`}
-              >
-                <span className="text-gray-500">Net Amout:</span>
-                {existedNetAmount}
-              </div>
-              <div
-                className={`${buttonVariants({
-                  variant: "gray",
-                  size: "lg",
-                })} !px-5 !w-full flex justify-between flex-wrap`}
-              >
-                <span className="text-gray-500">State:</span> Listed
-              </div>
+              <InfoRow label="Version" value={data?.data.version} />
+              <InfoRow
+                label="IPFS CID"
+                value={<CopyIpfsButton cid={ipfsCID} />}
+              />
+              <InfoRow label="Price" value={`${data?.data.price} zBTC`} />
+              <InfoRow label="Royalty" value={`${data?.data.royalty}%`} />
+              <InfoRow label="Net Amout" value={existedNetAmount} />
+              <InfoRow label="State" value="Listed" />
+
               <Button
                 variant="gray"
                 size="default"
