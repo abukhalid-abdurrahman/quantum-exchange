@@ -241,7 +241,6 @@ export default function ChangeRwa({ params }: Params) {
           isSuccessfullyDone={isSuccessfullyDone}
           setIsSuccessfullyDone={setIsSuccessfullyDone}
           setIsUpdated={setIsUpdated}
-          form={form}
           tokenId={data?.data.tokenId}
         />
       )}

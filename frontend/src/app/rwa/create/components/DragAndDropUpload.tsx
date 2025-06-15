@@ -10,12 +10,7 @@ import {
 import { handleUploadFile } from "@/utils/handleUploadFile.util";
 import { useFormContext } from "react-hook-form";
 import { MAX_FILE_SIZE } from "@/lib/constants";
-
-interface DragAndDropProps {
-  control: any;
-  name: string;
-  label?: string;
-}
+import { DragAndDropProps } from "@/types/form/dragAndDrop.type";
 
 export function DragAndDropUpload({ control, name }: DragAndDropProps) {
   const [preview, setPreview] = useState<string | null>(null);

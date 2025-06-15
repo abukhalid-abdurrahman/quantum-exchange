@@ -1,33 +1,12 @@
+import Image from "next/image";
+import Link from "next/link";
 import Loading from "@/components/Loading";
 import Modal from "@/components/Modal";
 import { Button, buttonVariants } from "@/components/ui/button";
-import { mutateRwaUpdate } from "@/requests/putRequests";
-import Image from "next/image";
-import Link from "next/link";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { UseFormReturn } from "react-hook-form";
-
-interface UpdatingModalProps {
-  setIsUpdated: Dispatch<SetStateAction<boolean>>;
-  form: UseFormReturn<
-    {
-      [x: string]: any;
-    },
-    any,
-    {
-      [x: string]: any;
-    }
-  >;
-  tokenId: string;
-  isError: boolean;
-  errorMessage: string;
-  isSuccessfullyDone: boolean;
-  setIsSuccessfullyDone: Dispatch<SetStateAction<boolean>>;
-}
+import { UpdatingModalProps } from "@/types/modal/updatingModal.type";
 
 export default function UpdatingModal({
   setIsUpdated,
-  form,
   tokenId,
   isError,
   errorMessage,
