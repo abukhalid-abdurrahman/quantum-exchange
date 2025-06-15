@@ -12,7 +12,7 @@ export default async function page({
   params: any;
 }) {
   return (
-    <div className="max-w-[1200px] mx-auto">
+    <div>
       <Header searchParams={searchParams} />
       <div className="mt-24 xl:px-5 md:mt-14 md:!px-0 sm:!mt-10">
         <div className="mx-auto">
