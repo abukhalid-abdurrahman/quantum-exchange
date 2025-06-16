@@ -2,13 +2,9 @@
 
 import CreateRwa from "@/app/rwa/create/components/CreateRwa";
 import Header from "@/components/header/Header";
-import { searchParams } from "@/types";
+import { SearchParams } from "@/types/params.type";
 
-export default async function page({
-  searchParams,
-}: {
-  searchParams: Promise<searchParams>;
-}) {
+export default async function page({ searchParams }: SearchParams) {
   return (
     <>
       <Header searchParams={searchParams} />

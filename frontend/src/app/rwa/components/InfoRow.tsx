@@ -1,5 +1,9 @@
-import { InfoRowProps } from "@/types/rwa/rwaProps.type";
 import { buttonVariants } from "@/components/ui/button";
+
+interface InfoRowProps {
+  label: string;
+  value: React.ReactNode;
+}
 
 export default function InfoRow({ label, value }: InfoRowProps) {
   return (

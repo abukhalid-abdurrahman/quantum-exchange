@@ -4,13 +4,9 @@ import Header from "@/components/header/Header";
 import AccountAddresses from "@/app/profile/components/AccountAddresses";
 import ChangePassword from "@/app/profile/components/ChangePassword";
 import LinkedWallets from "@/app/profile/components/LinkedWallets";
-import { searchParams } from "@/types";
+import { SearchParams } from "@/types/params.type";
 
-export default async function page({
-  searchParams,
-}: {
-  searchParams: Promise<searchParams>;
-}) {
+export default async function page({ searchParams }: SearchParams) {
   return (
     <div className="">
       <Header searchParams={searchParams} />

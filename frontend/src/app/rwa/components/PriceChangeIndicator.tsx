@@ -1,5 +1,9 @@
-import { PriceChangeIndicatorProps } from "@/types/rwa/rwaProps.type";
 import { ChevronUp, ChevronDown } from "lucide-react";
+
+interface PriceChangeIndicatorProps {
+  price: number;
+  oldPrice?: number;
+}
 
 export function PriceChangeIndicator({
   price,

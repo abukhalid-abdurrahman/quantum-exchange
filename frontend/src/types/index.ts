@@ -1,10 +1,4 @@
 import { PublicKey } from "@solana/web3.js";
-import { ZodType } from "zod";
-
-export type searchParams = {
-  signin?: string;
-  signup?: string;
-};
 
 export interface User {
   token: string;

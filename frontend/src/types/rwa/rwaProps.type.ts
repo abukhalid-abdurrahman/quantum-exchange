@@ -1,7 +1,4 @@
 import { Params } from "@/types/params.type";
-import { RwaFiltersParams } from "@/types/rwa/rwa.type";
-import { Dispatch, SetStateAction } from "react";
-import { UseFormReturn } from "react-hook-form";
 
 export interface CopyIpfsButtonProps {
   cid: string;
@@ -9,47 +6,9 @@ export interface CopyIpfsButtonProps {
 
 export type RwaDataProps = Params;
 
-export interface InfoRowProps {
-  label: string;
-  value: React.ReactNode;
-}
-
 export interface RwaPurchaseHistoryProps {
   type: "Buy" | "Sell";
   price: number;
   buyerPublicKey: string;
   transactionDate: string;
-}
-
-export interface RwaPurchaseHistoryRowProps {
-  row: RwaPurchaseHistoryProps;
-}
-
-export interface SellBuyDataProps {
-  tokenId: string;
-}
-
-export interface FiltersProps {
-  setReqParams: Dispatch<SetStateAction<RwaFiltersParams>>;
-}
-
-export interface FiltersFormProps {
-  setReqParams: Dispatch<SetStateAction<RwaFiltersParams>>;
-  setIsFiltersOpen?: Dispatch<SetStateAction<boolean>>;
-}
-
-export interface PriceChangeIndicatorProps {
-  price: number;
-  oldPrice?: number;
-}
-
-export interface TokenizationModalProps {
-  setIsOpen: Dispatch<SetStateAction<boolean>>;
-  setIsSecondStep: Dispatch<SetStateAction<boolean>>;
-  setIsSuccessfullyDone: Dispatch<SetStateAction<boolean>>;
-  isSuccessfullyDone: boolean;
-  form: UseFormReturn<any>;
-  isError: boolean;
-  errorMessage: string;
-  tokenId: string;
 }

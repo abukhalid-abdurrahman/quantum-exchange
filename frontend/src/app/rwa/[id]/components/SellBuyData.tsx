@@ -2,10 +2,7 @@
 
 import RwaPurchasHistoryeRow from "@/app/rwa/[id]/components/PurchaseHistoryRow";
 import Loading from "@/components/Loading";
-import {
-  RwaPurchaseHistoryProps,
-  SellBuyDataProps,
-} from "@/types/rwa/rwaProps.type";
+import { RwaPurchaseHistoryProps } from "@/types/rwa/rwaProps.type";
 import {
   Table,
   TableBody,
@@ -15,6 +12,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useGetRwaPurchaseHistory } from "@/requests/rwa/getRwaPurchaseHistory.request";
+
+interface SellBuyDataProps {
+  tokenId: string;
+}
 
 export default function SellBuyData({ tokenId }: SellBuyDataProps) {
   const { data, isFetching } = useGetRwaPurchaseHistory(tokenId);

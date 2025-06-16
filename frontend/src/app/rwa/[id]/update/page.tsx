@@ -3,14 +3,13 @@
 import Header from "@/components/header/Header";
 import { searchParams } from "@/types";
 import ChangeRwa from "./components/ChangeRwa";
+import { Params } from "@/types/params.type";
 
-export default async function page({
-  searchParams,
-  params,
-}: {
+interface PageProps extends Params {
   searchParams: Promise<searchParams>;
-  params: any;
-}) {
+}
+
+export default async function page({ searchParams, params }: PageProps) {
   return (
     <div>
       <Header searchParams={searchParams} />

@@ -8,11 +8,11 @@ import { buttonVariants } from "@/components/ui/button";
 import { useGetLinkedWallets } from "@/requests/user/getLinkedWallets.request";
 import { useUserStore } from "@/store/useUserStore";
 import { shortAddress } from "@/utils/shortSomething";
-import { LinkedWallet } from "@/types/user/profile.types";
+import { LinkedWallet } from "@/types/user/profile.type";
 
 export default function LinkedWallets() {
   const { user } = useUserStore();
-  const { data, isFetching, refetch } = useGetLinkedWallets(user?.token!);
+  const { data, isFetching, refetch } = useGetLinkedWallets(user?.token || "");
 
   if (isFetching) return <ProfileSkeleton />;
 

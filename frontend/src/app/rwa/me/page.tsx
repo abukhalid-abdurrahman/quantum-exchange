@@ -3,13 +3,9 @@
 import Header from "@/components/header/Header";
 import PageTitle from "@/components/PageTitle";
 import RwaTableMe from "./components/RwaTableMe";
-import { searchParams } from "@/types";
+import { SearchParams } from "@/types/params.type";
 
-export default async function page({
-  searchParams,
-}: {
-  searchParams: Promise<searchParams>;
-}) {
+export default async function page({ searchParams }: SearchParams) {
   return (
     <>
       <Header searchParams={searchParams} />

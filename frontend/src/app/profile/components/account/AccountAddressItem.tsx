@@ -1,7 +1,7 @@
 import CryptoItem from "@/components/CryptoItem";
 import CopyBtn from "@/components/CopyBtn";
 import { buttonVariants } from "@/components/ui/button";
-import { AccountAddress } from "@/types/user/profile.types";
+import { AccountAddress } from "@/types/user/profile.type";
 
 export default function AccountAddressItem({
   address,

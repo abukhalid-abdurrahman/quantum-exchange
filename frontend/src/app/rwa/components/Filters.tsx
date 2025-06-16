@@ -2,10 +2,14 @@
 
 import FiltersForm from "./FiltersForm";
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { Dispatch, SetStateAction, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Funnel } from "lucide-react";
-import { FiltersProps } from "@/types/rwa/rwaProps.type";
+import { RwaFiltersParams } from "@/types/rwa/rwa.type";
+
+interface FiltersProps {
+  setReqParams: Dispatch<SetStateAction<RwaFiltersParams>>;
+}
 
 export default function Filters({ setReqParams }: FiltersProps) {
   const [isOpen, setIsOpen] = useState(false);

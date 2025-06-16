@@ -3,7 +3,19 @@ import Modal from "@/components/Modal";
 import Image from "next/image";
 import Link from "next/link";
 import { Button, buttonVariants } from "@/components/ui/button";
-import { TokenizationModalProps } from "@/types/rwa/rwaProps.type";
+import { Dispatch, SetStateAction } from "react";
+import { UseFormReturn } from "react-hook-form";
+
+interface TokenizationModalProps {
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
+  setIsSecondStep: Dispatch<SetStateAction<boolean>>;
+  setIsSuccessfullyDone: Dispatch<SetStateAction<boolean>>;
+  isSuccessfullyDone: boolean;
+  form: UseFormReturn<any>;
+  isError: boolean;
+  errorMessage: string;
+  tokenId: string;
+}
 
 export default function TokenizationModal({
   setIsOpen,

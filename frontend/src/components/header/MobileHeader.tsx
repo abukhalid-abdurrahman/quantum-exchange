@@ -18,13 +18,12 @@ import { useRouter } from "next/navigation";
 import { useUserStore } from "@/store/useUserStore";
 import { Button, buttonVariants } from "@/components/ui/button";
 
-export default function MobileHeader({
-  signin,
-  signup,
-}: {
+interface MobileHeaderProps {
   signin?: string;
   signup?: string;
-}) {
+}
+
+export default function MobileHeader({ signin, signup }: MobileHeaderProps) {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const router = useRouter();

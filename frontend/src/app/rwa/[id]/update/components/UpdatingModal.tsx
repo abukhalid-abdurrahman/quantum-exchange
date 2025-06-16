@@ -3,7 +3,16 @@ import Link from "next/link";
 import Loading from "@/components/Loading";
 import Modal from "@/components/Modal";
 import { Button, buttonVariants } from "@/components/ui/button";
-import { UpdatingModalProps } from "@/types/modal/updatingModal.type";
+import { Dispatch, SetStateAction } from "react";
+
+interface UpdatingModalProps {
+  setIsUpdated: Dispatch<SetStateAction<boolean>>;
+  tokenId: string;
+  isError: boolean;
+  errorMessage: string;
+  isSuccessfullyDone: boolean;
+  setIsSuccessfullyDone: Dispatch<SetStateAction<boolean>>;
+}
 
 export default function UpdatingModal({
   setIsUpdated,

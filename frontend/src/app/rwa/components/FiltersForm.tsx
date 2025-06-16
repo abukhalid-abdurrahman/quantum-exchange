@@ -1,6 +1,5 @@
 "use client";
 
-import { FiltersFormProps } from "@/types/rwa/rwaProps.type";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import {
@@ -11,11 +10,16 @@ import {
 } from "@/schemas/rwa/rwaFilters.schema";
 import { RwaFiltersParams } from "@/types/rwa/rwa.type";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import InputFilterField from "@/app/rwa/components/form/InputFilterField";
 import SelectFilterField from "@/app/rwa/components/form/SelectFilterField";
+
+interface FiltersFormProps {
+  setReqParams: Dispatch<SetStateAction<RwaFiltersParams>>;
+  setIsFiltersOpen?: Dispatch<SetStateAction<boolean>>;
+}
 
 export default function FiltersForm({
   setReqParams,

@@ -5,11 +5,11 @@ import NoAccounts from "@/app/profile/components/states/NoAccounts";
 import AccountAddressItem from "@/app/profile/components/account/AccountAddressItem";
 import { useUserStore } from "@/store/useUserStore";
 import { useGetVirtualAccounts } from "@/requests/user/getVirtualAccounts.request";
-import { AccountAddress } from "@/types/user/profile.types";
+import { AccountAddress } from "@/types/user/profile.type";
 
 export default function AccountAddresses() {
   const { user } = useUserStore();
-  const { data, isFetching } = useGetVirtualAccounts(true, user?.token!);
+  const { data, isFetching } = useGetVirtualAccounts(true, user?.token || "");
 
   if (isFetching) return <ProfileSkeleton />;
 

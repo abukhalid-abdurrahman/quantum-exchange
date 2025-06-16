@@ -9,13 +9,9 @@ import HeaderBtns from "@/components/header/HeaderBtns";
 import SignInModal from "@/components/SignInModal";
 import SignUpModal from "@/components/SignUpModal";
 import MobileHeader from "@/components/header/MobileHeader";
-import { searchParams } from "@/types";
+import { SearchParams } from "@/types/params.type";
 
-export default async function Header({
-  searchParams,
-}: {
-  searchParams: Promise<searchParams>;
-}) {
+export default async function Header({ searchParams }: SearchParams) {
   const { signin, signup } = await searchParams;
 
   return (
