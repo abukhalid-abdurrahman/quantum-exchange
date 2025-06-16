@@ -1,13 +1,10 @@
 "use server";
 
 import Header from "@/components/header/Header";
-import { searchParams } from "@/types";
 import ChangeRwa from "./components/ChangeRwa";
-import { Params } from "@/types/params.type";
+import { Params, SearchParams } from "@/types/params.type";
 
-interface PageProps extends Params {
-  searchParams: Promise<searchParams>;
-}
+interface PageProps extends Params, SearchParams {}
 
 export default async function page({ searchParams, params }: PageProps) {
   return (
