@@ -1,12 +1,14 @@
+"use client";
+
 import { useEffect, useState } from "react";
-import Loading from "./Loading";
-import Modal from "./Modal";
-import CopyBtn from "./CopyBtn";
-import { shortAddress } from "@/utils/shortSomething";
 import Image from "next/image";
+import Modal from "@/components/Modal";
+import Loading from "@/components/Loading";
+import CopyBtn from "@/components/CopyBtn";
+import { shortAddress } from "@/utils/shortSomething";
 import { statusMessages } from "@/lib/helpers/statusMessages";
-import { Button, buttonVariants } from "./ui/button";
 import { useGetVirtualAccountBalance } from "@/requests/user/getVirtualAccountBalance.request";
+import { Button, buttonVariants } from "@/components/ui/button";
 
 interface StatusModalProps {
   orderId: string;
@@ -21,96 +23,87 @@ export default function StatusModal({
   onClose,
   isOrderCompleted,
 }: StatusModalProps) {
-  // const [isNonCompleted, setIsNonCompleted] = useState(true)
-  const [address, setAddress] = useState("");
   const [messageIndex, setMessageIndex] = useState(0);
-  const { data, refetch } = useGetVirtualAccountBalance(orderId!, !address);
+  const [txId, setTxId] = useState("");
+
+  const { data, refetch } = useGetVirtualAccountBalance(orderId!, !txId);
+  const isCompleted = data?.data.status === "Completed";
 
   useEffect(() => {
-    if (data?.data.status === "Completed") {
-      setAddress(data.data.transactionId);
-      // setIsNonCompleted(false)
-    }
-  }, [data]);
+    if (isCompleted) setTxId(data.data.transactionId);
+  }, [isCompleted, data]);
 
   useEffect(() => {
-    if (isOrderCompleted) {
-      setAddress("");
-    }
+    if (isOrderCompleted) setTxId("");
   }, [isOrderCompleted]);
 
   useEffect(() => {
-    if (!orderId || address || isOrderCompleted) return;
-
-    const interval = setInterval(() => {
-      refetch();
-    }, 10000);
-
+    if (!orderId || isCompleted || txId) return;
+    const interval = setInterval(refetch, 10000);
     return () => clearInterval(interval);
-  }, [orderId, address]);
+  }, [orderId, isCompleted, txId]);
 
   useEffect(() => {
-    if (!isOpen || (data && data?.data.status === "Completed")) return;
-
-    const messageInterval = setInterval(() => {
-      setMessageIndex((prevIndex) => (prevIndex + 1) % statusMessages.length);
+    if (!isOpen || isCompleted) return;
+    const interval = setInterval(() => {
+      setMessageIndex((i) => (i + 1) % statusMessages.length);
     }, 5000);
-
-    return () => clearInterval(messageInterval);
-  }, [isOpen, data]);
-
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
+    return () => clearInterval(interval);
+  }, [isOpen, isCompleted]);
 
   if (!isOpen) return null;
 
+  const renderLoading = () => (
+    <div className="flex flex-col items-center justify-center py-10">
+      <Loading />
+      <h2 className="h2 text-center mt-5">{statusMessages[messageIndex]}</h2>
+    </div>
+  );
+
+  const renderSuccess = () => (
+    <>
+      <Image
+        src="/done.svg"
+        alt="Done"
+        width={100}
+        height={100}
+        className="mt-5 sm:w-20"
+      />
+      <h2 className="h2 mt-5 !block text-center">
+        Your transaction was successful
+      </h2>
+
+      <div className="flex gap-[5px] mb-[10px] w-full mt-5">
+        <div
+          className={`${buttonVariants({
+            variant: "empty",
+            size: "xl",
+          })} flex gap-2 bg-gray py-3 px-5 rounded-xl justify-between items-center flex-1 relative`}
+        >
+          <p className="sm:text-sm xxs:text-xs">Your transaction ID:</p>
+          <p>{shortAddress(txId)}</p>
+        </div>
+        <CopyBtn address={txId} />
+      </div>
+
+      <Button
+        variant="gray"
+        size="xl"
+        onClick={() => {
+          onClose();
+          setTxId("");
+        }}
+        className="w-full"
+      >
+        Done
+      </Button>
+    </>
+  );
+
   return (
-    <Modal isNonClosable={true} className="grid">
+    <Modal isNonClosable className="grid">
       <div className="flex flex-col items-center justify-center">
-        {!address && (
-          <div className="flex flex-col items-center justify-center py-10">
-            <Loading />
-            <h2 className="h2 text-center mt-5">
-              {statusMessages[messageIndex]}
-            </h2>
-          </div>
-        )}
-        {address && (
-          <>
-            <Image
-              src="/done.svg"
-              alt="Done"
-              width={100}
-              height={100}
-              className="mt-5 sm:w-20"
-            />
-            <h2 className="h2 mt-5 !block">Your transaction was successful</h2>
-            <div className="flex gap-[5px] mb-[10px] w-full mt-5">
-              <div
-                className={`${buttonVariants({
-                  variant: "empty",
-                  size: "xl",
-                })} flex gap-2 bg-gray py-3 px-5 rounded-xl justify-between items-center flex-1 relative`}
-              >
-                <p className="sm:text-sm xxs:text-xs">Your transaction ID:</p>
-                <p className="">{shortAddress(data?.data.transactionId)!}</p>
-              </div>
-              <CopyBtn address={address!} />
-            </div>
-            <Button
-              variant="gray"
-              size="xl"
-              onClick={() => {
-                onClose();
-                setAddress("");
-              }}
-              className="w-full"
-            >
-              Done
-            </Button>
-          </>
-        )}
+        {!txId ? renderLoading() : renderSuccess()}
       </div>
     </Modal>
   );

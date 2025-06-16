@@ -1,5 +1,5 @@
-import Modal from "./Modal";
-import SignInForm from "./SignInForm";
+import Modal from "@/components/Modal";
+import SignInForm from "@/components/SignInForm";
 
 export default function SignInModal() {
   return (

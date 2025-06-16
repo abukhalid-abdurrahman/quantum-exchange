@@ -1,20 +1,18 @@
 import { usePhantomWallet } from "@/hooks/usePhantomWallet";
 import Modal from "./Modal";
 import PhantomModal from "./PhantomModal";
-import { SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { useWalletStore } from "@/store/useWalletStore";
 import { walletsForConnection } from "@/lib/helpers/walletsForConnection";
 import { buttonVariants } from "./ui/button";
 import Image from "next/image";
 
 interface WalletSelectorProps {
-  showWalletSelector: boolean;
-  setShowWalletSelector: (value: SetStateAction<boolean>) => void;
+  setShowWalletSelector: Dispatch<SetStateAction<boolean>>;
   refetch?: () => void;
 }
 
 export default function WalletSelector({
-  showWalletSelector,
   setShowWalletSelector,
   refetch,
 }: WalletSelectorProps) {

@@ -1,6 +1,7 @@
-import "@/styles/modal.css";
 import Image from "next/image";
 import Link from "next/link";
+
+import "@/styles/modal.css";
 
 interface ModalProps {
   children: React.ReactNode;
@@ -10,7 +11,13 @@ interface ModalProps {
   className?: string;
 }
 
-export default function Modal({ children, isNonUrlModal, onCloseFunc, isNonClosable, className }: ModalProps) {
+export default function Modal({
+  children,
+  isNonUrlModal,
+  onCloseFunc,
+  isNonClosable,
+  className,
+}: ModalProps) {
   return (
     <div className="modal-backdrop sm:px-5 relative">
       <div className={`modal-content ${className}`}>

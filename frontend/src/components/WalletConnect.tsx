@@ -1,12 +1,13 @@
 "use client";
+
+import Image from "next/image";
+import WalletSelector from "./WalletSelector";
 import { usePhantomWallet } from "@/hooks/usePhantomWallet";
 import { Button } from "./ui/button";
-import { useState } from "react";
 import { useWalletStore } from "@/store/useWalletStore";
-import Image from "next/image";
 import { shortAddress } from "@/utils/shortSomething";
 import { useUserStore } from "@/store/useUserStore";
-import WalletSelector from "./WalletSelector";
+import { useState } from "react";
 
 export default function WalletConnect({ className }: { className?: string }) {
   const [showWalletSelector, setShowWalletSelector] = useState(false);
@@ -59,10 +60,7 @@ export default function WalletConnect({ className }: { className?: string }) {
           </Button>
         )}
         {showWalletSelector && (
-          <WalletSelector
-            showWalletSelector={showWalletSelector}
-            setShowWalletSelector={setShowWalletSelector}
-          />
+          <WalletSelector setShowWalletSelector={setShowWalletSelector} />
         )}
       </div>
     );

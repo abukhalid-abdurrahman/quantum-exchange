@@ -1,7 +1,7 @@
 "use server";
 
 import CreateRwa from "@/app/rwa/create/components/CreateRwa";
-import Header from "@/components/Header";
+import Header from "@/components/header/Header";
 import { searchParams } from "@/types";
 
 export default async function page({

@@ -1,6 +1,6 @@
 "use server";
 
-import Header from "@/components/Header";
+import Header from "@/components/header/Header";
 import AccountAddresses from "@/app/profile/components/AccountAddresses";
 import ChangePassword from "@/app/profile/components/ChangePassword";
 import LinkedWallets from "@/app/profile/components/LinkedWallets";

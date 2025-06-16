@@ -16,6 +16,7 @@ const eslintConfig = [
       "@next/next/no-img-element": "off",
       "@typescript-eslint/no-explicit-any": "warn",
       "react/no-unescaped-entities": "off",
+      "react-hooks/exhaustive-deps": "off",
     },
   }),
 ];

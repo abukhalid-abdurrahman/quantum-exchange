@@ -1,16 +1,22 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
-import { ArrowLeftRight, ChartCandlestick, ListCheck, ListPlus, Menu } from "lucide-react";
-import { Button, buttonVariants } from "./ui/button";
-import SignInModal from "./SignInModal";
-import SignUpModal from "./SignUpModal";
+import Image from "next/image";
 import MobileHeaderBtns from "./MobileHeaderBtns";
+import WalletConnect from "@/components/WalletConnect";
+import SignInModal from "@/components/SignInModal";
+import SignUpModal from "@/components/SignUpModal";
+import { useEffect, useRef, useState } from "react";
+import {
+  ArrowLeftRight,
+  ChartCandlestick,
+  ListCheck,
+  ListPlus,
+  Menu,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useUserStore } from "@/store/useUserStore";
-import Image from "next/image";
-import WalletConnect from "./WalletConnect";
+import { Button, buttonVariants } from "@/components/ui/button";
 
 export default function MobileHeader({
   signin,

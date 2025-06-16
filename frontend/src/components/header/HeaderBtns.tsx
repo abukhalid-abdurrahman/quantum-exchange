@@ -1,13 +1,13 @@
 "use client";
 
+import Link from "next/link";
+import Image from "next/image";
+import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import { useUserStore } from "@/store/useUserStore";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
-import { Button, buttonVariants } from "./ui/button";
 import { useWalletStore } from "@/store/useWalletStore";
-import Cookies from "js-cookie";
+import { Button, buttonVariants } from "@/components/ui/button";
 
 export default function HeaderBtns() {
   const router = useRouter();

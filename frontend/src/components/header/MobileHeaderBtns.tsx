@@ -1,14 +1,14 @@
 "use client";
 
+import Link from "next/link";
+import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import { useUserStore } from "@/store/useUserStore";
-import Link from "next/link";
-import { buttonVariants } from "./ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import Cookies from "js-cookie";
+import { buttonVariants } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export default function MobileHeaderBtns() {
-  const { user, logout, setUser } = useUserStore();
+  const { user, setUser } = useUserStore();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

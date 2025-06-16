@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { buttonVariants } from "./ui/button";
+import { buttonVariants } from "@/components/ui/button";
 
 interface CryptoItemProps {
   image: string;

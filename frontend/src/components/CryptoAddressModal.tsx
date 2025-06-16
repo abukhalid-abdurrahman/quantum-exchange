@@ -1,29 +1,31 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import Loading from "./Loading";
-import Modal from "./Modal";
-import CopyBtn from "./CopyBtn";
+"use client";
+
+import Modal from "@/components/Modal";
+import Loading from "@/components/Loading";
+import CountdownTimer from "@/components/CountdownTimer";
+import QRCodeDisplay from "@/components/QrCode";
+import CopyBtn from "@/components/CopyBtn";
+import { useEffect, useState } from "react";
 import { shortAddress } from "@/utils/shortSomething";
-import QRCodeDisplay from "./QrCode";
-import CountdownTimer from "./CountdownTimer";
 import { VirtualAddressMesages } from "@/lib/helpers/virtualAddressMessages";
-import { SelectedCrypto } from "@/lib/cryptoOptions";
 import { useUserStore } from "@/store/useUserStore";
-import { buttonVariants } from "./ui/button";
 import { useGetVirtualAccounts } from "@/requests/user/getVirtualAccounts.request";
 import { useGetVirtualAccountBalance } from "@/requests/user/getVirtualAccountBalance.request";
+import { buttonVariants } from "@/components/ui/button";
+import { SelectedCrypto } from "@/types/crypto/crypto.type";
+import { SwapFormData } from "@/types/crypto/swap.type";
 
 interface StatusModalProps {
-  setIsStatusModalOpen: any;
+  isOpen: boolean;
+  setIsOpen: (open: boolean) => void;
+  setIsStatusModalOpen: (open: boolean) => void;
   fromNetwork: SelectedCrypto;
   fromAmount: number;
-  formData: any;
-  isOpen: boolean;
-  setIsOpen: any;
-  onClose?: () => void;
+  formData: SwapFormData | null;
   orderId?: string;
   orderError: string;
   isOrderCompleted: boolean;
-  setIsOrderCompleted: Dispatch<SetStateAction<boolean>>;
+  setIsOrderCompleted: (value: boolean) => void;
 }
 
 export default function CryptoAddressModal({
@@ -38,44 +40,32 @@ export default function CryptoAddressModal({
   isOrderCompleted,
   setIsOrderCompleted,
 }: StatusModalProps) {
-  const [showAddress, setShowAddress] = useState(false);
-  const {
-    data: balanceData,
-    refetch: balanceRefetch,
-    isError: balanceError,
-    isFetching: balanceFetching,
-  } = useGetVirtualAccountBalance(orderId!, isOpen);
   const { user } = useUserStore();
-  // const { data } = useVirtualAccount(fromNetwork, toNetwork);
-  const { data: accountData } = useGetVirtualAccounts(
-    showAddress,
-    user?.token!
-  );
-
   const [address, setAddress] = useState("");
   const [timeLeft, setTimeLeft] = useState(600);
   const [message, setMessage] = useState("");
-  const [isCanseled, setIsCanceled] = useState(false);
+  const [showAddress, setShowAddress] = useState(false);
+  const [isCanceled, setIsCanceled] = useState(false);
+
+  const { data: accountData } = useGetVirtualAccounts(
+    showAddress,
+    user?.token || ""
+  );
+  const {
+    data: balanceData,
+    refetch: refetchBalance,
+    isError: balanceError,
+    isFetching: balanceFetching,
+  } = useGetVirtualAccountBalance(orderId!, isOpen);
 
   useEffect(() => {
-    if (accountData) {
-      const account = accountData.data.find(
+    if (formData) {
+      const found = accountData?.data.find(
         (item: any) => item.token === formData.fromToken
       );
-      setAddress(account.address);
+      if (found) setAddress(found.address);
     }
   }, [accountData]);
-
-  useEffect(() => {
-    const messageInterval = 120;
-    const index = Math.floor((600 - timeLeft) / messageInterval);
-
-    if (timeLeft < 600 - messageInterval) {
-      if (index < VirtualAddressMesages.length) {
-        setMessage(VirtualAddressMesages[index]);
-      }
-    }
-  }, [timeLeft]);
 
   useEffect(() => {
     if (!balanceData) return;
@@ -84,13 +74,10 @@ export default function CryptoAddressModal({
 
     if (status === "InsufficientFunds") {
       setShowAddress(true);
-      setIsOpen(true);
       setIsStatusModalOpen(false);
     } else if (status === "Expired") {
       setIsCanceled(true);
       setTimeLeft(0);
-      // setIsOpen(false);
-      // setIsStatusModalOpen(false);
     } else if (status === "Pending" || status === "Completed") {
       setShowAddress(false);
       setIsOpen(false);
@@ -99,16 +86,14 @@ export default function CryptoAddressModal({
   }, [balanceData]);
 
   useEffect(() => {
-    if (!showAddress || !isOpen || isCanseled) return;
-
+    if (!isOpen || !showAddress || isCanceled) return;
     const interval = setInterval(() => {
-      if (!balanceFetching || !balanceError) {
-        balanceRefetch();
+      if (!balanceFetching && !balanceError) {
+        refetchBalance();
       }
     }, 10000);
-
     return () => clearInterval(interval);
-  }, [showAddress, isCanseled]);
+  }, [showAddress, isOpen, isCanceled]);
 
   useEffect(() => {
     if (isOrderCompleted) {
@@ -117,29 +102,40 @@ export default function CryptoAddressModal({
     }
   }, [isOrderCompleted]);
 
-  const onClose = () => {
+  useEffect(() => {
+    const interval = 120;
+    const index = Math.floor((600 - timeLeft) / interval);
+    if (index < VirtualAddressMesages.length && timeLeft < 600 - interval) {
+      setMessage(VirtualAddressMesages[index]);
+    }
+  }, [timeLeft]);
+
+  const handleClose = () => {
     setAddress("");
-    setIsOrderCompleted(true);
     setShowAddress(false);
     setIsOpen(false);
+    setIsOrderCompleted(true);
   };
 
   if (!isOpen) return null;
 
+  const isLoading = !showAddress && !balanceError && !orderError;
+  const isExpired = !timeLeft && isCanceled;
+  const isError = orderError || balanceError;
+  const isReady = showAddress && !!timeLeft && !balanceError;
+
   return (
     <Modal
-      isNonUrlModal={true}
-      className={`${
-        (!showAddress || !timeLeft || orderError || balanceError) && "min-h-64"
-      }`}
-      onCloseFunc={onClose}
-      isNonClosable={!showAddress && !balanceError && !orderError}
-      // isNonClosable={!orderId && !showAddress && !orderError}
+      isNonUrlModal
+      isNonClosable={isLoading}
+      onCloseFunc={handleClose}
+      className={isLoading || isExpired || isError ? "min-h-64" : ""}
     >
-      {!showAddress && !balanceError && !orderError && (
+      {isLoading && (
         <Loading className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
       )}
-      {!timeLeft && isCanseled && (
+
+      {isExpired && (
         <>
           <CountdownTimer timeLeft={timeLeft} setTimeLeft={setTimeLeft} />
           <p className="p text-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -147,54 +143,42 @@ export default function CryptoAddressModal({
           </p>
         </>
       )}
-      {(orderError || balanceError) && (
-        <>
-          {!orderError ? (
-            <p className="p text-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-              Something went wrong. Please try again later.
-            </p>
-          ) : (
-            <p className="p text-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-              {orderError}
-            </p>
-          )}
-        </>
+
+      {isError && (
+        <p className="p text-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+          {orderError || "Something went wrong. Please try again later."}
+        </p>
       )}
-      {showAddress && timeLeft && !balanceError && (
+
+      {isReady && (
         <>
           <CountdownTimer timeLeft={timeLeft} setTimeLeft={setTimeLeft} />
-          <div className="">
-            <h2 className="h2 text-lg mb-3 text-center max-w-[280px] mx-auto">
+
+          <div className="text-center">
+            <h2 className="h2 text-lg mb-3 max-w-[280px] mx-auto">
               Please deposit your virtual account with{" "}
               <span className="font-bold">{fromAmount}</span> amount of{" "}
               {fromNetwork.token}s
             </h2>
-            <div className="">
-              <QRCodeDisplay text={address!} />
-            </div>
-            {message && (
-              <p className="text-textGray p-sm text-center mt-2">{message}</p>
-            )}
-            <div className="flex gap-[5px] mt-5">
-              {/* <div className="flex gap-2 bg-gray py-3 px-5 rounded-xl justify-between items-center flex-1 relative">
-                <p className="sm:text-sm sm:absolute sm:-top-[21px] sm:left-0">
-                  Your {fromNetwork.token} virtual account:
-                </p>
-                <p className="">{shortAddress(address!)}</p>
-              </div> */}
+
+            <QRCodeDisplay text={address} />
+
+            {message && <p className="text-textGray p-sm mt-2">{message}</p>}
+
+            <div className="flex gap-[5px] mt-5 items-center justify-center">
               <div
-                className={`${buttonVariants({ variant: "empty", size: "xl" })} flex gap-2 bg-gray py-3 px-5 rounded-xl justify-between items-center flex-1 relative`}
+                className={`${buttonVariants({
+                  variant: "empty",
+                  size: "xl",
+                })} flex gap-2 bg-gray py-3 px-5 rounded-xl justify-between items-center flex-1 relative`}
               >
                 <p className="sm:text-sm sm:absolute sm:-top-[21px] sm:left-0">
                   Your {fromNetwork.token} virtual account:
                 </p>
-                <p className="">{shortAddress(address!)}</p>
+                <p>{shortAddress(address)}</p>
               </div>
-              <CopyBtn address={address!} />
+              <CopyBtn address={address} />
             </div>
-            {/* <button onClick={onSubmit} className="btn btn-lg w-full mt-[10px]">
-              Submit
-            </button> */}
           </div>
         </>
       )}

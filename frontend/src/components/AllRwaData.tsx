@@ -1,20 +1,16 @@
-import { Dispatch, SetStateAction, useMemo, useState } from "react";
-import { Table, TableBody, TableCell, TableRow } from "./ui/table";
-import {
-  tokenizationFieldsAutomobiles,
-  tokenizationFieldsBase,
-  tokenizationFieldsRealEstate,
-} from "@/helpers/tokenizationFields";
 import Link from "next/link";
-import { Button } from "./ui/button";
 import Image from "next/image";
+import { Dispatch, SetStateAction, useMemo, useState } from "react";
 import { handleCopy } from "@/utils/handleCopy.util";
 import { shortAddress, shortDescription } from "@/utils/shortSomething";
+import { tokenizeBaseSchemaFields } from "@/schemas/rwa/tokenizeBase.schema";
+import { tokenizeRealEstateSchemaFields } from "@/schemas/rwa/tokenizeRealEstate.schema";
+import { Button } from "@/components/ui/button";
+import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 
 const fieldsMeta = [
-  ...tokenizationFieldsBase,
-  ...tokenizationFieldsAutomobiles,
-  ...tokenizationFieldsRealEstate,
+  ...tokenizeBaseSchemaFields,
+  ...tokenizeRealEstateSchemaFields,
   { name: "insuranceStatus", placeholder: "Insurance Status" },
   { name: "mintAccount", placeholder: "Mint Account" },
   { name: "transactionHash", placeholder: "Transaction Hash" },
@@ -25,20 +21,14 @@ interface AllRwaDataProps {
   data: any;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
+
 export default function AllRwaData({ data, setIsOpen }: AllRwaDataProps) {
   const [copiedMap, setCopiedMap] = useState<Record<string, boolean>>({});
   const sortedData = useMemo(() => {
-    if (!data) return;
-
-    const excludedKeys = [
-      "tokenId",
-      "ownerEmail",
-      "ownerUsername",
-      "ownerContact",
-    ];
-
+    if (!data) return {};
+    const excluded = ["tokenId", "ownerEmail", "ownerUsername", "ownerContact"];
     return Object.fromEntries(
-      Object.entries(data).filter(([key]) => !excludedKeys.includes(key))
+      Object.entries(data).filter(([key]) => !excluded.includes(key))
     );
   }, [data]);
 

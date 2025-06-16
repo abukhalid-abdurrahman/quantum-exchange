@@ -1,7 +1,7 @@
+import Loading from "@/components/Loading";
 import Image from "next/image";
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 import { useEffect } from "react";
-import Loading from "./Loading";
 
 type PhantomModalProps = {
   onClose: () => void;
@@ -27,7 +27,7 @@ export default function PhantomModal({
       if (publicKey) {
         onClose();
         if (refetch) refetch();
-      };
+      }
     }, 3000);
     return () => clearTimeout(timer);
   }, [publicKey, onClose]);

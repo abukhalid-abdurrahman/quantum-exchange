@@ -1,6 +1,6 @@
 "use server";
 
-import Header from "@/components/Header";
+import Header from "@/components/header/Header";
 import RwaData from "./components/RwaData";
 import { searchParams } from "@/types";
 import { Params } from "@/types/params.type";

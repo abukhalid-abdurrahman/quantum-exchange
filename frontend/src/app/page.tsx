@@ -1,6 +1,6 @@
 "use server";
 
-import Header from "@/components/Header";
+import Header from "@/components/header/Header";
 import SwapForm from "@/components/SwapForm";
 import { searchParams } from "@/types";
 

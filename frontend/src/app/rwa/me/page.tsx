@@ -1,6 +1,6 @@
 "use server";
 
-import Header from "@/components/Header";
+import Header from "@/components/header/Header";
 import PageTitle from "@/components/PageTitle";
 import RwaTableMe from "./components/RwaTableMe";
 import { searchParams } from "@/types";

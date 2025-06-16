@@ -1,15 +1,15 @@
 "use server";
 
 import Link from "next/link";
-import SignInModal from "./SignInModal";
-import SignUpModal from "./SignUpModal";
+import RwaLink from "@/components/RwaLink";
+import CreateRwaLink from "@/components/CreateRwaLink";
+import MyRwaLink from "@/components/MyRwaLink";
+import WalletConnect from "@/components/WalletConnect";
+import HeaderBtns from "@/components/header/HeaderBtns";
+import SignInModal from "@/components/SignInModal";
+import SignUpModal from "@/components/SignUpModal";
+import MobileHeader from "@/components/header/MobileHeader";
 import { searchParams } from "@/types";
-import HeaderBtns from "./HeaderBtns";
-import MobileHeader from "./MobileHeader";
-import WalletConnect from "./WalletConnect";
-import CreateRwaLink from "./CreateRwaLink";
-import MyRwaLink from "./MyRwaLink";
-import RwaLink from "./RwaLink";
 
 export default async function Header({
   searchParams,

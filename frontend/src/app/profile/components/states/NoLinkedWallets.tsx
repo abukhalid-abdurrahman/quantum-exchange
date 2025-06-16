@@ -18,7 +18,6 @@ export default function NoLinkedWallets({ refetch }: NoLinkedWalletsProps) {
       {showWalletSelector && (
         <WalletSelector
           refetch={refetch}
-          showWalletSelector={showWalletSelector}
           setShowWalletSelector={setShowWalletSelector}
         />
       )}

@@ -1,6 +1,8 @@
-import { useEffect, useState } from "react";
+"use cleint";
+
 import QRCode from "qrcode";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
 export default function QRCodeDisplay({ text }: { text: string }) {
   const [qrCode, setQrCode] = useState("");
@@ -8,12 +10,8 @@ export default function QRCodeDisplay({ text }: { text: string }) {
   useEffect(() => {
     if (text) {
       const generateQRCode = async () => {
-        try {
-          const url = await QRCode.toDataURL(text);
-          setQrCode(url);
-        } catch (err) {
-          console.error("Ошибка генерации QR-кода:", err);
-        }
+        const url = await QRCode.toDataURL(text);
+        setQrCode(url);
       };
 
       generateQRCode();

@@ -7,7 +7,10 @@ interface CountdownTimerProps {
   setTimeLeft: (callback: (prevTime: number) => number) => void;
 }
 
-export default function CountdownTimer({ timeLeft, setTimeLeft }: CountdownTimerProps) {
+export default function CountdownTimer({
+  timeLeft,
+  setTimeLeft,
+}: CountdownTimerProps) {
   useEffect(() => {
     if (timeLeft <= 0) return;
 

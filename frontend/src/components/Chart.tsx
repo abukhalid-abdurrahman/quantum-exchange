@@ -76,9 +76,8 @@ export default function Chart({ className, data, firstData }: ChartProps) {
     candleSeries.setData(convertedData as any);
 
     chart.timeScale().fitContent();
-    console.log(convertedData);
     return () => chart.remove();
-  }, []);
+  }, [convertedData]);
 
   return (
     <div className={`overflow-hidden px-2 rounded-2xl relative ${className}`}>
