@@ -1,5 +1,5 @@
 import axiosInstance from "@/lib/axiosInstance";
-import { LinkWallet } from "@/types";
+import { LinkWallet } from "@/types/crypto/wallet.type";
 import { useMutation } from "@tanstack/react-query";
 
 const linkWallet = async (req: any) => {

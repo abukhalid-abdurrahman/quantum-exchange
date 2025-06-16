@@ -1,5 +1,5 @@
 import axiosInstance from "@/lib/axiosInstance";
-import { RwasReq } from "@/types";
+import { RwasReq } from "@/types/rwa/rwa.type";
 import { useQueries, useQuery } from "@tanstack/react-query";
 
 // Get for Exchange Rate

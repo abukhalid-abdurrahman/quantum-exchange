@@ -1,5 +1,5 @@
 import axiosInstance from "@/lib/axiosInstance";
-import { RwasReq } from "@/types";
+import { RwasReq } from "@/types/rwa/rwa.type";
 import { useQuery } from "@tanstack/react-query";
 
 const getRwasMe = async (reqParams: RwasReq) => {
