@@ -8,11 +8,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { handleUploadFile } from "@/utils/handleUploadFile.util";
-import { useFormContext } from "react-hook-form";
+import { Control, useFormContext } from "react-hook-form";
 import { MAX_FILE_SIZE } from "@/lib/constants";
 
 interface DragAndDropProps {
-  control: any;
+  control: Control<any>;
   name: string;
   label?: string;
 }

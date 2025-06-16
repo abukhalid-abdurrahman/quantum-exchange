@@ -7,7 +7,7 @@ type PhantomModalProps = {
   onClose: () => void;
   publicKey: string | null;
   walletDenied: boolean;
-  connectPhantomWallet: (publicKey: string | null) => void;
+  connectPhantomWallet: () => void;
   setWalletDenied: (value: boolean) => void;
   errorMessage: string;
   refetch?: () => void;
@@ -59,7 +59,7 @@ export default function PhantomModal({
       buttonText: "Retry",
       buttonDisabled: false,
       onClick: () => {
-        connectPhantomWallet(publicKey);
+        connectPhantomWallet();
         setWalletDenied(false);
       },
     };

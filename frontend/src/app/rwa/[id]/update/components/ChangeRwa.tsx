@@ -23,11 +23,11 @@ import { Params } from "@/types/params.type";
 import { useTokenizationFields } from "@/hooks/useTokenizationFields";
 import { tokenizeBaseSchemaFields } from "@/schemas/rwa/tokenizeBase.schema";
 import { useNetAmount } from "@/hooks/useNetAmount";
-import { useExistedNetAmount } from "@/hooks/useExistedNetAmount";
+import { Rwa } from "@/types/rwa/rwa.type";
 
 export default function ChangeRwa({ params }: Params) {
   const tokenId = JSON.parse(params.value)?.id;
-  const [initialData, setInitialData] = useState<any | null>(null);
+  const [initialData, setInitialData] = useState<Rwa | null>(null);
   const [isDataChanged, setIsDataChanged] = useState(false);
   const [isUpdated, setIsUpdated] = useState(false);
   const [isSuccessfullyDone, setIsSuccessfullyDone] = useState(false);
@@ -50,7 +50,7 @@ export default function ChangeRwa({ params }: Params) {
   const royalty = form.watch("royalty");
 
   const netAmount = useNetAmount(price, royalty);
-  const existedNetAmount = useExistedNetAmount(data);
+  const existedNetAmount = useNetAmount(data?.data?.price, data?.data?.royalty);
 
   const onSubmit = (data: z.infer<typeof tokenizeSchema>) => {
     setIsError(false);
@@ -60,7 +60,7 @@ export default function ChangeRwa({ params }: Params) {
     if (!initialData) return;
 
     const isChanged = Object.entries(data).some(
-      ([key, value]) => initialData[key] !== value
+      ([key, value]) => initialData[key as keyof Rwa] !== value
     );
 
     if (!isChanged) {

@@ -31,10 +31,7 @@ export const useRwasData = (initialPage: number) => {
   ): CombinedRwa[] =>
     arr
       .filter((item): item is Rwa | RwaChanges => !!item && !!item.tokenId)
-      .map((item) => ({
-        ...item,
-        tokenId: item.tokenId,
-      }));
+      .map((item) => ({ ...item, tokenId: item.tokenId }) as CombinedRwa);
 
   const combinedRwas = useMemo(() => {
     const base = normalizeTokenData(rwaMultiple.data.map((rwa) => rwa?.data));

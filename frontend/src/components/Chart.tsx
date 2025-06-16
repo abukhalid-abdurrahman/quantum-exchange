@@ -1,11 +1,18 @@
 "use client";
 
-import { AreaSeries, createChart, LineStyle } from "lightweight-charts";
+import { RwaChanges } from "@/types/rwa/rwa.type";
+import {
+  AreaSeries,
+  ColorType,
+  createChart,
+  LineStyle,
+  Time,
+} from "lightweight-charts";
 import { useEffect, useMemo, useRef } from "react";
 
 interface ChartProps {
-  firstData: any;
-  data: any;
+  firstData: RwaChanges;
+  data: RwaChanges[];
   className?: string;
 }
 
@@ -13,29 +20,29 @@ export default function Chart({ className, data, firstData }: ChartProps) {
   const chartContainerRef = useRef<HTMLDivElement>(null);
   const firstChangedData = useMemo(() => {
     return {
-      time: new Date(firstData.createdAt).getTime() / 1000,
+      time: (new Date(firstData.createdAt).getTime() / 1000) as Time,
       value: data?.[0]?.oldPrice,
     };
   }, [data, firstData]);
 
   const convertedData = useMemo(() => {
     if (!data || data.length === 0) {
-      const date = firstData?.createdAt || firstData?.changedAt;
-      const price = firstData?.price || firstData?.newPrice;
+      const date: Time = firstData?.createdAt || firstData.changedAt;
+      const price: number = firstData?.price || firstData.newPrice;
 
       return [
         {
-          time: new Date(date).getTime() / 1000,
+          time: (new Date(date).getTime() / 1000) as Time,
           value: price,
         },
       ];
     } else {
       const allData = [...data];
-      const result = allData.map((item: any) => {
-        const date = item?.createdAt || item?.changedAt;
-        const price = item?.price || item?.newPrice;
+      const result = allData.map((item: RwaChanges) => {
+        const date: Time = item?.createdAt || item.changedAt;
+        const price: number = item?.price || item.newPrice;
         return {
-          time: new Date(date).getTime() / 1000,
+          time: (new Date(date).getTime() / 1000) as Time,
           value: price,
         };
       });
@@ -50,7 +57,7 @@ export default function Chart({ className, data, firstData }: ChartProps) {
       layout: {
         attributionLogo: false,
         background: {
-          type: "solid" as any,
+          type: "solid" as ColorType,
           color: "transparent",
         },
         textColor: "#d1d4dc",
@@ -73,7 +80,7 @@ export default function Chart({ className, data, firstData }: ChartProps) {
       bottomColor: "rgba(12, 18, 59, 0.1)",
     });
 
-    candleSeries.setData(convertedData as any);
+    candleSeries.setData(convertedData);
 
     chart.timeScale().fitContent();
     return () => chart.remove();

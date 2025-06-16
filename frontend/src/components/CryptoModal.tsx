@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
+import { Dispatch, SetStateAction, useEffect, useMemo } from "react";
 import Image from "next/image";
 import Modal from "@/components/Modal";
 import CryptoItem from "@/components/CryptoItem";
@@ -16,8 +16,8 @@ interface CryptoModalProps {
   selectedTo: SelectedCrypto;
   selectedNetwork: CryptoOption | null;
   selectNetwork: (network: CryptoOption) => void;
-  setSelectedTo: (val: any) => void;
-  setSelectedFrom: (val: any) => void;
+  setSelectedTo: Dispatch<SetStateAction<SelectedCrypto>>;
+  setSelectedFrom: Dispatch<SetStateAction<SelectedCrypto>>;
 }
 
 export default function CryptoModal({

@@ -14,11 +14,11 @@ import { ChevronDown, ChevronUp } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { PaginationButtons } from "@/components/PaginationButtons";
 import Loading from "@/components/Loading";
-import { RwasReq } from "@/types/rwa/rwa.type";
 import Link from "next/link";
 import { useUserStore } from "@/store/useUserStore";
 import { useSearchParams } from "next/navigation";
 import { useGetRwasMe } from "@/requests/rwa/getRwasMe.request";
+import { RwaChanges, RwasReq } from "@/types/rwa/rwa.type";
 
 export default function RwaTableMe() {
   const searchParams = useSearchParams();
@@ -66,7 +66,7 @@ export default function RwaTableMe() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {rwas?.data?.data.map((rwa: any) => {
+                {rwas?.data?.data.map((rwa: RwaChanges) => {
                   return (
                     <TableRow
                       key={rwa.tokenId}
@@ -113,7 +113,7 @@ export default function RwaTableMe() {
                       {rwa.geolocation}
                     </TableCell> */}
                       <TableCell className="text-right">
-                        {rwa?.oldPrice - rwa?.price || (
+                        {(rwa?.oldPrice && rwa?.oldPrice - rwa?.price) || (
                           <>
                             <p className="p opacity-60">---</p>
                           </>

@@ -15,6 +15,7 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import Modal from "@/components/Modal";
 import { Button } from "@/components/ui/button";
 import "ol/ol.css";
+import MapBrowserEvent from "ol/MapBrowserEvent";
 
 interface LocationPickerModalProps {
   onSelect: (coords: { latitude: number; longitude: number }) => void;
@@ -33,7 +34,7 @@ export default function LocationPickerModal({
     longitude: number;
   } | null>(null);
 
-  const handleMapClick = useCallback((event: any) => {
+  const handleMapClick = useCallback((event: MapBrowserEvent) => {
     const [lon, lat] = toLonLat(event.coordinate);
     setSelectedCoords({ latitude: lat, longitude: lon });
 

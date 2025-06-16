@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { PublicKey } from "@solana/web3.js";
 import { useWalletStore } from "@/store/useWalletStore";
-import { useUserStore } from "@/store/useUserStore";
 import { useLinkWallet } from "@/requests/user/linkWallet.request";
 
 declare global {
@@ -15,7 +14,6 @@ export const usePhantomWallet = () => {
   const [walletDenied, setWalletDenied] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const { setPublicKey: setKey } = useWalletStore();
-  const { user } = useUserStore();
   const submit = useLinkWallet();
 
   useEffect(() => {
@@ -24,7 +22,7 @@ export const usePhantomWallet = () => {
     }
   }, []);
 
-  const connectPhantomWallet = (pubKey: string | null) => {
+  const connectPhantomWallet = () => {
     setErrorMessage("");
     setWalletDenied(false);
 
@@ -36,31 +34,36 @@ export const usePhantomWallet = () => {
 
     window.solana
       .connect()
-      .then((resp: any) => {
+      .then((resp: { publicKey: string }) => {
         const pubKey = new PublicKey(resp.publicKey.toString());
 
-        return submit.mutateAsync({
-          walletAddress: pubKey,
-          network: "Solana",
-        }).then(() => {
-          setKey(pubKey.toBase58());
-          setWalletDenied(false);
-        }).catch((error: any) => {
-          if (error?.response?.data?.error?.errorType === "AlreadyExist") {
+        return submit
+          .mutateAsync({
+            walletAddress: pubKey,
+            network: "Solana",
+          })
+          .then(() => {
             setKey(pubKey.toBase58());
             setWalletDenied(false);
-          } else {
-            setWalletDenied(true);
-            setErrorMessage("Failed to connect wallet.");
-          }
-        });
+          })
+          .catch((error: any) => {
+            if (error?.response?.data?.error?.errorType === "AlreadyExist") {
+              setKey(pubKey.toBase58());
+              setWalletDenied(false);
+            } else {
+              setWalletDenied(true);
+              setErrorMessage("Failed to connect wallet.");
+            }
+          });
       })
       .catch((err: any) => {
         if (
           err?.code === 4001 ||
           err?.message?.includes("User rejected the request")
         ) {
-          setErrorMessage("It seems you have declined the request. Please try again.");
+          setErrorMessage(
+            "It seems you have declined the request. Please try again."
+          );
           setWalletDenied(true);
         } else {
           setErrorMessage("Unexpected wallet error. Please try again later.");

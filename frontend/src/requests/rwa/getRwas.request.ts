@@ -1,6 +1,6 @@
 import axiosInstance from "@/lib/axiosInstance";
-import { RwasReq } from "@/types/rwa/rwa.type";
 import { useQuery } from "@tanstack/react-query";
+import { RwasReq } from "@/types/rwa/rwa.type";
 
 const getRwas = async (reqParams: RwasReq) => {
   const res = await axiosInstance.get("/rwa", {
@@ -17,7 +17,7 @@ const getRwas = async (reqParams: RwasReq) => {
   return res.data;
 };
 
-export const useGetRwas = (reqParams: any) => {
+export const useGetRwas = (reqParams: RwasReq) => {
   return useQuery({
     queryKey: ["rwas", reqParams],
     queryFn: () => getRwas(reqParams),

@@ -61,7 +61,8 @@ export default function CryptoAddressModal({
   useEffect(() => {
     if (formData) {
       const found = accountData?.data.find(
-        (item: any) => item.token === formData.fromToken
+        (item: { token: string; address: string }) =>
+          item.token === formData.fromToken
       );
       if (found) setAddress(found.address);
     }

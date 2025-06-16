@@ -7,6 +7,7 @@ import { tokenizeBaseSchemaFields } from "@/schemas/rwa/tokenizeBase.schema";
 import { tokenizeRealEstateSchemaFields } from "@/schemas/rwa/tokenizeRealEstate.schema";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
+import { Rwa } from "@/types/rwa/rwa.type";
 
 const fieldsMeta = [
   ...tokenizeBaseSchemaFields,
@@ -18,7 +19,7 @@ const fieldsMeta = [
 ];
 
 interface AllRwaDataProps {
-  data: any;
+  data: Rwa;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 

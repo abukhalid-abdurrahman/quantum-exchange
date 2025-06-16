@@ -39,7 +39,7 @@ export default function WalletSelector({
                 })} !p-3 h-auto w-full !justify-between cursor-pointer`}
                 onClick={() => {
                   setWhatWallet(wallet.walletName);
-                  connectPhantomWallet(publicKey);
+                  connectPhantomWallet();
                 }}
               >
                 <div className="flex gap-5 items-center">

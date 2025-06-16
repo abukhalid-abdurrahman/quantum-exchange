@@ -33,7 +33,7 @@ export default function WalletConnect({ className }: { className?: string }) {
                 className="mr-2"
               />
               <span className="group-hover:hidden md:group-hover:inline">
-                {shortAddress(publicKey as any)}
+                {shortAddress(publicKey)}
               </span>
               <span className="hidden group-hover:inline md:group-hover:hidden">
                 Disconnect

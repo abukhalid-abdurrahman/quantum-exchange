@@ -54,8 +54,9 @@ export type RwasWithPagination = {
 };
 
 export interface RwaChanges extends Rwa {
-  oldPrice?: number | undefined;
-  newPrice?: number | undefined;
+  oldPrice: number;
+  newPrice: number;
+  changedAt: string;
 }
 
 export type CombinedRwa = RwaChanges & Rwa;

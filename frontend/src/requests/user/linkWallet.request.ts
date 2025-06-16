@@ -1,8 +1,8 @@
 import axiosInstance from "@/lib/axiosInstance";
-import { LinkWallet } from "@/types/crypto/wallet.type";
 import { useMutation } from "@tanstack/react-query";
+import { LinkWallet } from "@/types/crypto/wallet.type";
 
-const linkWallet = async (req: any) => {
+const linkWallet = async (req: LinkWallet) => {
   const res = await axiosInstance.post("/linked-accounts", req);
   return res.data;
 };

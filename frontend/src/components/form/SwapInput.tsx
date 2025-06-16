@@ -8,6 +8,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { SelectedCrypto } from "@/types/crypto/crypto.type";
 import { FormField as FormFieldType } from "@/types/form/formField.type";
 import Image from "next/image";
 import { KeyboardEvent } from "react";
@@ -16,7 +17,7 @@ import { UseFormReturn } from "react-hook-form";
 interface SwapInputProps {
   form: UseFormReturn<any>;
   input: FormFieldType;
-  token?: any;
+  token?: SelectedCrypto;
   openCryptoModal?: (value: "from" | "to") => void;
 }
 
@@ -50,7 +51,7 @@ export default function SwapInput({
               <input
                 className="input-swap !pt-2 !pb-4 sm:!pb-2"
                 step="0.00001"
-                placeholder={tokenInputs ? token.token : input.placeholder}
+                placeholder={tokenInputs ? token?.token : input.placeholder}
                 onKeyDown={handleKeyDown}
                 {...field}
                 value={field.value ?? ""}
@@ -75,13 +76,13 @@ export default function SwapInput({
           }
         >
           <Image
-            src={`/${token.token}.png`}
+            src={`/${token?.token}.png`}
             alt=""
             width={24}
             height={24}
             className="sm:w-5"
           />
-          {token.token}
+          {token?.token}
         </Button>
       ) : null}
     </div>
