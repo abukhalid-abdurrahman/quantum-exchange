@@ -20,7 +20,7 @@ interface StatusModalProps {
   setIsOpen: (open: boolean) => void;
   setIsStatusModalOpen: (open: boolean) => void;
   fromNetwork: SelectedCrypto;
-  fromAmount: number;
+  fromAmount: number | null;
   formData: SwapFormData | null;
   orderId?: string;
   orderError: string;

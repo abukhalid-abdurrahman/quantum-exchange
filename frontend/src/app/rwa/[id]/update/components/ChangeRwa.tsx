@@ -57,7 +57,7 @@ export default function ChangeRwa({ params }: Params) {
   const price = form.watch("price");
   const royalty = form.watch("royalty");
 
-  const netAmount = useNetAmount(price as number, royalty as number);
+  const netAmount = useNetAmount(price, royalty);
   const existedNetAmount = useNetAmount(data?.data?.price, data?.data?.royalty);
 
   const onSubmit = (data: TokenizeBaseSchema) => {

@@ -33,7 +33,7 @@ export default function SwapForm() {
   const { user } = useUserStore();
 
   const form = useForm<SwapSchema>({
-    resolver: zodResolver(swapSchema as any),
+    resolver: zodResolver(swapSchema),
     defaultValues: swapSchemaDefaultValues,
   });
 
@@ -204,7 +204,7 @@ export default function SwapForm() {
           isOrderCompleted={isOrderCompleted}
           setIsOrderCompleted={setIsOrderCompleted}
           fromNetwork={selectedFrom}
-          fromAmount={fromAmount as number}
+          fromAmount={fromAmount}
           formData={formData}
           isOpen={isCryptoAddressModalOpen}
           setIsOpen={setCryptoAddressModalOpen}

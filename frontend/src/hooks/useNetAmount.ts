@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export const useNetAmount = (price: number, royalty: number) => {
+export const useNetAmount = (price: number | null, royalty: number | null) => {
   const [netAmount, setNetAmount] = useState<number | string>("");
 
   useEffect(() => {
