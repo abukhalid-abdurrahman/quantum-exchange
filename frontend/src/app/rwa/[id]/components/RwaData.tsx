@@ -12,12 +12,12 @@ import { useRwaData } from "@/hooks/useRwaData";
 import { buttonVariants, Button } from "@/components/ui/button";
 import { SOLANA_ENVIRONMENT } from "@/lib/constants";
 import { useState } from "react";
-import { RwaDataProps } from "@/types/rwa/rwaProps.type";
+import { useParams } from "next/navigation";
 
-export default function RwaData({ params }: RwaDataProps) {
-  const tokenId = JSON.parse(params.value)?.id;
+export default function RwaData() {
+  const params = useParams<{ id: string }>();
   const [isAlldataOpen, setIsAlldataOpen] = useState(false);
-  const { rwaData, rwaChanges, isLoading } = useRwaData(tokenId);
+  const { rwaData, rwaChanges, isLoading } = useRwaData(params.id);
 
   if (isLoading || !rwaData) {
     return (
@@ -88,7 +88,7 @@ export default function RwaData({ params }: RwaDataProps) {
               Check in Solana Explorer
             </Link>
 
-            <PurchaseButton tokenId={tokenId} />
+            <PurchaseButton tokenId={params.id} />
           </div>
         </div>
 
@@ -97,7 +97,7 @@ export default function RwaData({ params }: RwaDataProps) {
         )}
       </div>
 
-      <SellBuyData tokenId={tokenId} />
+      <SellBuyData tokenId={params.id} />
     </>
   );
 }

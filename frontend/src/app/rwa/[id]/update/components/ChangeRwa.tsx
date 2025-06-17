@@ -10,17 +10,14 @@ import UpdatingModal from "./UpdatingModal";
 import AllRwaData from "@/components/AllRwaData";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useUserStore } from "@/store/useUserStore";
-import { redirect } from "next/navigation";
+import { redirect, useParams } from "next/navigation";
 import { useGetRwa } from "@/requests/rwa/getRwa.request";
 import { useUpdateRwa } from "@/requests/rwa/updateRwa.request";
-import { Params } from "@/types/params.type";
-import { useTokenizationFields } from "@/hooks/useTokenizationFields";
 import {
   tokenizeBaseSchema,
   TokenizeBaseSchema,
@@ -30,8 +27,10 @@ import {
 import { useNetAmount } from "@/hooks/useNetAmount";
 import { Rwa } from "@/types/rwa/rwa.type";
 
-export default function ChangeRwa({ params }: Params) {
-  const tokenId = JSON.parse(params.value)?.id;
+export default function ChangeRwa() {
+  const params = useParams<{ id: string }>();
+  const { user } = useUserStore();
+
   const [initialData, setInitialData] = useState<Rwa | null>(null);
   const [isDataChanged, setIsDataChanged] = useState(false);
   const [isUpdated, setIsUpdated] = useState(false);
@@ -39,15 +38,14 @@ export default function ChangeRwa({ params }: Params) {
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [isAlldataOpen, setIsAlldataOpen] = useState(false);
-  const { user } = useUserStore();
 
   const {
     data,
     isFetching,
     isFetched,
     isError: isRwaError,
-  } = useGetRwa(tokenId);
-  const submit = useUpdateRwa(tokenId);
+  } = useGetRwa(params.id);
+  const submit = useUpdateRwa(params.id);
 
   const form = useForm<TokenizeBaseSchema>({
     resolver: zodResolver(tokenizeBaseSchema),

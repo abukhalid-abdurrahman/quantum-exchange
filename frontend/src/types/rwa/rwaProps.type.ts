@@ -1,10 +1,6 @@
-import { Params } from "@/types/params.type";
-
 export interface CopyIpfsButtonProps {
   cid: string;
 }
-
-export type RwaDataProps = Params;
 
 export interface RwaPurchaseHistoryProps {
   type: "Buy" | "Sell";
