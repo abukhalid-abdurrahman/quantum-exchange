@@ -3,20 +3,14 @@ import { FormField } from "@/types/form/formField.type";
 import { z } from "zod";
 
 export const swapSchema = z.object({
-  fromAmount: z.preprocess(
-    (val) => {
-      if (val === "" || val === undefined) return null;
-      return Number(val);
-    },
-    z.number().min(MIN_NUMBER, { message: "Amount is required" }).nullable()
-  ),
-  toAmount: z.preprocess(
-    (val) => {
-      if (val === "" || val === undefined) return null;
-      return Number(val);
-    },
-    z.number().min(MIN_NUMBER, { message: "Amount is required" }).nullable()
-  ),
+  fromAmount: z.coerce
+    .number()
+    .min(MIN_NUMBER, { message: "Amount is required" })
+    .nullable(),
+  toAmount: z.coerce
+    .number()
+    .min(MIN_NUMBER, { message: "Amount is required" })
+    .nullable(),
   destinationAddress: z
     .string()
     .min(1, { message: "Recipient Address is required" }),

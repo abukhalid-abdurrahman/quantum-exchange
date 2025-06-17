@@ -31,16 +31,10 @@ export const tokenizeRealEstateSchema = z.object({
     .regex(/^\d{4}-\d{2}-\d{2}$/, {
       message: "Valuation Date must be in YYYY-MM-DD format",
     }),
-  area: z.preprocess(
-    (val) => {
-      if (val === "" || val === undefined) return null;
-      return Number(val);
-    },
-    z
-      .number({ required_error: "Area is required" })
-      .min(MIN_NUMBER, { message: "Area must be greater than 0" })
-      .nullable()
-  ),
+  area: z.coerce
+    .number({ required_error: "Area is required" })
+    .min(MIN_NUMBER, { message: "Area must be greater than 0" })
+    .nullable(),
   propertyType: z.enum(
     PROPERTY_TYPES.map((item) => item.value) as [string, ...string[]],
     {

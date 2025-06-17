@@ -14,14 +14,19 @@ import { z } from "zod";
 import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { useUserStore } from "@/store/useUserStore";
 import { redirect } from "next/navigation";
 import { useGetRwa } from "@/requests/rwa/getRwa.request";
 import { useUpdateRwa } from "@/requests/rwa/updateRwa.request";
 import { Params } from "@/types/params.type";
 import { useTokenizationFields } from "@/hooks/useTokenizationFields";
-import { tokenizeBaseSchemaFields } from "@/schemas/rwa/tokenizeBase.schema";
+import {
+  tokenizeBaseSchema,
+  TokenizeBaseSchema,
+  tokenizeBaseSchemaDefaultValues,
+  tokenizeBaseSchemaFields,
+} from "@/schemas/rwa/tokenizeBase.schema";
 import { useNetAmount } from "@/hooks/useNetAmount";
 import { Rwa } from "@/types/rwa/rwa.type";
 
@@ -44,20 +49,18 @@ export default function ChangeRwa({ params }: Params) {
   } = useGetRwa(tokenId);
   const submit = useUpdateRwa(tokenId);
 
-  const { tokenizeSchema, defaultTokenizeValues } = useTokenizationFields();
-
-  const form = useForm<z.infer<typeof tokenizeSchema>>({
-    resolver: zodResolver(tokenizeSchema),
-    defaultValues: defaultTokenizeValues,
+  const form = useForm<TokenizeBaseSchema>({
+    resolver: zodResolver(tokenizeBaseSchema),
+    defaultValues: tokenizeBaseSchemaDefaultValues,
   });
 
   const price = form.watch("price");
   const royalty = form.watch("royalty");
 
-  const netAmount = useNetAmount(price, royalty);
+  const netAmount = useNetAmount(price as number, royalty as number);
   const existedNetAmount = useNetAmount(data?.data?.price, data?.data?.royalty);
 
-  const onSubmit = (data: z.infer<typeof tokenizeSchema>) => {
+  const onSubmit = (data: TokenizeBaseSchema) => {
     setIsError(false);
     setErrorMessage("");
     setIsDataChanged(false);
@@ -93,7 +96,7 @@ export default function ChangeRwa({ params }: Params) {
     if (data) {
       const values = data.data;
       Object.entries(values).forEach(([key, value]: [string, any]) => {
-        form.setValue(key, value);
+        form.setValue(key as keyof TokenizeBaseSchema, value);
       });
       setInitialData(values);
     }

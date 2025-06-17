@@ -79,8 +79,8 @@ export default function SwapForm() {
   }, [selectedFrom, selectedTo]);
 
   useEffect(() => {
-    if (exchangeRate && fromAmount) {
-      const toAmount = fromAmount * exchangeRate.data.rate;
+    if (exchangeRate) {
+      const toAmount = fromAmount ? fromAmount * exchangeRate.data.rate : null;
       form.setValue("toAmount", toAmount);
     }
   }, [fromAmount, exchangeRate]);

@@ -23,27 +23,15 @@ export const tokenizeBaseSchema = z.object({
   network: z.enum(NETWORKS.map((item) => item.value) as [string, ...string[]], {
     message: "Network is required",
   }),
-  royalty: z.preprocess(
-    (val) => {
-      if (val === "" || val === undefined) return null;
-      return Number(val);
-    },
-    z
-      .number({ invalid_type_error: "Royalty must be a number" })
-      .min(MIN_NUMBER, { message: "Royalty must be more than 0%" })
-      .max(100, { message: "Royalty must be no more than 100%" })
-      .nullable()
-  ),
-  price: z.preprocess(
-    (val) => {
-      if (val === "" || val === undefined) return null;
-      return Number(val);
-    },
-    z
-      .number({ invalid_type_error: "Price must be a number" })
-      .min(0.0001, { message: "The price must be greater than 0.0001" })
-      .nullable()
-  ),
+  royalty: z.coerce
+    .number({ invalid_type_error: "Royalty must be a number" })
+    .min(MIN_NUMBER, { message: "Royalty must be more than 0%" })
+    .max(100, { message: "Royalty must be no more than 100%" })
+    .nullable(),
+  price: z.coerce
+    .number({ invalid_type_error: "Price must be a number" })
+    .min(0.0001, { message: "The price must be greater than 0.0001" })
+    .nullable(),
   ownerContact: z.string().min(1, { message: "Owner contact is required" }),
   assetType: z.enum(
     ASSET_TYPES.map((item) => item.value) as [string, ...string[]],
@@ -51,9 +39,9 @@ export const tokenizeBaseSchema = z.object({
   ),
 });
 
-export type TokenizationBaseSchema = z.infer<typeof tokenizeBaseSchema>;
+export type TokenizeBaseSchema = z.infer<typeof tokenizeBaseSchema>;
 
-export const tokenizeBaseSchemaDefaultValues: TokenizationBaseSchema = {
+export const tokenizeBaseSchemaDefaultValues: TokenizeBaseSchema = {
   image: "",
   title: "",
   assetDescription: "",
