@@ -38,7 +38,12 @@ export default function SelectField({
             </FormLabel>
           )}
           <Select
-            onValueChange={field.onChange}
+            onValueChange={(val) => {
+              if (val === "") {
+                return;
+              }
+              field.onChange(val);
+            }}
             value={field.value}
             defaultValue={field.value}
           >

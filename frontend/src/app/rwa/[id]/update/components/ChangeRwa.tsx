@@ -36,7 +36,12 @@ export default function ChangeRwa({ params }: Params) {
   const [isAlldataOpen, setIsAlldataOpen] = useState(false);
   const { user } = useUserStore();
 
-  const { data, isFetching, isFetched } = useGetRwa(tokenId);
+  const {
+    data,
+    isFetching,
+    isFetched,
+    isError: isRwaError,
+  } = useGetRwa(tokenId);
   const submit = useUpdateRwa(tokenId);
 
   const { tokenizeSchema, defaultTokenizeValues } = useTokenizationFields();
@@ -87,11 +92,9 @@ export default function ChangeRwa({ params }: Params) {
   useEffect(() => {
     if (data) {
       const values = data.data;
-      Object.entries(values).forEach(
-        ([key, value]: [key: string, value: any]) => {
-          form.setValue(key, value);
-        }
-      );
+      Object.entries(values).forEach(([key, value]: [string, any]) => {
+        form.setValue(key, value);
+      });
       setInitialData(values);
     }
   }, [data]);
@@ -113,6 +116,10 @@ export default function ChangeRwa({ params }: Params) {
         classNameLoading="!border-white !border-r-transparent !w-14 !h-14"
       />
     );
+  }
+
+  if (!data || isRwaError) {
+    return null;
   }
 
   const ipfsCID = data.data.image.replace("https://ipfs.io/ipfs/", "");
