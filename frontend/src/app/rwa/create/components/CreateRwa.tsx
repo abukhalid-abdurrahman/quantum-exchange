@@ -104,7 +104,11 @@ export default function CreateRwa() {
           onSubmit={form.handleSubmit(onSubmit)}
           className="flex gap-20 items-start lg:gap-5 md:flex-col"
         >
-          <DragAndDropUpload control={form.control} name="image" />
+          <DragAndDropUpload
+            control={form.control}
+            name="image"
+            isSuccessfullyDone={isSuccessfullyDone}
+          />
           <div className="w-1/2 md:w-full">
             <PageTitle title="Create your Decentrlised Trust Agreement RWA" />
             <div

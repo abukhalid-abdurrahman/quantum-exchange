@@ -117,7 +117,7 @@ export default function InputField({
                       onChange={(e) => {
                         const value =
                           parseFloat(e.target.value) || e.target.value;
-                        field.onChange(value === "" ? null : value);
+                        field.onChange(value);
                       }}
                     />
                   )}

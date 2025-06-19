@@ -162,7 +162,7 @@ export default function CryptoAddressModal({
               {fromNetwork.token}s
             </h2>
 
-            <QRCodeDisplay text={address} />
+            {address && <QRCodeDisplay text={address} />}
 
             {message && <p className="text-textGray p-sm mt-2">{message}</p>}
 

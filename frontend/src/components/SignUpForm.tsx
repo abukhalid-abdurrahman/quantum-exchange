@@ -89,8 +89,18 @@ export default function SignUpForm() {
           </p>
         )}
 
-        <Button type="submit" variant="gray" size="xl" className="w-full">
-          {submit.isPending ? "Signing up..." : "Sign up"}
+        <Button
+          type="submit"
+          variant="gray"
+          size="xl"
+          className="w-full"
+          disabled={successMessage}
+        >
+          {submit.isPending
+            ? "Signing up..."
+            : successMessage
+              ? "Redirecting..."
+              : "Sign up"}
         </Button>
 
         <Link href="?signin=true" className="text-sm text-blue-600">

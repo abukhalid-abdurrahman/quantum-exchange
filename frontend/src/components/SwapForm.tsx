@@ -80,7 +80,9 @@ export default function SwapForm() {
 
   useEffect(() => {
     if (exchangeRate) {
-      const toAmount = fromAmount ? fromAmount * exchangeRate.data.rate : null;
+      const toAmount = fromAmount
+        ? fromAmount * exchangeRate.data.rate
+        : ("" as unknown as number);
       form.setValue("toAmount", toAmount);
     }
   }, [fromAmount, exchangeRate]);
@@ -170,6 +172,7 @@ export default function SwapForm() {
             form={form}
             input={swapSchemaFields[1]}
             token={selectedTo}
+            disabled={true}
             openCryptoModal={openCryptoModal}
           />
         </div>
@@ -199,7 +202,7 @@ export default function SwapForm() {
         setSelectedTo={setSelectedTo}
       />
 
-      {isCryptoAddressModalOpen && orderResponse?.data?.orderId && (
+      {isCryptoAddressModalOpen && (
         <CryptoAddressModal
           isOrderCompleted={isOrderCompleted}
           setIsOrderCompleted={setIsOrderCompleted}
@@ -209,7 +212,7 @@ export default function SwapForm() {
           isOpen={isCryptoAddressModalOpen}
           setIsOpen={setCryptoAddressModalOpen}
           setIsStatusModalOpen={setStatusModalOpen}
-          orderId={orderResponse.data.orderId}
+          orderId={orderResponse?.data?.orderId}
           orderError={orderError}
         />
       )}

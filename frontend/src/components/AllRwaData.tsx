@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { Dispatch, SetStateAction, useMemo, useState } from "react";
 import { handleCopy } from "@/utils/handleCopy.util";
 import { shortAddress, shortDescription } from "@/utils/shortSomething";
@@ -8,6 +7,7 @@ import { tokenizeRealEstateSchemaFields } from "@/schemas/rwa/tokenizeRealEstate
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { Rwa } from "@/types/rwa/rwa.type";
+import { X } from "lucide-react";
 
 const fieldsMeta = [
   ...tokenizeBaseSchemaFields,
@@ -49,7 +49,7 @@ export default function AllRwaData({ data, setIsOpen }: AllRwaDataProps) {
               size="icon"
               onClick={() => setIsOpen(false)}
             >
-              <Image src="/close.svg" alt="Close" width={12} height={12} />
+              <X size={18} />
             </Button>
           </div>
 

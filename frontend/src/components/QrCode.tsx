@@ -1,33 +1,20 @@
-"use cleint";
+"use client";
 
-import QRCode from "qrcode";
-import Image from "next/image";
 import { useEffect, useState } from "react";
+import QRCode from "qrcode";
 
 export default function QRCodeDisplay({ text }: { text: string }) {
-  const [qrCode, setQrCode] = useState("");
+  const [url, setUrl] = useState("");
 
   useEffect(() => {
-    if (text) {
-      const generateQRCode = async () => {
-        const url = await QRCode.toDataURL(text);
-        setQrCode(url);
-      };
-
-      generateQRCode();
-    }
+    QRCode.toDataURL(text).then(setUrl).catch(console.error);
   }, [text]);
+
+  if (!url) return null;
 
   return (
     <div className="flex flex-col items-center">
-      {qrCode && (
-        <Image
-          src={qrCode}
-          alt="Your virtual account"
-          width={150}
-          height={150}
-        />
-      )}
+      <img src={url} alt="QR Code" width={150} height={150} />
     </div>
   );
 }

@@ -14,16 +14,14 @@ export const tokenizeRealEstateSchema = z.object({
         invalid_type_error: "Latitude must be a number",
       })
       .min(-90, { message: "Latitude must be between -90 and 90" })
-      .max(90, { message: "Latitude must be between -90 and 90" })
-      .nullable(),
+      .max(90, { message: "Latitude must be between -90 and 90" }),
     longitude: z
       .number({
         required_error: "Longitude is requred",
         invalid_type_error: "Longitude must be a number",
       })
       .min(-180, { message: "Longitude must be between -180 and 180" })
-      .max(180, { message: "Longitude must be between -180 and 180" })
-      .nullable(),
+      .max(180, { message: "Longitude must be between -180 and 180" }),
   }),
   valuationDate: z
     .string({ required_error: "Valuation Date is required" })
@@ -33,20 +31,17 @@ export const tokenizeRealEstateSchema = z.object({
     }),
   area: z.coerce
     .number({ required_error: "Area is required" })
-    .min(MIN_NUMBER, { message: "Area must be greater than 0" })
-    .nullable(),
+    .min(MIN_NUMBER, { message: "Area must be greater than 0" }),
   propertyType: z.enum(
     PROPERTY_TYPES.map((item) => item.value) as [string, ...string[]],
     {
       message: "Please select a valid property type",
     }
   ),
-  constructionYear: z
-    .string({ required_error: "Construction Year is required" })
+  constructionYear: z.coerce
+    .number({ required_error: "Construction Year is required" })
     .min(1, { message: "Construction Year is required" })
-    .refine((val) => /^\d{4}$/.test(val), {
-      message: "Construction Year must be a 4-digit year",
-    }),
+    .max(9999, { message: "Construction Year must be a 4-digit year" }),
   insuranceStatus: z.enum(
     INSURANSE_STATUSES.map((item) => item.value) as [string, ...string[]],
     {
@@ -59,13 +54,13 @@ export type TokenizeRealEstateSchema = z.infer<typeof tokenizeRealEstateSchema>;
 
 export const tokenizeRealEstateSchemaDefaultValues: TokenizeRealEstateSchema = {
   geolocation: {
-    latitude: null,
-    longitude: null,
+    latitude: "" as unknown as number,
+    longitude: "" as unknown as number,
   },
   valuationDate: "",
-  area: null,
+  area: "" as unknown as number,
   propertyType: "",
-  constructionYear: "",
+  constructionYear: "" as unknown as number,
   insuranceStatus: "",
 };
 
@@ -83,7 +78,7 @@ export const tokenizeRealEstateSchemaFields: FormField[] = [
   {
     name: "area",
     placeholder: "Area (in square meters)",
-    type: "text",
+    type: "number",
   },
   {
     name: "propertyType",
@@ -94,7 +89,7 @@ export const tokenizeRealEstateSchemaFields: FormField[] = [
   {
     name: "constructionYear",
     placeholder: "Construction Year",
-    type: "text",
+    type: "number",
   },
   {
     name: "insuranceStatus",

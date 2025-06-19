@@ -8,7 +8,7 @@ const getRwas = async (reqParams: RwasReq) => {
       AssetType: reqParams.assetType,
       PriceMin: reqParams.priceMin,
       PriceMax: reqParams.priceMax,
-      SortBy: reqParams.sortBy,
+      SortBy: reqParams.sortBy || "CreatedAt",
       SortOrder: reqParams.sortOrder,
       PageSize: reqParams.pageSize,
       PageNumber: reqParams.pageNumber,

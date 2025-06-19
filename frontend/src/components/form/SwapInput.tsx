@@ -18,6 +18,7 @@ interface SwapInputProps {
   form: UseFormReturn<any>;
   input: FormFieldType;
   token?: SelectedCrypto;
+  disabled?: boolean;
   openCryptoModal?: (value: "from" | "to") => void;
 }
 
@@ -25,6 +26,7 @@ export default function SwapInput({
   form,
   input,
   token,
+  disabled = false,
   openCryptoModal,
 }: SwapInputProps) {
   const tokenInputs =
@@ -53,6 +55,7 @@ export default function SwapInput({
                 step="0.00001"
                 placeholder={tokenInputs ? token?.token : input.placeholder}
                 onKeyDown={handleKeyDown}
+                disabled={disabled}
                 {...field}
                 value={field.value ?? ""}
                 onChange={(e) => {

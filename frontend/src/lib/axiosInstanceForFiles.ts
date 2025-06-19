@@ -1,8 +1,9 @@
 import axios from "axios";
 import Cookies from "js-cookie";
+import { API } from "@/lib/constants";
 
 const axiosInstanceForFiles = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL,
+  baseURL: API,
   headers: {
     "Content-Type": "multipart/form-data",
   },

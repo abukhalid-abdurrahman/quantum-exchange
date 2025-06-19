@@ -26,12 +26,10 @@ export const tokenizeBaseSchema = z.object({
   royalty: z.coerce
     .number({ invalid_type_error: "Royalty must be a number" })
     .min(MIN_NUMBER, { message: "Royalty must be more than 0%" })
-    .max(100, { message: "Royalty must be no more than 100%" })
-    .nullable(),
+    .max(100, { message: "Royalty must be no more than 100%" }),
   price: z.coerce
     .number({ invalid_type_error: "Price must be a number" })
-    .min(0.0001, { message: "The price must be greater than 0.0001" })
-    .nullable(),
+    .min(0.0001, { message: "The price must be greater than 0.0001" }),
   ownerContact: z.string().min(1, { message: "Owner contact is required" }),
   assetType: z.enum(
     ASSET_TYPES.map((item) => item.value) as [string, ...string[]],
@@ -48,8 +46,8 @@ export const tokenizeBaseSchemaDefaultValues: TokenizeBaseSchema = {
   proofOfOwnershipDocument: "",
   uniqueIdentifier: "",
   network: "",
-  royalty: null,
-  price: null,
+  royalty: "" as unknown as number,
+  price: "" as unknown as number,
   ownerContact: "",
   assetType: "",
 };

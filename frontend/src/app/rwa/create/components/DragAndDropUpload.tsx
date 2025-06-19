@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FileRejection, useDropzone } from "react-dropzone";
 import { Loader2 } from "lucide-react";
 import {
@@ -14,10 +14,14 @@ import { MAX_FILE_SIZE } from "@/lib/constants";
 interface DragAndDropProps {
   control: Control<any>;
   name: string;
-  label?: string;
+  isSuccessfullyDone: boolean;
 }
 
-export function DragAndDropUpload({ control, name }: DragAndDropProps) {
+export function DragAndDropUpload({
+  control,
+  name,
+  isSuccessfullyDone,
+}: DragAndDropProps) {
   const [preview, setPreview] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
 
@@ -27,13 +31,13 @@ export function DragAndDropUpload({ control, name }: DragAndDropProps) {
     const file = acceptedFiles[0];
     if (!file) return;
 
-    setPreview(URL.createObjectURL(file));
     setIsUploading(true);
     clearErrors(name);
 
     try {
       const uploadedUrl = await handleUploadFile(file);
       if (uploadedUrl.includes("http")) {
+        setPreview(URL.createObjectURL(file));
         formField.onChange(uploadedUrl);
       } else {
         throw new Error("Invalid upload URL");
@@ -69,6 +73,12 @@ export function DragAndDropUpload({ control, name }: DragAndDropProps) {
     accept: { "image/*": [] },
     multiple: false,
   });
+
+  useEffect(() => {
+    if (isSuccessfullyDone) {
+      setPreview(null);
+    }
+  }, [isSuccessfullyDone]);
 
   return (
     <FormField

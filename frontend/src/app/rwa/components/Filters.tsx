@@ -4,7 +4,7 @@ import FiltersForm from "./FiltersForm";
 import Image from "next/image";
 import { Dispatch, SetStateAction, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Funnel } from "lucide-react";
+import { Funnel, X } from "lucide-react";
 import { RwaFiltersParams } from "@/types/rwa/rwa.type";
 
 interface FiltersProps {
@@ -50,7 +50,7 @@ export default function Filters({ setReqParams }: FiltersProps) {
               onClick={() => setIsOpen(false)}
               aria-label="Close menu"
             >
-              <Image src="/close.svg" alt="Close" width={12} height={12} />
+              <X size={20} />
             </Button>
           </div>
           <FiltersForm

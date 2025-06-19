@@ -5,12 +5,10 @@ import { z } from "zod";
 export const swapSchema = z.object({
   fromAmount: z.coerce
     .number()
-    .min(MIN_NUMBER, { message: "Amount is required" })
-    .nullable(),
+    .min(MIN_NUMBER, { message: "Amount is required" }),
   toAmount: z.coerce
     .number()
-    .min(MIN_NUMBER, { message: "Amount is required" })
-    .nullable(),
+    .min(MIN_NUMBER, { message: "Amount is required" }),
   destinationAddress: z
     .string()
     .min(1, { message: "Recipient Address is required" }),
@@ -20,7 +18,7 @@ export type SwapSchema = z.infer<typeof swapSchema>;
 
 export const swapSchemaDefaultValues: SwapSchema = {
   fromAmount: 1,
-  toAmount: null,
+  toAmount: "" as unknown as number,
   destinationAddress: "",
 };
 
