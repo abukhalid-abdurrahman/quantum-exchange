@@ -4,7 +4,7 @@ import "./globals.css";
 import TanstackProvider from "@/providers/TanstackProvider";
 
 const dmSans = DM_Sans({
-  weight: ["400", "600", '700'],
+  weight: ["400", "600", "700"],
   subsets: ["latin"],
 });
 
@@ -22,10 +22,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${dmSans.className} antialiased min-h-screen`}
+        className={`${dmSans.className} antialiased min-h-screen bg-backgroundWebsite`}
       >
         <TanstackProvider>
-          <main className="main w-full h-full bg-backgroundWebsite">
+          <main className="main w-full h-full">
             {children}
           </main>
         </TanstackProvider>

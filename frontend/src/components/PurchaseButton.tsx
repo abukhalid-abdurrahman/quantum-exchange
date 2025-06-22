@@ -1,16 +1,16 @@
-import CopyBtn from "@/components/CopyBtn";
-import Loading from "@/components/Loading";
-import Modal from "@/components/Modal";
-import { Button, buttonVariants } from "@/components/ui/button";
-import { shortAddress } from "@/lib/scripts/script";
-import {
-  mutateRwaPurchase,
-  mutateRwaTransaction,
-} from "@/requests/postRequests";
+"use client";
+
 import Image from "next/image";
+import Modal from "@/components/Modal";
+import Loading from "@/components/Loading";
+import CopyBtn from "@/components/CopyBtn";
 import { useState } from "react";
-import { Transaction } from "@solana/web3.js";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { useWalletStore } from "@/store/useWalletStore";
+import { useBuyRwa } from "@/requests/rwa/buyRwa.request";
+import { useSendSignedTransaction } from "@/requests/rwa/sendSignedTransaction.request";
+import { shortAddress } from "@/utils/shortSomething";
+import { Transaction } from "@solana/web3.js";
 
 interface PurchaseButtonProps {
   tokenId: string;
@@ -22,47 +22,52 @@ export default function PurchaseButton({
   usageInMarketPage,
 }: PurchaseButtonProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isSuccessfullyDone, setIsSuccessfullyDone] = useState(false);
-  const [isError, setIsError] = useState(false);
+  const [status, setStatus] = useState<
+    "idle" | "loading" | "success" | "error"
+  >("idle");
+  const [message, setMessage] = useState("");
   const [transactionId, setTransactionId] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const [message, setMessage] = useState("");
-  const { publicKey } = useWalletStore();
 
-  const purchase = mutateRwaPurchase();
-  const submitTransaction = mutateRwaTransaction();
+  const { publicKey } = useWalletStore();
+  const purchase = useBuyRwa();
+  const submitTransaction = useSendSignedTransaction();
+
+  const showMinimalModal =
+    status === "loading" || status === "error" || status === "idle";
+
+  const resetState = () => {
+    setStatus("idle");
+    setMessage("");
+    setTransactionId("");
+    setErrorMessage("");
+  };
 
   const handlePurchase = async () => {
+    resetState();
     setIsModalOpen(true);
-    setIsError(false);
-    setIsSuccessfullyDone(false);
-    setErrorMessage("");
-    setMessage("");
+    setStatus("loading");
 
     try {
       const provider = (window as any).solana;
       if (!provider || !provider.isPhantom) {
-        setErrorMessage("Phantom wallet not found");
-        setIsError(true);
-        return;
+        throw new Error("Phantom wallet not found");
       }
 
       if (!publicKey) {
-        setIsError(true);
-        setErrorMessage("Please connect your wallet firstly.");
-        return;
+        throw new Error("Please connect your wallet firstly.");
       }
 
       await provider.connect();
 
       purchase.mutate(
-        {
-          rwaId: tokenId,
-          buyerPubKey: publicKey,
-        },
+        { rwaId: tokenId, buyerPubKey: publicKey },
         {
           onSuccess: async (res) => {
-            setMessage("Please check your Phantom wallet to confirm the transaction")
+            setMessage(
+              "Please check your Phantom wallet to confirm the transaction"
+            );
+
             try {
               const txBase64 = res.data;
               const transaction = Transaction.from(
@@ -90,41 +95,37 @@ export default function PurchaseButton({
                 {
                   onSuccess: (res) => {
                     setTransactionId(res.data);
-                    setIsSuccessfullyDone(true);
+                    setStatus("success");
                   },
                   onError: (err: any) => {
-                    setErrorMessage(
+                    throw new Error(
                       err?.response?.data?.error?.message ||
                         "Transaction submission failed"
                     );
-                    setIsError(true);
                   },
                 }
               );
             } catch (err: any) {
-              console.error("Signing or submission error:", err);
               setErrorMessage(err.message || "Something went wrong");
-              setIsError(true);
+              setStatus("error");
             }
           },
           onError: (error: any) => {
-            console.error("Transaction fetch error:", error);
             setErrorMessage(
               error?.response?.data?.error?.message ||
                 "Could not prepare transaction"
             );
-            setIsError(true);
+            setStatus("error");
           },
         }
       );
     } catch (err: any) {
-      console.error("Connection or general error:", err);
       setErrorMessage(
         err?.message === "User rejected the request."
           ? "Wallet connection was cancelled"
           : err?.message || "Something went wrong"
       );
-      setIsError(true);
+      setStatus("error");
     }
   };
 
@@ -132,31 +133,34 @@ export default function PurchaseButton({
     <>
       <Button
         variant="green"
-        size={`${usageInMarketPage ? "sm" : "lg"}`}
+        size={usageInMarketPage ? "sm" : "lg"}
         onClick={handlePurchase}
       >
         Purchase
       </Button>
+
       {isModalOpen && (
         <Modal
-          isNonClosable={!isError}
+          isNonClosable={status !== "error"}
           isNonUrlModal
-          className={`${
-            (!isSuccessfullyDone || isError) &&
-            "min-h-64 flex justify-center items-center"
-          } relative z-[10000]`}
           onCloseFunc={() => setIsModalOpen(false)}
+          className={`${
+            showMinimalModal ? "min-h-64 flex justify-center items-center" : ""
+          } relative z-[10000]`}
         >
           <div className="flex flex-col items-center justify-center">
-            {!isSuccessfullyDone && !isError && (
+            {status === "loading" && (
               <>
                 <Loading />
                 {message && (
-                  <p className="p text-black mt-6 text-center max-w-[80%]">{message}</p>
+                  <p className="p text-black mt-6 text-center max-w-[80%]">
+                    {message}
+                  </p>
                 )}
               </>
             )}
-            {isSuccessfullyDone && !isError && (
+
+            {status === "success" && (
               <>
                 <Image
                   src="/done.svg"
@@ -165,7 +169,7 @@ export default function PurchaseButton({
                   height={100}
                   className="mt-5 sm:w-20"
                 />
-                <h2 className="h2 my-5 !block text-black">
+                <h2 className="h2 my-5 text-black text-center">
                   You have successfully purchased your RWA
                 </h2>
                 <div className="flex gap-[5px] mb-[10px] w-full mt-5">
@@ -178,7 +182,7 @@ export default function PurchaseButton({
                     <p className="sm:text-sm xxs:text-xs">
                       Your transaction ID:
                     </p>
-                    <p className="">{shortAddress(transactionId)}</p>
+                    <p>{shortAddress(transactionId)}</p>
                   </div>
                   <CopyBtn address={transactionId} />
                 </div>
@@ -186,7 +190,7 @@ export default function PurchaseButton({
                   variant="gray"
                   size="xl"
                   onClick={() => {
-                    setIsSuccessfullyDone(false);
+                    resetState();
                     setIsModalOpen(false);
                   }}
                   className="w-full mt-2"
@@ -195,7 +199,8 @@ export default function PurchaseButton({
                 </Button>
               </>
             )}
-            {!isSuccessfullyDone && isError && (
+
+            {status === "error" && (
               <p className="p text-black text-center max-w-sm whitespace-pre-line">
                 {errorMessage ||
                   "Something went wrong. Please try again later."}

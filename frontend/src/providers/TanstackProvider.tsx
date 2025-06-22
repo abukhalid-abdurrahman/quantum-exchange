@@ -1,7 +1,7 @@
 "use client";
 
 import Modal from "@/components/Modal";
-import { removeUser } from "@/lib/scripts/script";
+import { removeUser } from "@/utils/removeUser.util";
 import { useUserStore } from "@/store/useUserStore";
 import {
   MutationCache,
@@ -33,9 +33,9 @@ export default function TanstackProvider({
     queryCache: new QueryCache({
       onError: (err: any) => {
         setIsServerError(false);
-        if (err?.response.status === 401) {
+        if (err?.response?.status === 401) {
           removeUser(setUser, router);
-        } else if (err?.response.status >= 500) {
+        } else if (err?.response?.status >= 500) {
           router.push("/");
           setIsServerError(true);
         }
@@ -43,7 +43,7 @@ export default function TanstackProvider({
     }),
     mutationCache: new MutationCache({
       onError: (err: any) => {
-        if (err.response.status === 401) {
+        if (err?.response?.status === 401) {
           removeUser(setUser, router);
         }
       },

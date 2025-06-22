@@ -1,6 +1,9 @@
 "use client";
 
-import React, { useEffect, useMemo, useState } from "react";
+import PurchaseButton from "@/components/PurchaseButton";
+import Loading from "@/components/Loading";
+import Link from "next/link";
+import Filters from "./Filters";
 import {
   Table,
   TableBody,
@@ -9,110 +12,37 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import Image from "next/image";
-import { shortDescription } from "@/lib/scripts/script";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { shortDescription } from "@/utils/shortSomething";
 import { buttonVariants } from "@/components/ui/button";
 import { PaginationButtons } from "@/components/PaginationButtons";
-import {
-  useRwaChangesMultiple,
-  useRwaMultiple,
-  useRwas,
-} from "@/requests/getRequests";
-import Loading from "@/components/Loading";
-import { RwasReq } from "@/lib/types";
-import _ from "lodash";
-import Link from "next/link";
-import Filters from "./Filters";
 import { useUserStore } from "@/store/useUserStore";
-import PurchaseButton from "@/components/PurchaseButton";
 import { useSearchParams } from "next/navigation";
+import { useRwasData } from "@/hooks/useRwasData";
+import { CombinedRwa } from "@/types/rwa/rwa.type";
+import { PriceChangeIndicator } from "@/app/rwa/components/PriceChangeIndicator";
 
 export default function RWATable() {
   const searchParams = useSearchParams();
   const initialPage = parseInt(searchParams.get("page") || "1");
+
   const { user } = useUserStore();
-  const [tokenIds, setTokenIds] = useState<string[]>([]);
-  const [reqParams, setReqParams] = useState<RwasReq>({
-    assetType: null,
-    priceMin: null,
-    priceMax: null,
-    sortBy: null,
-    sortOrder: null,
-    pageSize: 10,
-    pageNumber: initialPage,
-  });
 
-  const { data: rwas, isFetching: rwasFetching } = useRwas(reqParams);
-  const { data: rwaMultiple, isFetching: rwaMultipleFetching } =
-    useRwaMultiple(tokenIds);
-  const { data: rwaChangesMultiple, isFetching: rwaChangesMultipleFetching } =
-    useRwaChangesMultiple(tokenIds);
-
-  useEffect(() => {
-    if (rwas) {
-      const getAlltokenIds = (rwas: any) => {
-        return rwas?.data?.data.map((rwa: any) => rwa.tokenId);
-      };
-      setTokenIds(getAlltokenIds(rwas));
-    }
-  }, [rwas]);
-
-  const fullRwas = useMemo(() => {
-    const normalize = (arr: any[]) => {
-      return arr
-        .filter(Boolean)
-        .map((item) => ({
-          ...item,
-          tokenId: item?.tokenId ?? item?.rwaTokenId,
-        }))
-        .filter((item) => item.tokenId !== undefined);
-    };
-
-    const base = normalize(rwaMultiple.map((rwa) => rwa?.data));
-    const changes = normalize(
-      rwaChangesMultiple.map((rwa) => rwa?.data?.[rwa.data.length - 1])
-    );
-
-    const combinedMap = new Map<string, any>();
-
-    for (const item of [...base, ...changes]) {
-      const existing = combinedMap.get(item.tokenId);
-      if (existing) {
-        combinedMap.set(item.tokenId, {
-          ...existing,
-          ...item,
-        });
-      } else {
-        combinedMap.set(item.tokenId, item);
-      }
-    }
-
-    return Array.from(combinedMap.values());
-  }, [rwas, rwaMultiple, rwaChangesMultiple]);
-
-  useEffect(() => {
-    setReqParams((prev) => ({
-      ...prev,
-      pageNumber: initialPage,
-    }));
-  }, [initialPage]);
+  const { rwas, isSomeFetching, combinedRwas, reqParams, setReqParams } =
+    useRwasData(initialPage);
 
   return (
     <div>
       <div className="w-full mb-5 flex justify-end text-sm">
-        <Filters reqParams={reqParams} setReqParams={setReqParams} />
+        <Filters setReqParams={setReqParams} />
       </div>
-      {rwaMultipleFetching?.some((item) => item === true) ||
-      rwaChangesMultipleFetching?.some((item) => item === true) ||
-      rwasFetching ? (
+      {isSomeFetching ? (
         <Loading
           className="flex justify-center mt-14"
           classNameLoading="!border-white !border-r-transparent !w-14 !h-14"
         />
       ) : (
         <>
-          {fullRwas.length > 0 ? (
+          {combinedRwas.length ? (
             <Table className="min-w-[965px]">
               <TableHeader>
                 <TableRow className="hover:bg-transparent border-primary">
@@ -122,13 +52,12 @@ export default function RWATable() {
                   <TableHead className="text-right">Network</TableHead>
                   <TableHead className="text-right">Price</TableHead>
                   <TableHead className="text-right">Asset Type</TableHead>
-                  {/* <TableHead className="text-right">Geolocation</TableHead> */}
                   <TableHead className="text-right">Price Change (%)</TableHead>
                   <TableHead className="text-right"></TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {fullRwas.map((rwa: any) => {
+                {combinedRwas.map((rwa: CombinedRwa) => {
                   return (
                     <TableRow
                       key={rwa.tokenId}
@@ -141,9 +70,7 @@ export default function RWATable() {
                             href={`/rwa/${rwa.tokenId}`}
                           >
                             <img
-                              src={
-                                rwa.image !== "string" ? rwa.image : "/nft.avif"
-                              }
+                              src={rwa.image}
                               alt={rwa.title}
                               className="rounded-md w-[50px] h-[50px]"
                             />
@@ -161,58 +88,18 @@ export default function RWATable() {
                       </TableCell>
                       <TableCell className="text-right">
                         {rwa.price} zBTC
-                        {/* <span className="text-red-600 text-xs flex items-center justify-end">
-                        <span className="inline">
-                          <ChevronDown size={15} />
-                        </span>
-                        {rwa.price.secondValue}
-                      </span> */}
                       </TableCell>
                       <TableCell className="text-right">
                         {rwa.assetType}
                       </TableCell>
-                      {/* <TableCell className="text-right">
-                      {rwa.geolocation}
-                    </TableCell> */}
                       <TableCell className="text-right">
-                        {typeof rwa?.oldPrice === "number" &&
-                        typeof rwa?.price === "number" ? (
-                          <>{rwa.oldPrice - rwa.price}</>
-                        ) : (
-                          <p className="p opacity-60">---</p>
-                        )}
-                        {typeof rwa?.oldPrice === "number" &&
-                          typeof rwa?.price === "number" &&
-                          (() => {
-                            const diff =
-                              ((rwa.price - rwa.oldPrice) / rwa.oldPrice) * 100;
-                            const isPositive = diff > 0;
-                            const isNeutral = diff === 0;
-                            const percentage = Math.abs(diff).toFixed(2) + "%";
-
-                            return (
-                              <span
-                                className={`flex items-center text-xs justify-end ${
-                                  isPositive
-                                    ? "text-green-500"
-                                    : isNeutral
-                                    ? "text-textGray"
-                                    : "text-red-600"
-                                }`}
-                              >
-                                {isPositive && (
-                                  <ChevronUp size={15} className="inline" />
-                                )}
-                                {!isPositive && !isNeutral && (
-                                  <ChevronDown size={15} className="inline" />
-                                )}
-                                {percentage}
-                              </span>
-                            );
-                          })()}
+                        <PriceChangeIndicator
+                          price={rwa.price}
+                          oldPrice={rwa.oldPrice}
+                        />
                       </TableCell>
                       <TableCell className="text-right space-x-2">
-                        {rwa.ownerUsername === user!?.UserName && (
+                        {rwa.ownerUsername === user?.UserName && (
                           <Link
                             href={`/rwa/${rwa.tokenId}/update`}
                             className={buttonVariants({
@@ -251,10 +138,10 @@ export default function RWATable() {
           )}
         </>
       )}
-      {rwas?.data?.totalPages > 1 && (
+      {rwas?.data?.data?.totalPages > 1 && (
         <PaginationButtons
           className="mt-10"
-          pages={rwas.data.totalPages}
+          pages={rwas.data.data.totalPages}
           currentPage={reqParams.pageNumber}
           searchParams={searchParams}
         />

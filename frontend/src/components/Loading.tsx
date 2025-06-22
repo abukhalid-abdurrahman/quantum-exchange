@@ -1,14 +1,16 @@
-import "@/lib/styles/loading.css";
+import "@/styles/loading.css";
+
+interface LoadingProps {
+  className?: string;
+  classNameLoading?: string;
+  style?: React.CSSProperties;
+}
 
 export default function Loading({
   className,
   classNameLoading,
   style,
-}: {
-  className?: string;
-  classNameLoading?: string;
-  style?: React.CSSProperties;
-}) {
+}: LoadingProps) {
   return (
     <div className={className}>
       <div

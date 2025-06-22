@@ -11,4 +11,4 @@ export const addressesList = [
     address: "0x00FFvnjfjiwfiUUrnnFHlJFfds",
     image: "/XRD.png"
   }
-]
+];

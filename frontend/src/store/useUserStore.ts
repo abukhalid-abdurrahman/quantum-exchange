@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import Cookies from "js-cookie";
-import { User } from "@/lib/types";
+import { User } from "@/types/user/user.type";
 
 interface UserState {
   user: User | null;
@@ -40,15 +40,15 @@ export const useUserStore = create<UserState>()(
         setUser: (user) => {
           clearLogoutTimer();
           set({ user });
-          console.log('User', user)
+          console.log("User", user);
 
-          if (user?.expiresAt && Cookies.get('oasisToken')) {
+          if (user?.expiresAt && Cookies.get("oasisToken")) {
             scheduleLogout(user.expiresAt);
           }
 
-          if (Cookies.get('oasisToken')) {
-            set({ user: null })
-            console.log('user null cookie')
+          if (Cookies.get("oasisToken")) {
+            set({ user: null });
+            console.log("user null cookie");
           }
         },
 

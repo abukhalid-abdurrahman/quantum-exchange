@@ -1,18 +1,14 @@
 "use server";
 
-import Header from "@/components/Header";
+import Header from "@/components/header/Header";
 import SwapForm from "@/components/SwapForm";
-import { searchParams } from "@/lib/types";
+import { SearchParams } from "@/types/params.type";
 
-export default async function page({
-  searchParams,
-}: {
-  searchParams: Promise<searchParams>;
-}) {
+export default async function page({ searchParams }: SearchParams) {
   return (
     <div
       style={{
-        backgroundImage: `url(/bg3.png)`,
+        backgroundImage: "url(/bg3.png)",
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
       }}

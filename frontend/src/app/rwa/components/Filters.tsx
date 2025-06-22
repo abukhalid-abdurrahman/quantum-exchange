@@ -1,24 +1,24 @@
 "use client";
 
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import FiltersForm from "./FiltersForm";
-import { Button } from "@/components/ui/button";
-import { Funnel } from "lucide-react";
 import Image from "next/image";
+import { Dispatch, SetStateAction, useRef, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Funnel, X } from "lucide-react";
+import { RwaFiltersParams } from "@/types/rwa/rwa.type";
 
 interface FiltersProps {
-  reqParams: any;
-  setReqParams: Dispatch<SetStateAction<any>>;
+  setReqParams: Dispatch<SetStateAction<RwaFiltersParams>>;
 }
 
-export default function Filters({ reqParams, setReqParams }: FiltersProps) {
+export default function Filters({ setReqParams }: FiltersProps) {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
   return (
     <>
       <div className="lg:hidden">
-        <FiltersForm reqParams={reqParams} setReqParams={setReqParams} />
+        <FiltersForm setReqParams={setReqParams} />
       </div>
 
       <Button
@@ -30,6 +30,7 @@ export default function Filters({ reqParams, setReqParams }: FiltersProps) {
       >
         <Funnel /> Filters
       </Button>
+
       {/* Sidebar / Drawer */}
       <div
         className={`fixed -right-full top-0 bottom-0 z-50 bg-black/60 backdrop-blur-sm transition-all ${
@@ -49,11 +50,10 @@ export default function Filters({ reqParams, setReqParams }: FiltersProps) {
               onClick={() => setIsOpen(false)}
               aria-label="Close menu"
             >
-              <Image src="/close.svg" alt="Close" width={12} height={12} />
+              <X size={20} />
             </Button>
           </div>
           <FiltersForm
-            reqParams={reqParams}
             setReqParams={setReqParams}
             setIsFiltersOpen={setIsOpen}
           />

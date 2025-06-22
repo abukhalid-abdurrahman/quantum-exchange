@@ -150,4 +150,4 @@ export const chartExample = [
   { time: "2019-05-23", value: 58.87 },
   { time: "2019-05-24", value: 59.32 },
   { time: "2019-05-28", value: 59.57 },
-]
+];

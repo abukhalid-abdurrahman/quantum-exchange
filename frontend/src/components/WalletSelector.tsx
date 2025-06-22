@@ -1,20 +1,20 @@
 import { usePhantomWallet } from "@/hooks/usePhantomWallet";
 import Modal from "./Modal";
 import PhantomModal from "./PhantomModal";
-import { SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { useWalletStore } from "@/store/useWalletStore";
 import { walletsForConnection } from "@/lib/helpers/walletsForConnection";
 import { buttonVariants } from "./ui/button";
 import Image from "next/image";
 
 interface WalletSelectorProps {
-  showWalletSelector: boolean;
-  setShowWalletSelector: (value: SetStateAction<boolean>) => void;
+  setShowWalletSelector: Dispatch<SetStateAction<boolean>>;
+  refetch?: () => void;
 }
 
 export default function WalletSelector({
-  showWalletSelector,
   setShowWalletSelector,
+  refetch,
 }: WalletSelectorProps) {
   const [whatWallet, setWhatWallet] = useState<string | null>(null);
   const { connectPhantomWallet, walletDenied, setWalletDenied, errorMessage } =
@@ -39,7 +39,7 @@ export default function WalletSelector({
                 })} !p-3 h-auto w-full !justify-between cursor-pointer`}
                 onClick={() => {
                   setWhatWallet(wallet.walletName);
-                  connectPhantomWallet(publicKey);
+                  connectPhantomWallet();
                 }}
               >
                 <div className="flex gap-5 items-center">
@@ -67,6 +67,7 @@ export default function WalletSelector({
           walletDenied={walletDenied}
           publicKey={publicKey}
           onClose={() => setShowWalletSelector(false)}
+          refetch={refetch}
         />
       )}
     </Modal>
