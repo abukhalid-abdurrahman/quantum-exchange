@@ -1,18 +1,17 @@
 "use client";
+
+import Image from "next/image";
+import WalletSelector from "./WalletSelector";
 import { usePhantomWallet } from "@/hooks/usePhantomWallet";
 import { Button } from "./ui/button";
-import { useState } from "react";
 import { useWalletStore } from "@/store/useWalletStore";
-import Image from "next/image";
-import { shortAddress } from "@/lib/scripts/script";
+import { shortAddress } from "@/utils/shortSomething";
 import { useUserStore } from "@/store/useUserStore";
-import WalletSelector from "./WalletSelector";
+import { useState } from "react";
 
 export default function WalletConnect({ className }: { className?: string }) {
   const [showWalletSelector, setShowWalletSelector] = useState(false);
-  const {
-    disconnectWallet,
-  } = usePhantomWallet();
+  const { disconnectWallet } = usePhantomWallet();
   const { publicKey } = useWalletStore();
   const { user } = useUserStore();
 
@@ -34,7 +33,7 @@ export default function WalletConnect({ className }: { className?: string }) {
                 className="mr-2"
               />
               <span className="group-hover:hidden md:group-hover:inline">
-                {shortAddress(publicKey as any)}
+                {shortAddress(publicKey)}
               </span>
               <span className="hidden group-hover:inline md:group-hover:hidden">
                 Disconnect
@@ -61,10 +60,7 @@ export default function WalletConnect({ className }: { className?: string }) {
           </Button>
         )}
         {showWalletSelector && (
-          <WalletSelector
-            showWalletSelector={showWalletSelector}
-            setShowWalletSelector={setShowWalletSelector}
-          />
+          <WalletSelector setShowWalletSelector={setShowWalletSelector} />
         )}
       </div>
     );

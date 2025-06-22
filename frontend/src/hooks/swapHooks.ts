@@ -1,16 +1,23 @@
 import { useState } from "react";
-import { defaultSelectedFrom, defaultSelectedTo, SelectedCrypto } from "@/lib/cryptoOptions";
+import { defaultSelectedFrom, defaultSelectedTo } from "@/lib/cryptoOptions";
+import { CryptoOption, SelectedCrypto } from "@/types/crypto/crypto.type";
+import { SwapTarget } from "@/types/crypto/swap.type";
 
 export function useSwap() {
-  const [selectedNetwork, setSelectedNetwork] = useState();
-  const [selectedFrom, setSelectedFrom] = useState<SelectedCrypto>(defaultSelectedFrom);
-  const [selectedTo, setSelectedTo] = useState<SelectedCrypto>(defaultSelectedTo);
+  const [selectedNetwork, setSelectedNetwork] = useState<CryptoOption | null>(
+    null
+  );
+  const [selectedFrom, setSelectedFrom] =
+    useState<SelectedCrypto>(defaultSelectedFrom);
+  const [selectedTo, setSelectedTo] =
+    useState<SelectedCrypto>(defaultSelectedTo);
+
   const [isCryptoModalOpen, setIsCryptoModalOpen] = useState(false);
   const [isStatusModalOpen, setIsStatusModalOpen] = useState(false);
   const [statuses, setStatuses] = useState<string[]>([]);
-  const [currentTarget, setCurrentTarget] = useState<"from" | "to" | null>(null);
+  const [currentTarget, setCurrentTarget] = useState<SwapTarget | null>(null);
 
-  const openCryptoModal = (target: "from" | "to") => {
+  const openCryptoModal = (target: SwapTarget) => {
     setCurrentTarget(target);
     setIsCryptoModalOpen(true);
   };
@@ -20,9 +27,9 @@ export function useSwap() {
     setCurrentTarget(null);
   };
 
-  const selectNetwork = (crypto: any) => {
-    setSelectedNetwork(crypto);
-  }
+  const selectNetwork = (network: CryptoOption) => {
+    setSelectedNetwork(network);
+  };
 
   const selectCrypto = (crypto: SelectedCrypto) => {
     if (currentTarget === "from") {
@@ -34,7 +41,12 @@ export function useSwap() {
   };
 
   const simulateStatuses = () => {
-    const steps = ["Connecting to network...", "Validating transaction...", "Processing swap...", "Swap completed!"];
+    const steps = [
+      "Connecting to network...",
+      "Validating transaction...",
+      "Processing swap...",
+      "Swap completed!",
+    ];
     setStatuses([]);
     steps.forEach((step, index) => {
       setTimeout(() => {
@@ -49,18 +61,19 @@ export function useSwap() {
   };
 
   return {
-    selectNetwork,
     selectedNetwork,
+    selectNetwork,
     selectedFrom,
     setSelectedFrom,
-    setSelectedTo,
     selectedTo,
+    setSelectedTo,
     isCryptoModalOpen,
-    isStatusModalOpen,
-    statuses,
     openCryptoModal,
     closeCryptoModal,
     selectCrypto,
+    isStatusModalOpen,
+    setIsStatusModalOpen,
+    statuses,
     simulateStatuses,
     closeStatusModal,
   };

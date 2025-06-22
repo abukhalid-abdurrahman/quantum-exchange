@@ -1,32 +1,24 @@
 import Loading from "@/components/Loading";
 import Modal from "@/components/Modal";
-import { Button, buttonVariants } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Dispatch, SetStateAction } from "react";
 import { UseFormReturn } from "react-hook-form";
 
 interface TokenizationModalProps {
-  setIsTokenized: Dispatch<SetStateAction<boolean>>;
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
   setIsSecondStep: Dispatch<SetStateAction<boolean>>;
-  form: UseFormReturn<
-    {
-      [x: string]: any;
-    },
-    any,
-    {
-      [x: string]: any;
-    }
-  >;
+  setIsSuccessfullyDone: Dispatch<SetStateAction<boolean>>;
+  isSuccessfullyDone: boolean;
+  form: UseFormReturn<any>;
   isError: boolean;
   errorMessage: string;
-  isSuccessfullyDone: boolean;
   tokenId: string;
-  setIsSuccessfullyDone: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function TokenizationModal({
-  setIsTokenized,
+  setIsOpen,
   setIsSecondStep,
   form,
   isError,
@@ -35,11 +27,18 @@ export default function TokenizationModal({
   tokenId,
   setIsSuccessfullyDone,
 }: TokenizationModalProps) {
+  const handleClose = () => {
+    setIsOpen(false);
+    setIsSecondStep(false);
+    setIsSuccessfullyDone(false);
+    form.reset();
+  };
+
   return (
     <Modal
       isNonClosable={!isError}
       isNonUrlModal
-      onCloseFunc={() => setIsTokenized(false)}
+      onCloseFunc={() => setIsOpen(false)}
       className={`${
         (!isSuccessfullyDone || isError) &&
         "min-h-64 flex justify-center items-center"
@@ -79,12 +78,7 @@ export default function TokenizationModal({
             <Button
               variant="gray"
               size="xl"
-              onClick={() => {
-                setIsTokenized(false);
-                setIsSecondStep(false);
-                setIsSuccessfullyDone(false);
-                form.reset();
-              }}
+              onClick={handleClose}
               className="w-full mt-2"
             >
               Done

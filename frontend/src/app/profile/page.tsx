@@ -1,23 +1,19 @@
 "use server";
 
-import Header from "@/components/Header";
-import { searchParams } from "@/lib/types";
-import AccountAddresses from "./components/AccountAddresses";
-import ChangePasswordForm from "./components/ChangePasswordForm";
-import LinkedWallets from "./components/LinkedWallets";
+import Header from "@/components/header/Header";
+import AccountAddresses from "@/app/profile/components/AccountAddresses";
+import ChangePassword from "@/app/profile/components/ChangePassword";
+import LinkedWallets from "@/app/profile/components/LinkedWallets";
+import { SearchParams } from "@/types/params.type";
 
-export default async function page({
-  searchParams,
-}: {
-  searchParams: Promise<searchParams>;
-}) {
+export default async function page({ searchParams }: SearchParams) {
   return (
     <div className="">
       <Header searchParams={searchParams} />
-      <div className="max-w-[512px] mx-auto mt-20 md:mt-14 md:pb-5 sm:!mt-10 xs:!mt-7">
+      <div className="max-w-[512px] mx-auto mt-20 flex flex-col gap-7 md:mt-14 md:pb-5 sm:!mt-10 xs:!mt-7">
         <AccountAddresses />
         <LinkedWallets />
-        <ChangePasswordForm />
+        <ChangePassword />
       </div>
     </div>
   );

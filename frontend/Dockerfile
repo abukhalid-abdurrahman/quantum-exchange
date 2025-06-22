@@ -3,7 +3,7 @@ FROM node:23-alpine AS builder
 WORKDIR /app
 
 COPY package.json yarn.lock ./
-RUN yarn install
+RUN yarn install --frozen-lockfile --production
 
 COPY . .
 
@@ -18,7 +18,7 @@ WORKDIR /app
 
 COPY --from=builder /app ./
 
-COPY src/lib/scripts/entrypoint.sh /entrypoint.sh
+COPY src/utils/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
 EXPOSE 3000

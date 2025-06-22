@@ -1,13 +1,12 @@
 "use client";
 
-import { CryptoOption, SelectedCrypto } from "@/lib/cryptoOptions";
-import Modal from "./Modal";
-import CryptoItem from "./CryptoItem";
-import { useForm } from "react-hook-form";
+import { Dispatch, SetStateAction, useEffect, useMemo } from "react";
 import Image from "next/image";
-import { useNetworks } from "@/requests/getRequests";
-import { useEffect } from "react";
-import { useUserStore } from "@/store/useUserStore";
+import Modal from "@/components/Modal";
+import CryptoItem from "@/components/CryptoItem";
+import { useGetNetworks } from "@/requests/swap/getNetworks.request";
+import { SelectedCrypto, CryptoOption } from "@/types/crypto/crypto.type";
+import { networkIcons } from "@/lib/cryptoOptions";
 
 interface CryptoModalProps {
   isOpen: boolean;
@@ -15,10 +14,10 @@ interface CryptoModalProps {
   onSelect: (crypto: SelectedCrypto) => void;
   selectedFrom: SelectedCrypto;
   selectedTo: SelectedCrypto;
-  selectedNetwork: CryptoOption;
-  selectNetwork: (crypto: any) => void;
-  setSelectedTo: any,
-  setSelectedFrom: any
+  selectedNetwork: CryptoOption | null;
+  selectNetwork: (network: CryptoOption) => void;
+  setSelectedTo: Dispatch<SetStateAction<SelectedCrypto>>;
+  setSelectedFrom: Dispatch<SetStateAction<SelectedCrypto>>;
 }
 
 export default function CryptoModal({
@@ -28,32 +27,40 @@ export default function CryptoModal({
   selectedNetwork,
   selectNetwork,
 }: CryptoModalProps) {
-  const { register } = useForm();
-  const user = useUserStore((state) => state.user)
-  const { data } = useNetworks();
+  const { data } = useGetNetworks();
+  const networks = useMemo(() => data?.data?.data || [], [data]);
 
   useEffect(() => {
-    if (data) {
-      selectNetwork(data.data.data[1])
+    if (networks.length && !selectedNetwork?.name) {
+      selectNetwork(networks[1]);
     }
-  }, [data])
+  }, [networks, selectedNetwork?.name]);
+
+  const selectedNetworkTokens = useMemo(() => {
+    if (networks) {
+      return (
+        networks.find((n: CryptoOption) => n?.name === selectedNetwork?.name)
+          ?.tokens || []
+      );
+    }
+  }, [networks, selectedNetwork]);
+
+  const handleClick = (token: string) => {
+    if (selectedNetwork) {
+      onSelect({ network: selectedNetwork.name, token });
+    }
+  };
 
   if (!isOpen) return null;
 
   return (
-    <Modal isNonUrlModal={true} onCloseFunc={onClose}>
+    <Modal isNonUrlModal onCloseFunc={onClose}>
       <div className="flex flex-col justify-center h-full">
         <ul className="flex space-x-4">
-          {data?.data?.data.map((network: any) => (
+          {networks.map((network: CryptoOption) => (
             <li key={network.id}>
               <CryptoItem
-                image={
-                  network.name === "Solana"
-                    ? "/SOL.png"
-                    : network.name === "Radix"
-                    ? "/XRD.png"
-                    : ""
-                }
+                image={networkIcons[network.name] || ""}
                 crypto={network.name}
                 className="cursor-pointer hover:bg-darkGray transition-all"
                 onClick={() => selectNetwork(network)}
@@ -61,31 +68,15 @@ export default function CryptoModal({
             </li>
           ))}
         </ul>
-        {/* <form className="mt-6 flex items-center bg-gray rounded-xl pl-5">
-          <label htmlFor="search" className="block">
-            <Image src="/search.svg" alt="search" width={20} height={20} />
-          </label>
-          <input
-            className="input w-full"
-            type="text"
-            placeholder="Search"
-            {...register("search", {
-              required: "This field is required",
-            })}
-          />
-        </form> */}
+
         <div className="rounded-xl bg-gray mt-[10px] p-5">
           <ul>
-            {data?.data?.data
-              .find(({ name }: { name: string }) => name === selectedNetwork.name)
-              ?.tokens.map((token: string, i: number) => (
+            {selectedNetworkTokens.length > 0 ? (
+              selectedNetworkTokens.map((token: string) => (
                 <li
+                  key={token}
                   className="flex gap-3 items-center text-sm cursor-pointer text-textGray"
-                  key={i}
-                  onClick={() => onSelect({
-                    network: selectedNetwork.name,
-                    token: token
-                  })}
+                  onClick={() => handleClick(token)}
                 >
                   <Image
                     src={`/${token}.png`}
@@ -95,7 +86,10 @@ export default function CryptoModal({
                   />
                   <p className="p-sm">{token}</p>
                 </li>
-              )) || <p className="p-sm text-textGray">No tokens available</p>}
+              ))
+            ) : (
+              <p className="p-sm text-textGray">No tokens available</p>
+            )}
           </ul>
         </div>
       </div>

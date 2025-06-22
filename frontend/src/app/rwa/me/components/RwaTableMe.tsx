@@ -9,18 +9,16 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import Image from "next/image";
-import { shortDescription } from "@/lib/scripts/script";
+import { shortDescription } from "@/utils/shortSomething";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { PaginationButtons } from "@/components/PaginationButtons";
-import { useRwasMe } from "@/requests/getRequests";
 import Loading from "@/components/Loading";
-import { RwasReq } from "@/lib/types";
-import _ from "lodash";
 import Link from "next/link";
 import { useUserStore } from "@/store/useUserStore";
 import { useSearchParams } from "next/navigation";
+import { useGetRwasMe } from "@/requests/rwa/getRwasMe.request";
+import { RwaChanges, RwasReq } from "@/types/rwa/rwa.type";
 
 export default function RwaTableMe() {
   const searchParams = useSearchParams();
@@ -31,9 +29,9 @@ export default function RwaTableMe() {
     pageNumber: initialPage,
   });
 
-  const { data: rwas, isFetching: rwasFetching } = useRwasMe(
+  const { data: rwas, isFetching: rwasFetching } = useGetRwasMe(
     reqParams,
-    user!?.token || ""
+    user?.token || ""
   );
 
   useEffect(() => {
@@ -68,7 +66,7 @@ export default function RwaTableMe() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {rwas?.data?.data.map((rwa: any) => {
+                {rwas?.data?.data.map((rwa: RwaChanges) => {
                   return (
                     <TableRow
                       key={rwa.tokenId}
@@ -115,7 +113,7 @@ export default function RwaTableMe() {
                       {rwa.geolocation}
                     </TableCell> */}
                       <TableCell className="text-right">
-                        {rwa?.oldPrice - rwa?.price || (
+                        {(rwa?.oldPrice && rwa?.oldPrice - rwa?.price) || (
                           <>
                             <p className="p opacity-60">---</p>
                           </>
@@ -126,7 +124,7 @@ export default function RwaTableMe() {
                               ((rwa.price - rwa.oldPrice) / rwa.oldPrice) * 100;
                             const isPositive = diff > 0;
                             const isNeutral = diff === 0;
-                            const percentage = Math.abs(diff).toFixed(2) + "%";
+                            const percentage = `${Math.abs(diff).toFixed(2)}%`;
 
                             return (
                               <span
@@ -134,8 +132,8 @@ export default function RwaTableMe() {
                                   isPositive
                                     ? "text-green-500"
                                     : isNeutral
-                                    ? "text-textGray"
-                                    : "text-red-600"
+                                      ? "text-textGray"
+                                      : "text-red-600"
                                 }`}
                               >
                                 {isPositive && (
@@ -150,7 +148,7 @@ export default function RwaTableMe() {
                           })()}
                       </TableCell>
                       <TableCell className="text-right space-x-2">
-                        {rwa.ownerUsername === user!?.UserName && (
+                        {rwa.ownerUsername === user?.UserName && (
                           <Link
                             href={`/rwa/${rwa.tokenId}/update`}
                             className={buttonVariants({

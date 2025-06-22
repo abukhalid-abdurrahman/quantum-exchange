@@ -1,5 +1,3 @@
-"use client";
-
 import {
   Pagination,
   PaginationContent,
@@ -9,7 +7,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { getVisiblePages } from "@/lib/scripts/script";
+import { getVisiblePages } from "@/utils/getVisiblePages.util";
 import { ReadonlyURLSearchParams } from "next/navigation";
 
 interface PaginationButtonsProps {

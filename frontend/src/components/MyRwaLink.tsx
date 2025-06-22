@@ -1,11 +1,9 @@
-'use client'
+"use client";
 
-import { useUserStore } from '@/store/useUserStore'
-import Link from 'next/link'
+import Link from "next/link";
+import { useUserStore } from "@/store/useUserStore";
 
 export default function MyRwaLink() {
-  const { user } = useUserStore()
-  return (
-    <Link href={`${user ? "/rwa/me" : "?signin=true"}`}>My RWAs</Link>
-  )
+  const { user } = useUserStore();
+  return <Link href={`${user ? "/rwa/me" : "?signin=true"}`}>My RWAs</Link>;
 }

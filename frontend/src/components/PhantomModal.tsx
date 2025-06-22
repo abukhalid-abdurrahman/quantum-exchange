@@ -1,15 +1,16 @@
+import Loading from "@/components/Loading";
 import Image from "next/image";
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 import { useEffect } from "react";
-import Loading from "./Loading";
 
 type PhantomModalProps = {
   onClose: () => void;
   publicKey: string | null;
   walletDenied: boolean;
-  connectPhantomWallet: (publicKey: string | null) => void;
+  connectPhantomWallet: () => void;
   setWalletDenied: (value: boolean) => void;
   errorMessage: string;
+  refetch?: () => void;
 };
 
 export default function PhantomModal({
@@ -19,10 +20,14 @@ export default function PhantomModal({
   connectPhantomWallet,
   setWalletDenied,
   errorMessage,
+  refetch,
 }: PhantomModalProps) {
   useEffect(() => {
     const timer = setTimeout(() => {
-      if (publicKey) onClose();
+      if (publicKey) {
+        onClose();
+        if (refetch) refetch();
+      }
     }, 3000);
     return () => clearTimeout(timer);
   }, [publicKey, onClose]);
@@ -50,11 +55,11 @@ export default function PhantomModal({
 
     return {
       title: "Connection failed",
-      description: errorMessage || 'Something went wrong',
+      description: errorMessage || "Something went wrong",
       buttonText: "Retry",
       buttonDisabled: false,
       onClick: () => {
-        connectPhantomWallet(publicKey);
+        connectPhantomWallet();
         setWalletDenied(false);
       },
     };

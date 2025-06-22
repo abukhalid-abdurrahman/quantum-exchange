@@ -1,14 +1,4 @@
-export interface CryptoOption {
-  id: string;
-  name: string;
-  description: string;
-  tokens: string[];
-}
-
-export interface SelectedCrypto {
-  network: string;
-  token: string;
-}
+import { SelectedCrypto } from "@/types/crypto/crypto.type";
 
 export const defaultSelectedFrom: SelectedCrypto = {
   network: "Solana",
@@ -23,4 +13,9 @@ export const defaultSelectedTo: SelectedCrypto = {
 export const defaultSelectedNetwork = {
   name: "Solana",
   description: "Solana network",
+};
+
+export const networkIcons: Record<string, string> = {
+  Solana: "/SOL.png",
+  Radix: "/XRD.png",
 };

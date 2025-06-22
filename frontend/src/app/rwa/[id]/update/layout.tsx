@@ -9,9 +9,5 @@ export default function RwaChangeLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
-    <div className="max-w-[1200px] min-h-screen mx-auto w-full">
-      {children}
-    </div>
-  );
+  return <div>{children}</div>;
 }
