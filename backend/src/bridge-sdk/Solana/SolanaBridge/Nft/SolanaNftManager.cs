@@ -16,7 +16,7 @@ public sealed class SolanaNftManager(
             return Result<NftMintingResponse>.Failure(walletResult.Error);
 
         WalletKeyPair walletKey = walletResult.Value!;
-        Mnemonic mnemonic = new(Encoding.UTF8.GetString(walletKey.SeedPhrease));
+        Mnemonic mnemonic = new(Encoding.UTF8.GetString(walletKey.SeedPhrase));
         Wallet wallet = new(mnemonic);
 
         Account account = wallet.Account;

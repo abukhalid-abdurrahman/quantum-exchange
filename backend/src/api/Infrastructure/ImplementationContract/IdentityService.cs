@@ -101,7 +101,7 @@ public sealed class IdentityService(
             {
                 UserId = userId,
                 PrivateKey = account.PrivateKey.RawHex(),
-                PublicKey = account.PublicKey.ToString(),
+                PublicKey = Encoders.Hex.EncodeData(account.PrivateKey.PublicKeyBytes()),
                 SeedPhrase = account.SeedPhrase,
                 Address = addressRes.Value!,
                 NetworkId = await GetNetworkIdAsync(Networks.Radix, token),
