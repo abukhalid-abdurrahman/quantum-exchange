@@ -164,7 +164,7 @@ export default function CryptoAddressModal({
 
             {address && <QRCodeDisplay text={address} />}
 
-            {message && <p className="text-textGray p-sm mt-2">{message}</p>}
+            {message && <p className="text-text-gray p-sm mt-2">{message}</p>}
 
             <div className="flex gap-[5px] mt-5 items-center justify-center">
               <div

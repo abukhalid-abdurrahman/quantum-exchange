@@ -26,7 +26,7 @@ export default function FiltersForm({
   setIsFiltersOpen,
 }: FiltersFormProps) {
   const [inputClasses] = useState(
-    "px-2 py-1 bg-transparent border-textGray text-white rounded-sm text-sm w-full lg:text-base lg:text-black"
+    "px-2 py-1 bg-transparent border-text-gray text-white rounded-sm text-sm w-full lg:text-base lg:text-black"
   );
 
   const form = useForm<FiltersSchema>({

@@ -89,7 +89,7 @@ export function DragAndDropUpload({
         return (
           <FormItem className="w-1/2 md:w-full">
             <FormControl>
-              <div className="aspect-square h-auto rounded-2xl bg-textGray">
+              <div className="aspect-square h-auto rounded-2xl bg-text-gray">
                 <div
                   {...getRootProps({
                     className: `flex justify-center items-center border-2 border-dashed border-gray p-4 rounded-md text-center cursor-pointer h-full transition-colors duration-150 ${

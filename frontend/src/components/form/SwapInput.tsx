@@ -51,7 +51,7 @@ export default function SwapInput({
             <FormLabel>{input.placeholder}</FormLabel>
             <FormControl>
               <input
-                className="input-swap !pt-2 !pb-4 sm:!pb-2"
+                className="input-swap pt-2! pb-4! sm:pb-2!"
                 step="0.00001"
                 placeholder={tokenInputs ? token?.token : input.placeholder}
                 onKeyDown={handleKeyDown}
@@ -73,7 +73,7 @@ export default function SwapInput({
           variant="empty"
           size="lg"
           type="button"
-          className="text-lg rounded-full bg-darkGray px-4 flex justify-center gap-[7px] items-center sm:text-base xxs:py-1 hover:shadow-md transition-all"
+          className="text-lg rounded-full bg-dark-gray px-4 flex justify-center gap-[7px] items-center sm:text-base xxs:py-1 hover:shadow-md transition-all"
           onClick={() =>
             openCryptoModal(input.placeholder.toLowerCase() as "from" | "to")
           }

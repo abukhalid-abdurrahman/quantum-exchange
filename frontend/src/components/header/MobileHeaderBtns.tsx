@@ -35,7 +35,7 @@ export default function MobileHeaderBtns() {
           className={`${buttonVariants({
             variant: "gray",
             size: "default",
-          })} !items-start !justify-start !px-5`}
+          })} items-start! justify-start! px-5!`}
         >
           Sign In
         </Link>
@@ -49,7 +49,7 @@ export default function MobileHeaderBtns() {
               </Avatar>
               <div className="">
                 <p className="font-semibold text-lg">{user.UserName}</p>
-                <p className="text-textGray text-sm -mt-1">{user.Email}</p>
+                <p className="text-text-gray text-sm -mt-1">{user.Email}</p>
               </div>
             </div>
           </Link>

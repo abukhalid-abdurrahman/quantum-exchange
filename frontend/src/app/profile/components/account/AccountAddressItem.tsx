@@ -17,7 +17,7 @@ export default function AccountAddressItem({
           size: "xl",
         })} flex gap-2 bg-gray px-5 rounded-xl justify-between items-center flex-1 sm:py-1 sm:px-3 sm:h-[46px] relative`}
       >
-        <p className="p sm:absolute sm:text-textGray sm:top-1 sm:text-xs">
+        <p className="p sm:absolute sm:text-text-gray sm:top-1 sm:text-xs">
           Balance:
         </p>
         <p className="p sm:pt-3 sm:text-sm">{address.balance}</p>

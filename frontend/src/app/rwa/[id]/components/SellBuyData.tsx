@@ -25,7 +25,7 @@ export default function SellBuyData({ tokenId }: SellBuyDataProps) {
       <div className="mt-16">
         <Loading
           className="flex justify-center"
-          classNameLoading="!border-white !border-r-transparent !w-10 !h-10"
+          classNameLoading="border-white! border-r-transparent! w-10! h-10!"
         />
       </div>
     );
@@ -38,7 +38,7 @@ export default function SellBuyData({ tokenId }: SellBuyDataProps) {
       <h3 className="h3">Sell / Buy History</h3>
       <Table className="mt-5 xs:min-w-[480px] xs:overflow-x-auto">
         <TableHeader>
-          <TableRow className="hover:bg-transparent border-textGray">
+          <TableRow className="hover:bg-transparent border-text-gray">
             {["Type", "Price", "Token", "Buyer", "Date"].map((col) => (
               <TableHead
                 key={col}
@@ -58,7 +58,7 @@ export default function SellBuyData({ tokenId }: SellBuyDataProps) {
             <TableRow className="hover:bg-transparent">
               <TableCell
                 colSpan={5}
-                className="text-center py-8 px-0 text-textGray"
+                className="text-center py-8 px-0 text-text-gray"
               >
                 No purchases or sales yet.
               </TableCell>

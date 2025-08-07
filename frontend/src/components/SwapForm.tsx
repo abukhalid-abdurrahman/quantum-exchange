@@ -158,7 +158,7 @@ export default function SwapForm() {
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
             <button
               type="button"
-              className="bg-white w-10 h-10 flex justify-center items-center rounded-xl border border-[#878787] shadow-sm group sm:w-8 sm:h-8"
+              className="bg-white w-10 h-10 flex justify-center items-center rounded-xl border border-[#878787] shadow-xs group sm:w-8 sm:h-8"
               onClick={handleSwap}
             >
               <ChevronDown

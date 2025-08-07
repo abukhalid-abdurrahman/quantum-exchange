@@ -8,7 +8,7 @@ export default async function page({ searchParams }: SearchParams) {
   return (
     <>
       <Header searchParams={searchParams} />
-      <div className="mt-16 md:mt-10 xl:px-5 md:!px-0 lg:mt-10 sm:!mb-0 sm:pb-5">
+      <div className="mt-16 md:mt-10 xl:px-5 md:px-0! lg:mt-10 sm:mb-0! sm:pb-5">
         <div className="mx-auto">
           <RwaData />
         </div>

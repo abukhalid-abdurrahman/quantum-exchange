@@ -36,7 +36,7 @@ export default function WalletSelector({
                 className={`${buttonVariants({
                   variant: "empty",
                   size: "xxl",
-                })} !p-3 h-auto w-full !justify-between cursor-pointer`}
+                })} p-3! h-auto w-full justify-between! cursor-pointer`}
                 onClick={() => {
                   setWhatWallet(wallet.walletName);
                   connectPhantomWallet();

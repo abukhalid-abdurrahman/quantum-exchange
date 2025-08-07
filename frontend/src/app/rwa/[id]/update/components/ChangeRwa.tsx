@@ -114,7 +114,7 @@ export default function ChangeRwa() {
     return (
       <Loading
         className="flex justify-center mt-14"
-        classNameLoading="!border-white !border-r-transparent !w-14 !h-14"
+        classNameLoading="border-white! border-r-transparent! w-14! h-14!"
       />
     );
   }
@@ -210,12 +210,12 @@ export default function ChangeRwa() {
               Update
             </Button>
           </div>
-          <div className="w-1/2 aspect-[3/2] rounded-2xl md:w-full md:aspect-auto">
-            <div className="relative aspect-[3/2] w-full max-w-full bg-neutral-700/50 rounded-2xl p-5 flex items-center justify-center overflow-hidden">
+          <div className="w-1/2 aspect-3/2 rounded-2xl md:w-full md:aspect-auto">
+            <div className="relative aspect-3/2 w-full max-w-full bg-neutral-700/50 rounded-2xl p-5 flex items-center justify-center overflow-hidden">
               <img
                 src={data?.data.image}
                 alt={data?.data.title}
-                className="object-contain !max-h-full !w-auto rounded-2xl"
+                className="object-contain max-h-full! w-auto! rounded-2xl"
               />
             </div>
             <div className="flex flex-col gap-2 mt-2">
@@ -234,7 +234,7 @@ export default function ChangeRwa() {
                 size="default"
                 type="button"
                 onClick={() => setIsAlldataOpen(true)}
-                className="!px-5 !w-full flex justify-center flex-wrap cursor-pointer"
+                className="px-5! w-full! flex justify-center flex-wrap cursor-pointer"
               >
                 Show all information
               </Button>

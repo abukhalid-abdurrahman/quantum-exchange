@@ -25,7 +25,7 @@ export default function Modal({
         {!isNonUrlModal && !isNonClosable && (
           <Link
             href="/"
-            className="modal-close !bg-gray rounded-full p-[5px] sm:!top-3 sm:!right-3"
+            className="modal-close bg-gray! rounded-full p-[5px] sm:top-3! sm:right-3!"
           >
             <X size={18} />
           </Link>
@@ -33,7 +33,7 @@ export default function Modal({
         {isNonUrlModal && !isNonClosable && (
           <button
             type="button"
-            className="modal-close !bg-gray rounded-full p-[5px] sm:!top-3 sm:!right-3"
+            className="modal-close bg-gray! rounded-full p-[5px] sm:top-3! sm:right-3!"
             onClick={onCloseFunc}
           >
             <X size={18} />

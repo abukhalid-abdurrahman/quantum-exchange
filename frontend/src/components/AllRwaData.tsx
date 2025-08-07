@@ -39,7 +39,7 @@ export default function AllRwaData({ data, setIsOpen }: AllRwaDataProps) {
   };
 
   return (
-    <div className="fixed inset-0 z-[1000000] bg-backgroundWebsite">
+    <div className="fixed inset-0 z-1000000 bg-background-website">
       <div className="w-full h-full overflow-y-auto p-10 md:p-5">
         <div className="max-w-[1200px] mx-auto">
           <div className="flex justify-between items-center mb-10 md:mb-5">
@@ -60,7 +60,7 @@ export default function AllRwaData({ data, setIsOpen }: AllRwaDataProps) {
                   ([key, value]: [string, any]) => (
                     <TableRow
                       key={key}
-                      className="hover:bg-transparent border-textGray relative md:flex md:gap-2 md:justify-between"
+                      className="hover:bg-transparent border-text-gray relative md:flex md:gap-2 md:justify-between"
                     >
                       <TableCell className="px-0">
                         {getPlaceholder(key)}

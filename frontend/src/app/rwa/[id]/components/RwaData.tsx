@@ -23,7 +23,7 @@ export default function RwaData() {
     return (
       <Loading
         className="flex justify-center mt-14"
-        classNameLoading="!border-white !border-r-transparent !w-14 !h-14"
+        classNameLoading="border-white! border-r-transparent! w-14! h-14!"
       />
     );
   }
@@ -48,7 +48,7 @@ export default function RwaData() {
             />
             <div className="sm:flex sm:justify-between sm:mt-3 sm:mb-1">
               <h3 className="h1 sm:text-2xl">{rwaData.title}</h3>
-              <p className="p text-textGray hidden sm:block">Price</p>
+              <p className="p text-text-gray hidden sm:block">Price</p>
               <h2 className="h1 text-green-500 font-bold sm:text-2xl">
                 {rwaData.price} zBTC
               </h2>
@@ -56,7 +56,7 @@ export default function RwaData() {
           </div>
 
           <div className="w-full flex flex-col gap-2">
-            <span className="text-textGray text-sm">Asset Description:</span>
+            <span className="text-text-gray text-sm">Asset Description:</span>
             <p>{rwaData.assetDescription}</p>
 
             <InfoRow

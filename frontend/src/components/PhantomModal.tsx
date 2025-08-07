@@ -72,14 +72,14 @@ export default function PhantomModal({
     <div className="flex flex-col items-center justify-center text-black gap-7">
       <div
         className={`relative transition-all mt-10 mb-7 ${
-          (publicKey || walletDenied || errorMessage) && "!mt-5 !mb-0"
+          (publicKey || walletDenied || errorMessage) && "mt-5! mb-0!"
         }`}
       >
         <Loading
           className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-all ${
             (publicKey || walletDenied || errorMessage) && "opacity-0"
           }`}
-          classNameLoading="!w-[130px] !h-[130px] !border-textGray !border-r-transparent !border-4"
+          classNameLoading="w-[130px]! h-[130px]! border-text-gray! border-r-transparent! border-4!"
         />
         <Image
           src="/phantom.svg"

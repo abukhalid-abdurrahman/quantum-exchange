@@ -11,7 +11,7 @@ export default function InfoRow({ label, value }: InfoRowProps) {
       className={`${buttonVariants({
         variant: "gray",
         size: "lg",
-      })} !px-5 w-full flex justify-between flex-wrap`}
+      })} px-5! w-full flex justify-between flex-wrap`}
     >
       <span className="text-gray-500">{label}:</span>
       {value}

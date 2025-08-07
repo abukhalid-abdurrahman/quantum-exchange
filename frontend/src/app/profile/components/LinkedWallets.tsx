@@ -34,9 +34,9 @@ export default function LinkedWallets() {
                   className={`${buttonVariants({
                     variant: "empty",
                     size: "xl",
-                  })} flex gap-2 bg-gray px-5 rounded-xl flex-1 sm:py-1 sm:px-3 relative sm:h-[46px] !justify-between`}
+                  })} flex gap-2 bg-gray px-5 rounded-xl flex-1 sm:py-1 sm:px-3 relative sm:h-[46px] justify-between!`}
                 >
-                  <p className="p sm:absolute sm:text-textGray sm:top-1 sm:text-xs">
+                  <p className="p sm:absolute sm:text-text-gray sm:top-1 sm:text-xs">
                     Address:
                   </p>
                   <p className="p sm:pt-3 sm:text-sm">

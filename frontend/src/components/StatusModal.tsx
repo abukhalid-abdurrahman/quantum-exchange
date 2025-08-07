@@ -69,7 +69,7 @@ export default function StatusModal({
         height={100}
         className="mt-5 sm:w-20"
       />
-      <h2 className="h2 mt-5 !block text-center">
+      <h2 className="h2 mt-5 block! text-center">
         Your transaction was successful
       </h2>
 

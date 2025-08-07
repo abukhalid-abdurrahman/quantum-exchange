@@ -33,7 +33,7 @@ export default function SelectFilterField({
           >
             <FormControl>
               <SelectTrigger
-                className={`${inputClasses} !mt-0 lg:max-w-[300px] sm:!max-w-[160px]`}
+                className={`${inputClasses} mt-0! lg:max-w-[300px] sm:max-w-[160px]!`}
               >
                 <SelectValue placeholder={input.placeholder} />
               </SelectTrigger>

@@ -24,7 +24,7 @@ export function PriceChangeIndicator({
         isPositive
           ? "text-green-500"
           : isNeutral
-            ? "text-textGray"
+            ? "text-text-gray"
             : "text-red-600"
       }`}
     >

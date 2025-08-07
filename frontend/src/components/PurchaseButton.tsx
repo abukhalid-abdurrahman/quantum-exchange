@@ -146,7 +146,7 @@ export default function PurchaseButton({
           onCloseFunc={() => setIsModalOpen(false)}
           className={`${
             showMinimalModal ? "min-h-64 flex justify-center items-center" : ""
-          } relative z-[10000]`}
+          } relative z-10000`}
         >
           <div className="flex flex-col items-center justify-center">
             {status === "loading" && (

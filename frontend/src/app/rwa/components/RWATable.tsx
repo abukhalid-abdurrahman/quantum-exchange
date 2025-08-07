@@ -38,7 +38,7 @@ export default function RWATable() {
       {isSomeFetching ? (
         <Loading
           className="flex justify-center mt-14"
-          classNameLoading="!border-white !border-r-transparent !w-14 !h-14"
+          classNameLoading="border-white! border-r-transparent! w-14! h-14!"
         />
       ) : (
         <>
@@ -76,7 +76,7 @@ export default function RWATable() {
                             />
                             <div className="flex flex-col">
                               <p className="p">{rwa.title}</p>
-                              <p className="text-textGray">
+                              <p className="text-text-gray">
                                 {shortDescription(rwa.assetDescription)}
                               </p>
                             </div>

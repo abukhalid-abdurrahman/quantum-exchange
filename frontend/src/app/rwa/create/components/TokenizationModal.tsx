@@ -55,7 +55,7 @@ export default function TokenizationModal({
               height={100}
               className="mt-5 sm:w-20"
             />
-            <h2 className="h2 my-5 !block">
+            <h2 className="h2 my-5 block!">
               You have successfully created your RWA
             </h2>
             <div

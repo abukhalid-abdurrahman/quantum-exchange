@@ -53,7 +53,7 @@ export default function MobileHeader({ signin, signup }: MobileHeaderProps) {
 
   return (
     <>
-      <header className="justify-between items-center py-4 px-5 w-full text-white hidden lg:flex md:!px-0">
+      <header className="justify-between items-center py-4 px-5 w-full text-white hidden lg:flex md:px-0!">
         <Link href="/" className="text-lg font-semibold">
           Quantum Street Bridge
         </Link>
@@ -64,23 +64,23 @@ export default function MobileHeader({ signin, signup }: MobileHeaderProps) {
 
       {/* Sidebar / Drawer */}
       <div
-        className={`fixed -left-full top-0 bottom-0 z-50 bg-black/60 backdrop-blur-sm transition-all ${
-          isOpen && "!right-0 !left-0"
+        className={`fixed -left-full top-0 bottom-0 z-50 bg-black/60 backdrop-blur-xs transition-all ${
+          isOpen && "right-0! left-0!"
         }`}
       >
         <div
           ref={menuRef}
           className={`absolute -left-full top-0 h-full w-4/5 bg-white text-black py-4 px-2 shadow-xl transition-all
-          ${isOpen && "!left-0"}`}
+          ${isOpen && "left-0!"}`}
         >
           <nav className="flex flex-col gap-2">
             <MobileHeaderBtns />
-            <WalletConnect className="w-full !justify-start" />
+            <WalletConnect className="w-full justify-start!" />
             <div
               className={`${buttonVariants({
                 variant: "empty",
                 size: "default",
-              })} flex-col h-auto gap-3 !px-5 !py-3`}
+              })} flex-col h-auto gap-3 px-5! py-3!`}
             >
               <p className="p w-full mb-2 font-semibold">Sections</p>
               <Link href="/" className="w-full flex gap-2 items-center">
@@ -114,7 +114,7 @@ export default function MobileHeader({ signin, signup }: MobileHeaderProps) {
             <Button
               variant="gray"
               size="default"
-              className="mt-2 !justify-between w-full"
+              className="mt-2 justify-between! w-full"
               onClick={() => {
                 logout();
                 localStorage.removeItem("user");

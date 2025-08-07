@@ -182,7 +182,7 @@ export default function CreateRwa() {
                 isSecondStep ? "block" : "hidden"
               }`}
             >
-              <h2 className="h2 mb-2 text-white border-b border-textGray pb-2">
+              <h2 className="h2 mb-2 text-white border-b border-text-gray pb-2">
                 Additional fields for {assetType}
               </h2>
               {getFieldsByAssetType(selectedAssetType).fields.map((item) => (

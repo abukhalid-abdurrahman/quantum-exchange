@@ -62,7 +62,7 @@ export default function CryptoModal({
               <CryptoItem
                 image={networkIcons[network.name] || ""}
                 crypto={network.name}
-                className="cursor-pointer hover:bg-darkGray transition-all"
+                className="cursor-pointer hover:bg-dark-gray transition-all"
                 onClick={() => selectNetwork(network)}
               />
             </li>
@@ -75,7 +75,7 @@ export default function CryptoModal({
               selectedNetworkTokens.map((token: string) => (
                 <li
                   key={token}
-                  className="flex gap-3 items-center text-sm cursor-pointer text-textGray"
+                  className="flex gap-3 items-center text-sm cursor-pointer text-text-gray"
                   onClick={() => handleClick(token)}
                 >
                   <Image
@@ -88,7 +88,7 @@ export default function CryptoModal({
                 </li>
               ))
             ) : (
-              <p className="p-sm text-textGray">No tokens available</p>
+              <p className="p-sm text-text-gray">No tokens available</p>
             )}
           </ul>
         </div>
