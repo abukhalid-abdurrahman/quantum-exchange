@@ -86,7 +86,7 @@ export default function SignInForm() {
 
         {errorMessage && <p className="text-sm text-red-500">{errorMessage}</p>}
 
-        <Button variant="gray" type="submit" size="xl" className="w-full">
+        <Button variant="default" type="submit" size="xl" className="w-full">
           {submit.isPending ? "Signing in..." : "Sign In"}
         </Button>
 

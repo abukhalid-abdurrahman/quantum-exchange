@@ -19,7 +19,7 @@ export default function CryptoItem({
       className={`${buttonVariants({
         variant: "empty",
         size: "xl",
-      })} flex gap-2 bg-gray px-3 py-3 rounded-xl items-center sm:px-2 sm:py-1 sm:h-[46px] ${className}`}
+      })} flex gap-2 bg-gray !px-3 !py-3 rounded-lg items-center sm:px-2 sm:py-1 sm:h-[46px] ${className}`}
       onClick={onClick}
     >
       <Image

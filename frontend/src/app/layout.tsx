@@ -25,9 +25,7 @@ export default function RootLayout({
         className={`${dmSans.className} antialiased min-h-screen bg-background-website`}
       >
         <TanstackProvider>
-          <main className="main w-full h-full">
-            {children}
-          </main>
+          <main className="main w-full h-full">{children}</main>
         </TanstackProvider>
       </body>
     </html>

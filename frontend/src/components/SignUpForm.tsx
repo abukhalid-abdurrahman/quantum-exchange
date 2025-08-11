@@ -91,7 +91,7 @@ export default function SignUpForm() {
 
         <Button
           type="submit"
-          variant="gray"
+          variant="default"
           size="xl"
           className="w-full"
           disabled={successMessage}

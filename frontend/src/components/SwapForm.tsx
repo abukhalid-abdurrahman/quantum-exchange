@@ -144,7 +144,7 @@ export default function SwapForm() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col gap-5 sm:gap-3"
+        className="flex flex-col gap-5 sm:gap-3 text-black"
       >
         {/* Input Fields */}
         <div className="flex flex-col gap-5 relative sm:gap-3">
@@ -158,7 +158,7 @@ export default function SwapForm() {
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
             <button
               type="button"
-              className="bg-white w-10 h-10 flex justify-center items-center rounded-xl border border-[#878787] shadow-xs group sm:w-8 sm:h-8"
+              className="bg-white w-10 h-10 flex justify-center items-center rounded-md border border-[#878787] shadow-xs group sm:w-8 sm:h-8"
               onClick={handleSwap}
             >
               <ChevronDown
@@ -181,7 +181,7 @@ export default function SwapForm() {
 
         <Button
           type="submit"
-          variant="gray"
+          variant="default"
           size="xxl"
           onClick={() => setIsOrderCompleted(false)}
         >

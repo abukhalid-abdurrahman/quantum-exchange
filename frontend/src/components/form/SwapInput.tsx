@@ -70,10 +70,10 @@ export default function SwapInput({
       />
       {tokenInputs ? (
         <Button
-          variant="empty"
+          variant="secondary"
           size="lg"
           type="button"
-          className="text-lg rounded-full bg-dark-gray px-4 flex justify-center gap-[7px] items-center sm:text-base xxs:py-1 hover:shadow-md transition-all"
+          className="text-lg rounded-full px-4 flex justify-center gap-[7px] items-center sm:text-base xxs:py-1 hover:shadow-md transition-all"
           onClick={() =>
             openCryptoModal(input.placeholder.toLowerCase() as "from" | "to")
           }

@@ -36,7 +36,7 @@ export default function HeaderBtns() {
       {!user ? (
         <Link
           href="?signin=true"
-          className={buttonVariants({ variant: "gray", size: "default" })}
+          className={buttonVariants({ variant: "default", size: "default" })}
         >
           Sign In
         </Link>
@@ -44,7 +44,7 @@ export default function HeaderBtns() {
         <>
           <Link
             href="/profile"
-            className={buttonVariants({ variant: "gray", size: "default" })}
+            className={buttonVariants({ variant: "default", size: "default" })}
           >
             <Image
               src="/profile.svg"

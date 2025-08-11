@@ -26,9 +26,9 @@
 
 @layer utilities {
   :root {
-    --gray: #ededed;
-    --dark-gray: #d9d9d9;
-    --text-gray: #787878;
+    /* --gray: #ededed; */
+    /* --dark-gray: #d9d9d9; */
+    /* --text-gray: #787878; */
     --backgroundWebsite: #00010c;
   }
 
@@ -233,7 +233,7 @@
 :root {
   --radius: 1rem;
   --background: oklch(0.0813 0.0407 262.93);
-  --foreground: oklch(0.13 0.028 261.692);
+  --foreground: oklch(1 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.13 0.028 261.692);
   --popover: oklch(1 0 0);
@@ -241,14 +241,14 @@
   --primary: oklch(0.5727 0 0);
   --primary-foreground: oklch(0.985 0.002 247.839);
   --secondary: oklch(0.8853 0 0);
-  --secondary-foreground: oklch(0.21 0.034 264.665);
+  --secondary-foreground: oklch(0 0 0);
   --muted: oklch(0.9461 0 0);
-  --muted-foreground: oklch(0.551 0.027 264.364);
+  --muted-foreground: oklch(0.5727 0 0);
   --accent: oklch(0.5727 0 0);
   --accent-foreground: oklch(0.21 0.034 264.665);
   --destructive: oklch(0.577 0.245 27.325);
   --border: oklch(0.928 0.006 264.531);
-  --input: oklch(0.928 0.006 264.531);
+  --input: oklch(0.928 0 264.531);
   --ring: oklch(0.707 0.022 261.325);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
