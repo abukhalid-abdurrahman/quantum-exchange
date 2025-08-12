@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ChevronDown, Clock, Loader2 } from "lucide-react";
+import { Check, ChevronDown, Clock, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 import {
@@ -21,15 +21,19 @@ import { useCreateOrder } from "@/requests/swap/createOrder.request";
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import SwapInput from "@/components/form/SwapInput";
-import LoadingAlt from "@/components/LoadingAlt";
 import CryptoModal from "@/components/CryptoModal";
 import StatusModal from "@/components/StatusModal";
 import CryptoAddressModal from "@/components/CryptoAddressModal";
 
 import { SwapFormData, SwapResponse } from "@/types/crypto/swap.type";
 import SwapMicroInfo from "@/components/SwapMicroInfo";
-import { Skeleton } from "@/components/ui/skeleton";
 import CountdownTimer from "@/components/CountdownTimer";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import SwapTimer from "@/components/SwapTimer";
 
 export default function SwapForm() {
   const router = useRouter();
@@ -62,8 +66,6 @@ export default function SwapForm() {
   const [formData, setFormData] = useState<SwapFormData | null>(null);
   const [orderResponse, setOrderResponse] = useState<SwapResponse | null>(null);
 
-  const [timeLeft, setTimeLeft] = useState(180);
-
   const prevFrom = useRef(selectedFrom);
   const prevTo = useRef(selectedTo);
 
@@ -74,13 +76,6 @@ export default function SwapForm() {
     refetch,
   } = useGetExchangeRate(selectedFrom.token, selectedTo.token);
   const submitOrder = useCreateOrder();
-
-  useEffect(() => {
-    if (!timeLeft) {
-      refetch();
-      setTimeLeft(180);
-    }
-  }, [timeLeft]);
 
   useEffect(() => {
     if (selectedFrom.token === selectedTo.token) {
@@ -153,27 +148,11 @@ export default function SwapForm() {
     setStatusModalOpen(false);
   };
 
-  // if (isFetching) {
-  //   return (
-  //     <div className="space-y-2">
-  //       <Skeleton className="bg-secondary w-full h-32 mt-2 rounded-md" />
-  //       <Skeleton className="bg-secondary w-full h-32 mt-2 rounded-md" />
-  //       <Skeleton className="bg-secondary w-full h-32 mt-2 rounded-md" />
-  //       <Skeleton className="bg-secondary w-full h-14 mt-2 rounded-md" />
-  //     </div>
-  //   );
-  // }
-
   return (
     <div className="">
       <div className="flex justify-between items-start">
         <h3 className="h3 mb-[10px]">Swap</h3>
-        <div className="flex gap-2 items-center">
-          <Clock size={19} />
-          <div className="w-9 flex">
-            <CountdownTimer timeLeft={timeLeft} setTimeLeft={setTimeLeft} />
-          </div>
-        </div>
+        <SwapTimer refetch={refetch} />
       </div>
       <Form {...form}>
         <form
@@ -185,7 +164,7 @@ export default function SwapForm() {
             <SwapInput
               form={form}
               input={swapSchemaFields[0]}
-              amountInDollar="$3 234,54"
+              description="$3 234,54"
               token={selectedFrom}
               openCryptoModal={openCryptoModal}
             />
@@ -206,14 +185,25 @@ export default function SwapForm() {
             <SwapInput
               form={form}
               input={swapSchemaFields[1]}
-              amountInDollar="$3 223,54 (-0.12%)"
+              description="$3 223,54 (-0.12%)"
               token={selectedTo}
               disabled={true}
               openCryptoModal={openCryptoModal}
             />
           </div>
 
-          <SwapInput form={form} input={swapSchemaFields[2]} />
+          <SwapInput
+            form={form}
+            input={swapSchemaFields[2]}
+            description={
+              <>
+                <div className="flex items-center gap-1">
+                  <Check size={14} />
+                  Address is valid
+                </div>
+              </>
+            }
+          />
 
           <Button
             type="submit"

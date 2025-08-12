@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { DM_Sans } from "next/font/google";
 import "./globals.css";
 import TanstackProvider from "@/providers/TanstackProvider";
+import TooltipProv from "@/providers/TooltipProvider";
 
 const dmSans = DM_Sans({
   weight: ["400", "600", "700"],
@@ -25,7 +26,9 @@ export default function RootLayout({
         className={`${dmSans.className} antialiased min-h-screen bg-background-website`}
       >
         <TanstackProvider>
-          <main className="main w-full h-full">{children}</main>
+          <TooltipProv>
+            <main className="main w-full h-full">{children}</main>
+          </TooltipProv>
         </TanstackProvider>
       </body>
     </html>

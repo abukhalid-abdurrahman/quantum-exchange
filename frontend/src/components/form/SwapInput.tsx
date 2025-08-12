@@ -12,13 +12,13 @@ import {
 import { SelectedCrypto } from "@/types/crypto/crypto.type";
 import { FormField as FormFieldType } from "@/types/form/formField.type";
 import Image from "next/image";
-import { KeyboardEvent } from "react";
+import React, { KeyboardEvent } from "react";
 import { UseFormReturn } from "react-hook-form";
 
 interface SwapInputProps {
   form: UseFormReturn<any>;
   input: FormFieldType;
-  amountInDollar?: string;
+  description?: string | React.ReactNode;
   token?: SelectedCrypto;
   disabled?: boolean;
   openCryptoModal?: (value: "from" | "to") => void;
@@ -29,7 +29,7 @@ export default function SwapInput({
   input,
   token,
   disabled = false,
-  amountInDollar,
+  description,
   openCryptoModal,
 }: SwapInputProps) {
   const tokenInputs =
@@ -67,7 +67,7 @@ export default function SwapInput({
                 }}
               />
             </FormControl>
-            <FormDescription>{amountInDollar}</FormDescription>
+            <FormDescription>{description}</FormDescription>
             <FormMessage />
           </FormItem>
         )}
