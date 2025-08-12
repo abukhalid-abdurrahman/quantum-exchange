@@ -1,5 +1,6 @@
 "use client";
 
+import SwapRoute from "@/components/SwapRoute";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ArrowRightLeft, ChevronDown, Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -9,6 +10,9 @@ interface SwapMicroInfoProps {
   toToken: string;
   rootRate: number;
   fee: number;
+
+  fromAmount: number;
+  toAmount: number;
 }
 
 export default function SwapMicroInfo({
@@ -16,8 +20,12 @@ export default function SwapMicroInfo({
   toToken,
   rootRate,
   fee,
+  fromAmount,
+  toAmount,
 }: SwapMicroInfoProps) {
   const [isInfoOpen, setIsInfoOpen] = useState(false);
+  const [isRouteOpen, setIsRouteOpen] = useState(false);
+
   const [rate, setRate] = useState(rootRate);
   const [tokensConsistency, setTokensConsistency] = useState([
     fromToken,
@@ -33,6 +41,8 @@ export default function SwapMicroInfo({
     setTokensConsistency([tokensConsistency[1], tokensConsistency[0]]);
     setRate(1 / rate);
   };
+
+  const onRouteClose = () => setIsRouteOpen(false);
 
   return (
     <>
@@ -71,9 +81,23 @@ export default function SwapMicroInfo({
       >
         <div className="flex justify-between w-full">
           <p className="p-sm opacity-60">Route:</p>
-          <p className="p-sm border-b cursor-pointer">Quantum Street</p>
+          <p
+            onClick={() => setIsRouteOpen(!isRouteOpen)}
+            className="p-sm border-b cursor-pointer"
+          >
+            Quantum Street
+          </p>
         </div>
       </div>
+      {isRouteOpen && (
+        <SwapRoute
+          fromToken={tokensConsistency[0]}
+          toToken={tokensConsistency[1]}
+          fromAmount={fromAmount}
+          toAmount={toAmount}
+          onClose={onRouteClose}
+        />
+      )}
     </>
   );
 }

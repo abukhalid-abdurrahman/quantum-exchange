@@ -4,6 +4,14 @@ export const shortAddress = (address: string) => {
   }
 };
 
-export const shortDescription = (description: string, symbols?: number) => {
-  return `${description.slice(0, symbols || 30)}...`;
+export const shortDescription = (
+  description: string | number,
+  symbols?: number
+) => {
+  const descriptionString =
+    typeof description === "string" ? description : description.toString();
+  if (symbols && descriptionString.length <= symbols) {
+    return descriptionString;
+  }
+  return `${descriptionString.slice(0, symbols || 30)}...`;
 };

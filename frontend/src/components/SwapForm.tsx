@@ -70,6 +70,8 @@ export default function SwapForm() {
   const prevTo = useRef(selectedTo);
 
   const fromAmount = form.watch("fromAmount");
+  const toAmount = form.watch("toAmount");
+
   const {
     data: exchangeRate,
     isFetching,
@@ -228,6 +230,8 @@ export default function SwapForm() {
           toToken={selectedTo.token}
           rootRate={exchangeRate?.data.rate}
           fee={0.25}
+          fromAmount={fromAmount}
+          toAmount={toAmount}
         />
 
         {/* --- MODALS --- */}
