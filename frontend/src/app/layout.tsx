@@ -1,11 +1,16 @@
 import type { Metadata } from "next";
-import { DM_Sans } from "next/font/google";
+import { DM_Mono, DM_Sans } from "next/font/google";
 import "./globals.css";
 import TanstackProvider from "@/providers/TanstackProvider";
 import TooltipProv from "@/providers/TooltipProvider";
 
 const dmSans = DM_Sans({
   weight: ["400", "600", "700"],
+  subsets: ["latin"],
+});
+
+const dmMono = DM_Mono({
+  weight: ["400"],
   subsets: ["latin"],
 });
 
@@ -23,7 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${dmSans.className} antialiased min-h-screen bg-background-website`}
+        className={`${dmMono.className} ${dmSans.className} antialiased min-h-screen bg-background-website`}
       >
         <TanstackProvider>
           <TooltipProv>

@@ -26,8 +26,12 @@ export default function SwapTimer({ refetch }: SwapTimerProps) {
       <Tooltip>
         <TooltipTrigger className="flex gap-2 items-center hover:opacity-80">
           <Clock size={19} />
-          <div className="w-9 flex">
-            <CountdownTimer timeLeft={timeLeft} setTimeLeft={setTimeLeft} />
+          <div className="flex justify-end">
+            <CountdownTimer
+              withLetters={true}
+              timeLeft={timeLeft}
+              setTimeLeft={setTimeLeft}
+            />
           </div>
         </TooltipTrigger>
         <TooltipContent>

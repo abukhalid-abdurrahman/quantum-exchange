@@ -5,11 +5,13 @@ import { useEffect } from "react";
 interface CountdownTimerProps {
   timeLeft: number;
   setTimeLeft: (callback: (prevTime: number) => number) => void;
+  withLetters?: boolean;
 }
 
 export default function CountdownTimer({
   timeLeft,
   setTimeLeft,
+  withLetters = false,
 }: CountdownTimerProps) {
   useEffect(() => {
     if (timeLeft <= 0) return;
@@ -31,8 +33,17 @@ export default function CountdownTimer({
   const seconds = timeLeft % 60;
 
   return (
-    <>
-      {minutes}:{seconds.toString().padStart(2, "0")}
-    </>
+    <div className="font-mono">
+      {withLetters ? (
+        <span>
+          <span>{minutes}m </span>
+          {seconds.toString().padStart(2, "0")}s
+        </span>
+      ) : (
+        <>
+          {minutes}:{seconds.toString().padStart(2, "0")}
+        </>
+      )}
+    </div>
   );
 }

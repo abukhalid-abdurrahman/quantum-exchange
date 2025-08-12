@@ -197,10 +197,10 @@ export default function SwapForm() {
             input={swapSchemaFields[2]}
             description={
               <>
-                <div className="flex items-center gap-1">
+                <span className="flex items-center gap-1">
                   <Check size={14} />
                   Address is valid
-                </div>
+                </span>
               </>
             }
           />
