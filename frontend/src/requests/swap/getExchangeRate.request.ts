@@ -16,6 +16,6 @@ export const useGetExchangeRate = (fromToken: string, toToken: string) => {
     queryKey: [fromToken, toToken, "exchange-rate"],
     queryFn: () => getExchangeRate(fromToken, toToken),
     gcTime: 0,
-    refetchInterval: 300000,
+    // refetchInterval: 300000,
   });
 };

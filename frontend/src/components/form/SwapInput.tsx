@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import {
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -17,6 +18,7 @@ import { UseFormReturn } from "react-hook-form";
 interface SwapInputProps {
   form: UseFormReturn<any>;
   input: FormFieldType;
+  amountInDollar?: string;
   token?: SelectedCrypto;
   disabled?: boolean;
   openCryptoModal?: (value: "from" | "to") => void;
@@ -27,6 +29,7 @@ export default function SwapInput({
   input,
   token,
   disabled = false,
+  amountInDollar,
   openCryptoModal,
 }: SwapInputProps) {
   const tokenInputs =
@@ -42,16 +45,16 @@ export default function SwapInput({
   };
 
   return (
-    <div className="flex gap-2 items-center bg-white rounded-2xl p-5">
+    <div className="flex gap-2 items-center bg-white rounded-md p-5">
       <FormField
         control={form.control}
         name={input.name}
         render={({ field }) => (
           <FormItem className="flex flex-col w-full">
-            <FormLabel>{input.placeholder}</FormLabel>
+            <FormLabel className="text-primary">{input.placeholder}</FormLabel>
             <FormControl>
               <input
-                className="input-swap pt-2! pb-4! sm:pb-2!"
+                className="input-swap mb-1 sm:pb-2!"
                 step="0.00001"
                 placeholder={tokenInputs ? token?.token : input.placeholder}
                 onKeyDown={handleKeyDown}
@@ -64,6 +67,7 @@ export default function SwapInput({
                 }}
               />
             </FormControl>
+            <FormDescription>{amountInDollar}</FormDescription>
             <FormMessage />
           </FormItem>
         )}

@@ -8,4 +8,5 @@ export type FormField = {
   placeholder: string;
   type: "text" | "number" | "password" | "file" | "date" | "email";
   selectItems?: SelectItems[];
+  description?: string;
 };

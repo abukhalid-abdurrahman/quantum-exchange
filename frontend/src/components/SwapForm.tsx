@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Clock, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 import {
@@ -27,6 +27,9 @@ import StatusModal from "@/components/StatusModal";
 import CryptoAddressModal from "@/components/CryptoAddressModal";
 
 import { SwapFormData, SwapResponse } from "@/types/crypto/swap.type";
+import SwapMicroInfo from "@/components/SwapMicroInfo";
+import { Skeleton } from "@/components/ui/skeleton";
+import CountdownTimer from "@/components/CountdownTimer";
 
 export default function SwapForm() {
   const router = useRouter();
@@ -59,15 +62,25 @@ export default function SwapForm() {
   const [formData, setFormData] = useState<SwapFormData | null>(null);
   const [orderResponse, setOrderResponse] = useState<SwapResponse | null>(null);
 
+  const [timeLeft, setTimeLeft] = useState(180);
+
   const prevFrom = useRef(selectedFrom);
   const prevTo = useRef(selectedTo);
 
   const fromAmount = form.watch("fromAmount");
-  const { data: exchangeRate, isFetching } = useGetExchangeRate(
-    selectedFrom.token,
-    selectedTo.token
-  );
+  const {
+    data: exchangeRate,
+    isFetching,
+    refetch,
+  } = useGetExchangeRate(selectedFrom.token, selectedTo.token);
   const submitOrder = useCreateOrder();
+
+  useEffect(() => {
+    if (!timeLeft) {
+      refetch();
+      setTimeLeft(180);
+    }
+  }, [timeLeft]);
 
   useEffect(() => {
     if (selectedFrom.token === selectedTo.token) {
@@ -140,93 +153,130 @@ export default function SwapForm() {
     setStatusModalOpen(false);
   };
 
-  return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col gap-5 sm:gap-3 text-black"
-      >
-        {/* Input Fields */}
-        <div className="flex flex-col gap-5 relative sm:gap-3">
-          <SwapInput
-            form={form}
-            input={swapSchemaFields[0]}
-            token={selectedFrom}
-            openCryptoModal={openCryptoModal}
-          />
+  // if (isFetching) {
+  //   return (
+  //     <div className="space-y-2">
+  //       <Skeleton className="bg-secondary w-full h-32 mt-2 rounded-md" />
+  //       <Skeleton className="bg-secondary w-full h-32 mt-2 rounded-md" />
+  //       <Skeleton className="bg-secondary w-full h-32 mt-2 rounded-md" />
+  //       <Skeleton className="bg-secondary w-full h-14 mt-2 rounded-md" />
+  //     </div>
+  //   );
+  // }
 
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-            <button
-              type="button"
-              className="bg-white w-10 h-10 flex justify-center items-center rounded-md border border-[#878787] shadow-xs group sm:w-8 sm:h-8"
-              onClick={handleSwap}
-            >
-              <ChevronDown
-                size={20}
-                className="group-hover:rotate-180 transition-transform duration-200 sm:w-3"
-              />
-            </button>
+  return (
+    <div className="">
+      <div className="flex justify-between items-start">
+        <h3 className="h3 mb-[10px]">Swap</h3>
+        <div className="flex gap-2 items-center">
+          <Clock size={19} />
+          <div className="w-9 flex">
+            <CountdownTimer timeLeft={timeLeft} setTimeLeft={setTimeLeft} />
+          </div>
+        </div>
+      </div>
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="flex flex-col gap-2 sm:gap-3 text-black"
+        >
+          {/* Input Fields */}
+          <div className="flex flex-col gap-2 relative sm:gap-3">
+            <SwapInput
+              form={form}
+              input={swapSchemaFields[0]}
+              amountInDollar="$3 234,54"
+              token={selectedFrom}
+              openCryptoModal={openCryptoModal}
+            />
+
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+              <button
+                type="button"
+                className="bg-white w-10 h-10 flex justify-center items-center rounded-md border border-[#878787] shadow-xs group sm:w-8 sm:h-8"
+                onClick={handleSwap}
+              >
+                <ChevronDown
+                  size={20}
+                  className="group-hover:rotate-180 transition-transform duration-200 sm:w-3"
+                />
+              </button>
+            </div>
+
+            <SwapInput
+              form={form}
+              input={swapSchemaFields[1]}
+              amountInDollar="$3 223,54 (-0.12%)"
+              token={selectedTo}
+              disabled={true}
+              openCryptoModal={openCryptoModal}
+            />
           </div>
 
-          <SwapInput
-            form={form}
-            input={swapSchemaFields[1]}
-            token={selectedTo}
-            disabled={true}
-            openCryptoModal={openCryptoModal}
+          <SwapInput form={form} input={swapSchemaFields[2]} />
+
+          <Button
+            type="submit"
+            variant="default"
+            size="xxl"
+            disabled={isFetching}
+            onClick={() => setIsOrderCompleted(false)}
+          >
+            {isFetching ? (
+              <>
+                <Loader2 className="animate-spin" />
+                Loading Rate...
+              </>
+            ) : (
+              "Swap"
+            )}
+          </Button>
+        </form>
+
+        <SwapMicroInfo
+          fromToken={selectedFrom.token}
+          toToken={selectedTo.token}
+          rootRate={exchangeRate?.data.rate}
+          fee={0.25}
+        />
+
+        {/* --- MODALS --- */}
+        <CryptoModal
+          isOpen={isCryptoModalOpen}
+          onClose={closeCryptoModal}
+          selectNetwork={selectNetwork}
+          selectedNetwork={selectedNetwork}
+          onSelect={selectCrypto}
+          selectedFrom={selectedFrom}
+          selectedTo={selectedTo}
+          setSelectedFrom={setSelectedFrom}
+          setSelectedTo={setSelectedTo}
+        />
+
+        {isCryptoAddressModalOpen && (
+          <CryptoAddressModal
+            isOrderCompleted={isOrderCompleted}
+            setIsOrderCompleted={setIsOrderCompleted}
+            fromNetwork={selectedFrom}
+            fromAmount={fromAmount}
+            formData={formData}
+            isOpen={isCryptoAddressModalOpen}
+            setIsOpen={setCryptoAddressModalOpen}
+            setIsStatusModalOpen={setStatusModalOpen}
+            orderId={orderResponse?.data?.orderId}
+            orderError={orderError}
           />
-        </div>
+        )}
 
-        <SwapInput form={form} input={swapSchemaFields[2]} />
-
-        <Button
-          type="submit"
-          variant="default"
-          size="xxl"
-          onClick={() => setIsOrderCompleted(false)}
-        >
-          Swap
-        </Button>
-      </form>
-
-      {/* --- MODALS --- */}
-      <CryptoModal
-        isOpen={isCryptoModalOpen}
-        onClose={closeCryptoModal}
-        selectNetwork={selectNetwork}
-        selectedNetwork={selectedNetwork}
-        onSelect={selectCrypto}
-        selectedFrom={selectedFrom}
-        selectedTo={selectedTo}
-        setSelectedFrom={setSelectedFrom}
-        setSelectedTo={setSelectedTo}
-      />
-
-      {isCryptoAddressModalOpen && (
-        <CryptoAddressModal
-          isOrderCompleted={isOrderCompleted}
-          setIsOrderCompleted={setIsOrderCompleted}
-          fromNetwork={selectedFrom}
-          fromAmount={fromAmount}
-          formData={formData}
-          isOpen={isCryptoAddressModalOpen}
-          setIsOpen={setCryptoAddressModalOpen}
-          setIsStatusModalOpen={setStatusModalOpen}
-          orderId={orderResponse?.data?.orderId}
-          orderError={orderError}
-        />
-      )}
-
-      {isStatusModalOpen && (
-        <StatusModal
-          isOrderCompleted={isOrderCompleted}
-          orderId={orderResponse?.data?.orderId || ""}
-          isOpen={isStatusModalOpen}
-          onClose={closeStatusModal}
-        />
-      )}
-
-      {isFetching && <LoadingAlt />}
-    </Form>
+        {isStatusModalOpen && (
+          <StatusModal
+            isOrderCompleted={isOrderCompleted}
+            orderId={orderResponse?.data?.orderId || ""}
+            isOpen={isStatusModalOpen}
+            onClose={closeStatusModal}
+          />
+        )}
+      </Form>
+    </div>
   );
 }

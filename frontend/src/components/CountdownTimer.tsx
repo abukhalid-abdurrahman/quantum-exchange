@@ -31,10 +31,8 @@ export default function CountdownTimer({
   const seconds = timeLeft % 60;
 
   return (
-    <div className="items-center absolute bg-gray py-1 text-center rounded-full w-14">
-      <p className="p-sm">
-        {minutes}:{seconds.toString().padStart(2, "0")}
-      </p>
-    </div>
+    <>
+      {minutes}:{seconds.toString().padStart(2, "0")}
+    </>
   );
 }

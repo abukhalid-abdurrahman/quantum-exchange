@@ -138,7 +138,12 @@ export default function CryptoAddressModal({
 
       {isExpired && (
         <>
-          <CountdownTimer timeLeft={timeLeft} setTimeLeft={setTimeLeft} />
+          <div className="items-center absolute bg-gray py-1 text-center rounded-full w-14">
+            <p className="p-sm">
+              <CountdownTimer timeLeft={timeLeft} setTimeLeft={setTimeLeft} />
+            </p>
+          </div>
+
           <p className="p text-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
             Your order has been closed due to insufficient balance.
           </p>
@@ -153,7 +158,11 @@ export default function CryptoAddressModal({
 
       {isReady && (
         <>
-          <CountdownTimer timeLeft={timeLeft} setTimeLeft={setTimeLeft} />
+          <div className="items-center absolute bg-gray py-1 text-center rounded-full w-14">
+            <p className="p-sm">
+              <CountdownTimer timeLeft={timeLeft} setTimeLeft={setTimeLeft} />
+            </p>
+          </div>
 
           <div className="text-center">
             <h2 className="h2 text-lg mb-3 max-w-[280px] mx-auto">
