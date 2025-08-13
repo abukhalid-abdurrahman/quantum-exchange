@@ -20,11 +20,13 @@ export const signInSchemaDefaultValues: SignInSchema = {
 export const signInSchemaFields: FormField[] = [
   {
     name: "email",
-    placeholder: "Email",
+    label: "Email",
+    placeholder: "example@example.com",
     type: "email",
   },
   {
     name: "password",
+    label: "Password",
     placeholder: "Password",
     type: "password",
   },

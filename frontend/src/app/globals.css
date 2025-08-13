@@ -229,6 +229,8 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
+  --color-input-dark: oklch(30.072% 0.02736 264.051);
+
   --font-sans: "DM Sans", sans-serif;
   --font-mono: "DM Mono", monospace;
 }
@@ -252,10 +254,11 @@
   --muted: oklch(0.9461 0 0);
   --muted-foreground: oklch(0.5727 0 0);
   --accent: oklch(0.5727 0 0);
-  --accent-foreground: oklch(0.21 0.034 264.665);
+  --accent-foreground: oklch(22.662% 0.02937 263.736);
   --destructive: oklch(0.577 0.245 27.325);
   --border: oklch(0.928 0.006 264.531);
   --input: oklch(0.928 0 264.531);
+  --input-dark: oklch(30.072% 0.02736 264.051);
   --ring: oklch(0.707 0.022 261.325);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);

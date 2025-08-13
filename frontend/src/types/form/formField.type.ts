@@ -9,4 +9,5 @@ export type FormField = {
   type: "text" | "number" | "password" | "file" | "date" | "email";
   selectItems?: SelectItems[];
   description?: string;
+  label?: string;
 };
