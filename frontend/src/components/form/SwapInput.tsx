@@ -67,7 +67,9 @@ export default function SwapInput({
                 }}
               />
             </FormControl>
-            <FormDescription>{description}</FormDescription>
+            <FormDescription className="font-mono">
+              {description}
+            </FormDescription>
             <FormMessage />
           </FormItem>
         )}

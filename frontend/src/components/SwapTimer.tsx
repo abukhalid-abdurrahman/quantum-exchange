@@ -24,7 +24,7 @@ export default function SwapTimer({ refetch }: SwapTimerProps) {
   return (
     <div className="">
       <Tooltip>
-        <TooltipTrigger className="flex gap-2 items-center hover:opacity-80">
+        <TooltipTrigger className="flex gap-2 items-center hover:opacity-80 cursor-default">
           <Clock size={19} />
           <div className="flex justify-end">
             <CountdownTimer

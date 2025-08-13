@@ -16,6 +16,6 @@ export const defaultSelectedNetwork = {
 };
 
 export const networkIcons: Record<string, string> = {
-  Solana: "/SOL.png",
-  Radix: "/XRD.png",
+  Solana: "/SOL.svg",
+  Radix: "/XRD.svg",
 };

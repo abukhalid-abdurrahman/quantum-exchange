@@ -36,6 +36,10 @@
     font-family: "DM Sans" !important;
   }
 
+  button {
+    cursor: pointer;
+  }
+
   /* Chrome, Safari, Edge, Opera */
   input::-webkit-outer-spin-button,
   input::-webkit-inner-spin-button {
