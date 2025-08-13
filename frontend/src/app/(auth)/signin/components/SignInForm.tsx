@@ -135,13 +135,20 @@ export default function SignInForm() {
 
         {errorMessage && <p className="text-sm text-red-500">{errorMessage}</p>}
 
+        <Link href="/forgot-password" className="p-sm text-white my-1">
+          Forgot your password?
+        </Link>
+
         <Button variant="default" type="submit" size="xl" className="w-full">
           {submit.isPending ? "Signing in..." : "Sign In"}
         </Button>
 
-        <Link href="?signup=true" className="text-sm text-blue-600">
-          Create account
-        </Link>
+        <p className="p-sm text-secondary mt-2">
+          New here?{" "}
+          <Link href="/signup" className="text-blue-400">
+            Let's get started
+          </Link>
+        </p>
 
         {submit.isPending && <LoadingAlt />}
       </form>

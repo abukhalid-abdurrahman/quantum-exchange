@@ -8,7 +8,7 @@ export default function page() {
         Lorem ipsum dolor sit amet consectetur. Element sit curabitur habitant
         at quam.
       </p>
-      <div className="">
+      <div className="mb-12">
         <SignInForm />
       </div>
     </div>
