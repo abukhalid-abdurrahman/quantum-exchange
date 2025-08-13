@@ -28,12 +28,14 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import LoadingAlt from "@/components/LoadingAlt";
+import { Eye, EyeOff } from "lucide-react";
 
 export default function SignInForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || "/";
 
+  const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const { setUser } = useUserStore();
 
@@ -72,27 +74,63 @@ export default function SignInForm() {
         className="flex flex-col items-center gap-2 w-full"
       >
         <div className="flex flex-col gap-[14px] w-full">
-          {signInSchemaFields.map((item) => (
-            <FormField
-              key={item.name}
-              control={form.control}
-              name={item.name as keyof SignInSchema}
-              render={({ field }) => (
-                <FormItem className="w-full">
-                  <FormLabel>{item.label}</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder={item.placeholder}
-                      type={item.type}
-                      // isDark={true}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          ))}
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="example@example.com"
+                    type="email"
+                    // isDark={true}
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel>Password</FormLabel>
+                <FormControl>
+                  <Input
+                    iconPosition="right"
+                    icon={
+                      <>
+                        {showPassword ? (
+                          <Eye
+                            size={20}
+                            color="var(--primary)"
+                            className="cursor-pointer"
+                            onClick={() => setShowPassword(!showPassword)}
+                          />
+                        ) : (
+                          <EyeOff
+                            size={20}
+                            color="var(--primary)"
+                            className="cursor-pointer"
+                            onClick={() => setShowPassword(!showPassword)}
+                          />
+                        )}
+                      </>
+                    }
+                    placeholder="Password"
+                    type={showPassword ? "text" : "password"}
+                    // isDark={true}
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
 
         {errorMessage && <p className="text-sm text-red-500">{errorMessage}</p>}
