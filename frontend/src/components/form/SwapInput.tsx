@@ -22,6 +22,7 @@ interface SwapInputProps {
   token?: SelectedCrypto;
   disabled?: boolean;
   openCryptoModal?: (value: "from" | "to") => void;
+  changeLastChanged?: (value: number) => void;
 }
 
 export default function SwapInput({
@@ -31,6 +32,7 @@ export default function SwapInput({
   disabled = false,
   description,
   openCryptoModal,
+  changeLastChanged,
 }: SwapInputProps) {
   const tokenInputs =
     (input.name === "fromAmount" || input.name === "toAmount") &&
@@ -64,6 +66,9 @@ export default function SwapInput({
                 onChange={(e) => {
                   const value = parseFloat(e.target.value) || e.target.value;
                   field.onChange(value === "" ? null : value);
+                  if (changeLastChanged) {
+                    changeLastChanged(value as number);
+                  }
                 }}
               />
             </FormControl>

@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Check, ChevronDown, Clock, Loader2 } from "lucide-react";
+import { Check, ChevronDown, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 import {
@@ -27,13 +27,8 @@ import CryptoAddressModal from "@/components/CryptoAddressModal";
 
 import { SwapFormData, SwapResponse } from "@/types/crypto/swap.type";
 import SwapMicroInfo from "@/components/SwapMicroInfo";
-import CountdownTimer from "@/components/CountdownTimer";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import SwapTimer from "@/components/SwapTimer";
+import { useSwapRate } from "@/hooks/useSwapRate";
 
 export default function SwapForm() {
   const router = useRouter();
@@ -69,15 +64,15 @@ export default function SwapForm() {
   const prevFrom = useRef(selectedFrom);
   const prevTo = useRef(selectedTo);
 
-  const fromAmount = form.watch("fromAmount");
-  const toAmount = form.watch("toAmount");
-
   const {
     data: exchangeRate,
     isFetching,
     refetch,
   } = useGetExchangeRate(selectedFrom.token, selectedTo.token);
   const submitOrder = useCreateOrder();
+
+  const { handleFromChange, handleToChange, fromAmount, toAmount } =
+    useSwapRate(form, exchangeRate?.data.rate);
 
   useEffect(() => {
     if (selectedFrom.token === selectedTo.token) {
@@ -87,15 +82,6 @@ export default function SwapForm() {
     prevFrom.current = selectedFrom;
     prevTo.current = selectedTo;
   }, [selectedFrom, selectedTo]);
-
-  useEffect(() => {
-    if (exchangeRate) {
-      const toAmount = fromAmount
-        ? fromAmount * exchangeRate.data.rate
-        : ("" as unknown as number);
-      form.setValue("toAmount", toAmount);
-    }
-  }, [fromAmount, exchangeRate]);
 
   useEffect(() => {
     if (isOrderCompleted) {
@@ -169,6 +155,7 @@ export default function SwapForm() {
               description="$3 234,54"
               token={selectedFrom}
               openCryptoModal={openCryptoModal}
+              changeLastChanged={handleFromChange}
             />
 
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -189,8 +176,8 @@ export default function SwapForm() {
               input={swapSchemaFields[1]}
               description="$3 223,54 (-0.12%)"
               token={selectedTo}
-              disabled={true}
               openCryptoModal={openCryptoModal}
+              changeLastChanged={handleToChange}
             />
           </div>
 
