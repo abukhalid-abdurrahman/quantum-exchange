@@ -3,6 +3,8 @@ import { SelectItems } from "@/types/form/formField.type";
 export const API = process.env.NEXT_PUBLIC_API_URL;
 export const SOLANA_ENVIRONMENT = process.env.NEXT_PUBLIC_SOLANA_ENVIRONMENT;
 
+export const SOL_EXPLORER_URL = "https://explorer.solana.com";
+
 export const MAX_FILE_SIZE = 100 * 1024 * 1024;
 export const MIN_NUMBER = 0.0000000001;
 

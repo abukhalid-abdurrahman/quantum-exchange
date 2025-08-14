@@ -14,7 +14,7 @@ import { useGetVirtualAccountBalance } from "@/requests/user/getVirtualAccountBa
 import { buttonVariants } from "@/components/ui/button";
 import { SelectedCrypto } from "@/types/crypto/crypto.type";
 import { SwapFormData } from "@/types/crypto/swap.type";
-import { ShieldCheck } from "lucide-react";
+import { Loader2, ShieldCheck } from "lucide-react";
 import BlankLink from "@/components/BlankLink";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -133,10 +133,14 @@ export default function CryptoAddressModal({
       isNonUrlModal
       isNonClosable={isLoading}
       onCloseFunc={handleClose}
-      className={`${isLoading || isExpired || isError ? "min-h-64" : ""} text-black`}
+      className={`${isLoading || isExpired || isError ? "min-h-64 flex flex-col justify-center items-center" : ""} text-black`}
     >
       {isLoading && (
-        <Loading className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+        // <Loading className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+        <>
+          <Loader2 size={80} strokeWidth={3} className="animate-spin" />
+          <h3 className="h3 mt-5">Creating the order</h3>
+        </>
       )}
 
       {isExpired && (
@@ -212,7 +216,12 @@ export default function CryptoAddressModal({
           </div>
 
           <div className="flex gap-2 items-center mt-[10px]">
-            <ShieldCheck strokeWidth={1.5} color="#000" size={55} />
+            <ShieldCheck
+              strokeWidth={1.5}
+              color="#000"
+              size={55}
+              className="h-7.5"
+            />
             <p className="p-sm text-primary">
               Don’t worry — your funds stay safe and won’t be lost. They will
               stay in your account. You can find it in your{" "}
