@@ -14,6 +14,9 @@ import { useGetVirtualAccountBalance } from "@/requests/user/getVirtualAccountBa
 import { buttonVariants } from "@/components/ui/button";
 import { SelectedCrypto } from "@/types/crypto/crypto.type";
 import { SwapFormData } from "@/types/crypto/swap.type";
+import { ShieldCheck } from "lucide-react";
+import BlankLink from "@/components/BlankLink";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface StatusModalProps {
   isOpen: boolean;
@@ -130,7 +133,7 @@ export default function CryptoAddressModal({
       isNonUrlModal
       isNonClosable={isLoading}
       onCloseFunc={handleClose}
-      className={isLoading || isExpired || isError ? "min-h-64" : ""}
+      className={`${isLoading || isExpired || isError ? "min-h-64" : ""} text-black`}
     >
       {isLoading && (
         <Loading className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
@@ -138,10 +141,10 @@ export default function CryptoAddressModal({
 
       {isExpired && (
         <>
-          <div className="items-center absolute bg-gray py-1 text-center rounded-full w-14">
-            <p className="p-sm">
+          <div className="items-center absolute bg-secondary text-black py-1 text-center rounded-full w-14">
+            <div className="p-sm">
               <CountdownTimer timeLeft={timeLeft} setTimeLeft={setTimeLeft} />
-            </p>
+            </div>
           </div>
 
           <p className="p text-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -158,37 +161,70 @@ export default function CryptoAddressModal({
 
       {isReady && (
         <>
-          <div className="items-center absolute bg-gray py-1 text-center rounded-full w-14">
-            <p className="p-sm">
+          <div className="items-center absolute bg-secondary text-black py-1 text-center rounded-full w-14">
+            <div className="p-sm">
               <CountdownTimer timeLeft={timeLeft} setTimeLeft={setTimeLeft} />
-            </p>
+            </div>
           </div>
 
           <div className="text-center">
-            <h2 className="h2 text-lg mb-3 max-w-[280px] mx-auto">
-              Please deposit your virtual account with{" "}
-              <span className="font-bold">{fromAmount}</span> amount of{" "}
-              {fromNetwork.token}s
-            </h2>
+            <h2 className="text-2xl font-semibold">Send funds</h2>
+            <p className="p mt-4 max-w-[290px] mx-auto leading-4">
+              To complete the swap, please deposit{" "}
+              <span className="font-bold text-xl">{fromAmount}</span>{" "}
+              {fromNetwork.token}s into your account{" "}
+            </p>
 
-            {address && <QRCodeDisplay text={address} />}
+            <p className="p-sm text-primary mt-4 mb-1">
+              Scan the QR code with your wallet to send funds
+            </p>
 
-            {message && <p className="text-text-gray p-sm mt-2">{message}</p>}
+            <div className="w-[264px] h-[264px] mx-auto">
+              {address ? (
+                <QRCodeDisplay text={address} />
+              ) : (
+                <Skeleton className="w-[244px] h-[244px] bg-primary/80 rounded-md mx-auto my-3" />
+              )}
+            </div>
 
-            <div className="flex gap-[5px] mt-5 items-center justify-center">
+            {message && <p className="text-primary p-sm mb-4">{message}</p>}
+
+            <div className="relative flex justify-center mt-1">
+              <p className="p-sm text-primary px-1 relative z-10 bg-white">
+                or enter the address manually
+              </p>
+              <div className="absolute w-full bg-primary/40 h-[.5px] top-1/2 -translate-y-1/2 mt-[1px]"></div>
+            </div>
+
+            <div className="flex gap-[5px] mt-[15px] items-center justify-center">
               <div
                 className={`${buttonVariants({
                   variant: "empty",
                   size: "xl",
-                })} flex gap-2 bg-gray py-3 px-5 rounded-xl justify-between items-center flex-1 relative`}
+                })} flex gap-2 bg-gray py-3 !px-5 !justify-between flex-1 relative`}
               >
-                <p className="sm:text-sm sm:absolute sm:-top-[21px] sm:left-0">
-                  Your {fromNetwork.token} virtual account:
+                <p>
+                  Your {fromNetwork.token} address ({shortAddress(address)})
                 </p>
-                <p>{shortAddress(address)}</p>
               </div>
               <CopyBtn address={address} />
             </div>
+          </div>
+
+          <div className="flex gap-2 items-center mt-[10px]">
+            <ShieldCheck strokeWidth={1.5} color="#000" size={55} />
+            <p className="p-sm text-primary">
+              Don’t worry — your funds stay safe and won’t be lost. They will
+              stay in your account. You can find it in your{" "}
+              <BlankLink
+                href="/profile"
+                className="text-blue-700"
+                size={18}
+                color="var(--color-blue-700)"
+              >
+                profile
+              </BlankLink>
+            </p>
           </div>
         </>
       )}

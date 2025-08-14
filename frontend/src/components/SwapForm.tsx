@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Check, ChevronDown, Loader2 } from "lucide-react";
+import { Check, ChevronDown, Loader2, RotateCcw } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 import {
@@ -67,6 +67,7 @@ export default function SwapForm() {
   const {
     data: exchangeRate,
     isFetching,
+    isError,
     refetch,
   } = useGetExchangeRate(selectedFrom.token, selectedTo.token);
   const submitOrder = useCreateOrder();
@@ -194,11 +195,26 @@ export default function SwapForm() {
             }
           />
 
+          {isError && (
+            <div className="flex gap-2 items-center">
+              <p className="p-sm text-red-500">
+                Something went wrong while getting the Exchange Rate
+              </p>
+              <p
+                className="p-sm flex gap-2 items-center text-white cursor-pointer"
+                onClick={() => refetch()}
+              >
+                Retry
+                <RotateCcw color="#fff" size={14} />
+              </p>
+            </div>
+          )}
+
           <Button
             type="submit"
             variant="default"
             size="xxl"
-            disabled={isFetching}
+            disabled={isFetching || isError}
             onClick={() => setIsOrderCompleted(false)}
           >
             {isFetching ? (
@@ -207,7 +223,7 @@ export default function SwapForm() {
                 Loading Rate...
               </>
             ) : (
-              "Swap"
+              <>{isError ? "Error" : "Swap"}</>
             )}
           </Button>
         </form>

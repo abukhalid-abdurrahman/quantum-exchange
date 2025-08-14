@@ -14,7 +14,7 @@ export default function QRCodeDisplay({ text }: { text: string }) {
 
   return (
     <div className="flex flex-col items-center">
-      <img src={url} alt="QR Code" width={150} height={150} />
+      <img src={url} alt="QR Code" width={264} height={264} />
     </div>
   );
 }

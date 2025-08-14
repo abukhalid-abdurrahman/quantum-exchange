@@ -17,8 +17,8 @@ export default function CopyBtn({ address }: CopyBtnProps) {
       <Button
         variant="empty"
         size="icon"
-        className="flex justify-center gap-2 bg-gray w-[48px] h-[48px] rounded-xl items-center 
-        aspect-square sm:w-[46px] sm:h-[46px] hover:bg-dark-gray transition-all"
+        className="flex justify-center gap-2 w-[48px] h-[48px] items-center 
+        aspect-square sm:w-[46px] sm:h-[46px] hover:bg-secondary transition-all"
         onClick={() => handleCopy(address, { setIsCopied })}
       >
         <Image
