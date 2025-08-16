@@ -68,6 +68,7 @@ export default function SwapForm() {
     data: exchangeRate,
     isFetching,
     isError,
+    isSuccess,
     refetch,
   } = useGetExchangeRate(selectedFrom.token, selectedTo.token);
   const submitOrder = useCreateOrder();
@@ -141,7 +142,7 @@ export default function SwapForm() {
     <div className="">
       <div className="flex justify-between items-start">
         <h3 className="h3 mb-[10px]">Swap</h3>
-        <SwapTimer refetch={refetch} />
+        <SwapTimer isSuccess={isSuccess} refetch={refetch} />
       </div>
       <Form {...form}>
         <form

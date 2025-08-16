@@ -35,7 +35,9 @@ export default function StatusModal({
 
   useEffect(() => {
     if (isCompleted) setTxId(data.data.transactionId);
-  }, [isCompleted, data]);
+    console.log("isCompeted", isCompleted);
+    console.log("txId", data?.data.transactionId);
+  }, [isCompleted, data, data?.data.transactionId]);
 
   useEffect(() => {
     if (isOrderCompleted) setTxId("");
@@ -148,7 +150,7 @@ export default function StatusModal({
   return (
     <Modal isNonClosable className="grid text-black">
       <div className="flex flex-col items-center justify-center">
-        {txId ? renderLoading() : renderSuccess()}
+        {!txId ? renderLoading() : renderSuccess()}
       </div>
     </Modal>
   );

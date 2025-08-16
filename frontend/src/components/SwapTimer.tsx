@@ -9,17 +9,23 @@ import { useEffect, useState } from "react";
 
 interface SwapTimerProps {
   refetch: () => void;
+  isSuccess: boolean;
 }
 
-export default function SwapTimer({ refetch }: SwapTimerProps) {
-  const [timeLeft, setTimeLeft] = useState(180);
+export default function SwapTimer({ refetch, isSuccess }: SwapTimerProps) {
+  const [timeLeft, setTimeLeft] = useState(0);
 
   useEffect(() => {
     if (!timeLeft) {
       refetch();
-      setTimeLeft(180);
     }
   }, [timeLeft]);
+
+  useEffect(() => {
+    if (isSuccess) {
+      setTimeLeft(180);
+    }
+  }, [isSuccess]);
 
   return (
     <div className="">
