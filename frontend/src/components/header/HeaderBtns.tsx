@@ -8,6 +8,7 @@ import { useUserStore } from "@/store/useUserStore";
 import { useRouter } from "next/navigation";
 import { useWalletStore } from "@/store/useWalletStore";
 import { Button, buttonVariants } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function HeaderBtns() {
   const router = useRouter();
@@ -29,22 +30,30 @@ export default function HeaderBtns() {
     }
   }, [Cookies.get("oasisToken")]);
 
-  if (loading) return null;
+  if (loading) return <Skeleton className="h-10 w-36 bg-primary" />;
 
   return (
     <>
       {!user ? (
-        <Link
-          href="?signin=true"
-          className={buttonVariants({ variant: "default", size: "default" })}
-        >
-          Sign In
-        </Link>
+        <>
+          <Link
+            href="?signin=true"
+            className={`${buttonVariants({ variant: "default", size: "lg" })} !px-5`}
+          >
+            Sign In
+          </Link>
+          <Link
+            href="?signup=true"
+            className={`${buttonVariants({ variant: "muted", size: "lg" })} !px-5`}
+          >
+            Get Started
+          </Link>
+        </>
       ) : (
         <>
           <Link
             href="/profile"
-            className={buttonVariants({ variant: "default", size: "default" })}
+            className={`${buttonVariants({ variant: "default", size: "lg" })} !px-5 flex gap-2 items-center`}
           >
             <Image
               src="/profile.svg"
@@ -54,7 +63,7 @@ export default function HeaderBtns() {
             />
             {user.UserName}
           </Link>
-          <Button
+          {/* <Button
             variant="gray"
             size="icon"
             onClick={() => {
@@ -65,7 +74,7 @@ export default function HeaderBtns() {
             }}
           >
             <Image src="/logout.svg" alt="Logout" width={24} height={24} />
-          </Button>
+          </Button> */}
         </>
       )}
     </>

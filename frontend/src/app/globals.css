@@ -240,6 +240,7 @@
 */
 
 :root {
+  /* --primary: oklch(49.674% 0.02226 282.293); */
   --radius: 1rem;
   --background: oklch(0.0813 0.0407 262.93);
   --foreground: oklch(1 0 0);
@@ -247,7 +248,7 @@
   --card-foreground: oklch(0.13 0.028 261.692);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.13 0.028 261.692);
-  --primary: oklch(0.5727 0 0);
+  --primary: oklch(57.268% 0.00007 271.152);
   --primary-foreground: oklch(0.985 0.002 247.839);
   --secondary: oklch(0.8853 0 0);
   --secondary-foreground: oklch(0 0 0);

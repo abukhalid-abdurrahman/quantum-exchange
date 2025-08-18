@@ -1,9 +1,8 @@
 "use server";
 
 import Link from "next/link";
-import RwaLink from "@/components/RwaLink";
-import CreateRwaLink from "@/components/CreateRwaLink";
-import MyRwaLink from "@/components/MyRwaLink";
+// import RwaLink from "@/components/RwaLink";
+import CreateRwaLink from "@/components/header/CreateRwaLink";
 import WalletConnect from "@/components/WalletConnect";
 import HeaderBtns from "@/components/header/HeaderBtns";
 import SignInModal from "@/components/SignInModal";
@@ -26,17 +25,13 @@ export default async function Header({ searchParams }: SearchParams) {
               <Link href="/">Swap</Link>
             </li>
             <li className="">
-              <RwaLink />
-            </li>
-            <li className="">
-              <CreateRwaLink />
-            </li>
-            <li className="">
-              <MyRwaLink />
+              <Link href="/rwa">RWA Market</Link>
+              {/* <RwaLink /> */}
             </li>
           </ul>
         </div>
-        <div className="flex gap-5 sm:gap-2">
+        <div className="flex gap-[10px] sm:gap-2">
+          <CreateRwaLink />
           <WalletConnect />
           <HeaderBtns />
         </div>

@@ -197,12 +197,10 @@ export default function SwapForm() {
           />
 
           {isError && (
-            <div className="flex gap-2 items-center">
-              <p className="p-sm text-red-500">
-                Something went wrong while getting the Exchange Rate
-              </p>
+            <div className="flex gap-3 items-center">
+              <p className="p-sm text-red-500">Failed to get Exchange Rate</p>
               <p
-                className="p-sm flex gap-2 items-center text-white cursor-pointer"
+                className="p-sm flex gap-2 items-center text-white cursor-pointer transition-all hover:opacity-70"
                 onClick={() => refetch()}
               >
                 Retry
@@ -224,7 +222,7 @@ export default function SwapForm() {
                 Loading Rate...
               </>
             ) : (
-              <>{isError ? "Error" : "Swap"}</>
+              <>{isError ? "Failed" : "Swap"}</>
             )}
           </Button>
         </form>

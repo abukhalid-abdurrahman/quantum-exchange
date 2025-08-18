@@ -1,9 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import WalletSelector from "./WalletSelector";
+import WalletSelector from "@/components/WalletSelector";
 import { usePhantomWallet } from "@/hooks/usePhantomWallet";
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 import { useWalletStore } from "@/store/useWalletStore";
 import { shortAddress } from "@/utils/shortSomething";
 import { useUserStore } from "@/store/useUserStore";
@@ -22,7 +22,8 @@ export default function WalletConnect({ className }: { className?: string }) {
           <div className="flex gap-2">
             <Button
               className={`group relative ${className}`}
-              variant="gray"
+              variant="default"
+              size="lg"
               onClick={disconnectWallet}
             >
               <Image
@@ -42,7 +43,8 @@ export default function WalletConnect({ className }: { className?: string }) {
 
             <Button
               className={`group relative hidden md:block ${className}`}
-              variant="gray"
+              variant="default"
+              size="lg"
               onClick={disconnectWallet}
             >
               Disconnect
@@ -50,8 +52,9 @@ export default function WalletConnect({ className }: { className?: string }) {
           </div>
         ) : (
           <Button
-            className={className}
-            variant="gray"
+            className={`${className} !px-5`}
+            variant="default"
+            size="lg"
             onClick={() => {
               setShowWalletSelector(true);
             }}
