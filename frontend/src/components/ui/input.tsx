@@ -25,7 +25,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           }}
           type={type}
           className={cn(
-            `flex px-[20px] py-[12px] w-full text-black rounded-md border border-input bg-muted text-base shadow-xs transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-primary/40 disabled:cursor-not-allowed disabled:opacity-80 disabled:bg-gray md:text-sm 
+            `flex px-[20px] py-[10px] w-full text-black rounded-md border border-input bg-muted text-base shadow-xs transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-primary/40 disabled:cursor-not-allowed disabled:opacity-80 disabled:bg-muted md:text-sm 
             ${icon && iconPosition === "left" && "left-5"} ${iconPosition === "right" && "right-5"}
             ${isDark && "text-white bg-accent-foreground placeholder:text-secondary/80 border-input-dark"}`,
             className

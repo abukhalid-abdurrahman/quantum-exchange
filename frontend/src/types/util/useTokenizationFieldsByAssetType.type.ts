@@ -1,9 +1,9 @@
 import { TokenizeRealEstateSchema } from "@/schemas/rwa/tokenizeRealEstate.schema";
-import { FormField } from "@/types/form/formField.type";
+import { FormFieldGroup } from "@/types/form/formField.type";
 import { AnyZodObject, ZodObject } from "zod";
 
 export type FieldsByAssetType = {
   schema: ZodObject<any> | AnyZodObject;
-  fields: FormField[] | [];
+  fields: FormFieldGroup[] | [];
   defaultValues: TokenizeRealEstateSchema | object;
 };

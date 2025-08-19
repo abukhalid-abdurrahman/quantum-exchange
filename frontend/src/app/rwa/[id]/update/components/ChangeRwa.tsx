@@ -1,8 +1,8 @@
 "use client";
 
 import PageTitle from "@/components/PageTitle";
-import SelectField from "@/components/form/SelectField";
-import InputField from "@/components/form/InputField";
+import SelectField from "@/components/form/fields/SelectField";
+import InputField from "@/components/form/fields/InputField";
 import InfoRow from "@/app/rwa/components/InfoRow";
 import CopyIpfsButton from "@/app/rwa/components/CopyIpfsButton";
 import Loading from "@/components/Loading";

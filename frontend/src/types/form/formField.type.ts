@@ -6,8 +6,22 @@ export type SelectItems = {
 export type FormField = {
   name: string;
   placeholder: string;
-  type: "text" | "number" | "password" | "file" | "date" | "email";
+  disabled?: boolean;
+  type:
+    | "text"
+    | "number"
+    | "password"
+    | "file"
+    | "date"
+    | "email"
+    | "select"
+    | "map";
   selectItems?: SelectItems[];
   description?: string;
   label?: string;
+};
+
+export type FormFieldGroup = {
+  title: string;
+  fields: FormField[];
 };

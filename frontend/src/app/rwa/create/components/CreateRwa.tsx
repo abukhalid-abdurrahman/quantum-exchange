@@ -2,14 +2,14 @@
 
 import TokenizationModal from "./TokenizationModal";
 import PageTitle from "@/components/PageTitle";
-import InputField from "@/components/form/InputField";
-import SelectField from "@/components/form/SelectField";
-import DateField from "@/components/form/DateField";
+import InputField from "@/components/form/fields/InputField";
+import SelectField from "@/components/form/fields/SelectField";
+import DateField from "@/components/form/fields/DateField";
 import dynamic from "next/dynamic";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Form } from "@/components/ui/form";
+import { Form, FormDescription, FormLabel } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
@@ -19,6 +19,9 @@ import { useTokenizationFields } from "@/hooks/useTokenizationFields";
 import { getFieldsByAssetType } from "@/utils/getFieldsByAssetType.util";
 import { useNetAmount } from "@/hooks/useNetAmount";
 import { useCoords } from "@/hooks/useCoords";
+import { MoveRight } from "lucide-react";
+import FileDropField from "@/components/form/fields/FileDropField";
+import { FormFieldRenderer } from "@/components/form/FormFieldRenderer";
 
 const LocationPickerModal = dynamic(
   () => import("@/components/LocationPickerModal"),
@@ -110,82 +113,36 @@ export default function CreateRwa() {
             isSuccessfullyDone={isSuccessfullyDone}
           />
           <div className="w-1/2 md:w-full">
-            <PageTitle title="Create your Decentrlised Trust Agreement RWA" />
-            <div
-              className={`flex flex-col gap-2 firstStep ${
-                isSecondStep ? "hidden" : "block"
-              }`}
-            >
-              {tokenizeFields
-                .filter(
-                  (item) =>
-                    item.name === "title" ||
-                    item.name === "assetDescription" ||
-                    item.name === "uniqueIdentifier" ||
-                    item.name === "network"
-                )
-                .map((item, i) => (
-                  <div key={i}>
-                    {item?.selectItems ? (
-                      <SelectField form={form} input={item} />
-                    ) : (
-                      <InputField form={form} input={item} />
-                    )}
-                  </div>
-                ))}
-
-              <div className="flex justify-between gap-2">
-                {tokenizeFields
-                  .filter(
-                    (item) => item.name === "price" || item.name === "royalty"
-                  )
-                  .map((item, i) => (
-                    <div key={i}>
-                      <InputField form={form} input={item} />
-                    </div>
-                  ))}
-                <div className="w-1/3">
-                  <Input
-                    type="number"
-                    placeholder="Net amount"
-                    disabled={true}
-                    value={netAmount}
-                  />
-                </div>
-              </div>
-
-              {tokenizeFields
-                .filter(
-                  (item) =>
-                    item.name === "ownerContact" ||
-                    item.name === "proofOfOwnershipDocument" ||
-                    item.name === "assetType"
-                )
-                .map((item, i) => (
-                  <div key={i}>
-                    {item?.selectItems ? (
-                      <SelectField form={form} input={item} />
-                    ) : (
-                      <InputField
-                        isFileField={item.name === "proofOfOwnershipDocument"}
-                        withFormLabel={item.name === "proofOfOwnershipDocument"}
-                        formLabelClasses="text-white"
+            <div className={`firstStep ${isSecondStep ? "hidden" : "block"}`}>
+              {tokenizeFields.map((item, i) => (
+                <div key={i}>
+                  <h3
+                    className={`h3 mb-5 text-secondary ${i === 0 ? "mt-0" : "mt-7"}`}
+                  >
+                    {item.title}
+                  </h3>
+                  <div className="flex flex-col gap-[14px]">
+                    {item.fields.map((formField, i) => (
+                      <FormFieldRenderer
+                        fieldType={formField.type}
+                        key={i}
                         form={form}
-                        input={item}
+                        input={formField}
                       />
-                    )}
+                    ))}
                   </div>
-                ))}
+                </div>
+              ))}
             </div>
             <div
-              className={`flex flex-col gap-2 isSecondStep ${
+              className={`flex flex-col gap-[14px] isSecondStep ${
                 isSecondStep ? "block" : "hidden"
               }`}
             >
               <h2 className="h2 mb-2 text-white border-b border-text-gray pb-2">
                 Additional fields for {assetType}
               </h2>
-              {getFieldsByAssetType(selectedAssetType).fields.map((item) => (
+              {/* {getFieldsByAssetType(selectedAssetType).fields.map((item) => (
                 <div key={item.name}>
                   {item?.selectItems && (
                     <SelectField input={item} form={form} />
@@ -205,15 +162,15 @@ export default function CreateRwa() {
                     </div>
                   )}
                 </div>
-              ))}
+              ))} */}
             </div>
 
-            <div className="flex gap-2 mt-2">
+            <div className="flex justify-end gap-2 mt-10">
               <Button
                 onClick={() => {
                   setIsSecondStep(false);
                 }}
-                variant="gray"
+                variant="default"
                 type="button"
                 size="xl"
                 className={`w-full ${isSecondStep ? "block" : "hidden"}`}
@@ -222,15 +179,16 @@ export default function CreateRwa() {
               </Button>
               <Button
                 onClick={checkFirstStep}
-                variant="gray"
+                variant="default"
                 type="button"
-                size="xl"
-                className={`w-full ${isSecondStep ? "hidden" : "block"}`}
+                size="lg"
+                className={`${isSecondStep ? "hidden" : "flex gap-5"}`}
               >
-                Next Step
+                Continue
+                <MoveRight />
               </Button>
               <Button
-                variant="gray"
+                variant="default"
                 type="submit"
                 size="xl"
                 className={`w-full ${isSecondStep ? "block" : "hidden"}`}

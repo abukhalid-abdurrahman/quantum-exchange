@@ -3,7 +3,7 @@ import {
   MIN_NUMBER,
   PROPERTY_TYPES,
 } from "@/lib/constants";
-import { FormField } from "@/types/form/formField.type";
+import { FormField, FormFieldGroup } from "@/types/form/formField.type";
 import { z } from "zod";
 
 export const tokenizeRealEstateSchema = z.object({
@@ -64,37 +64,42 @@ export const tokenizeRealEstateSchemaDefaultValues: TokenizeRealEstateSchema = {
   insuranceStatus: "",
 };
 
-export const tokenizeRealEstateSchemaFields: FormField[] = [
+export const tokenizeRealEstateSchemaFields: FormFieldGroup[] = [
   {
-    name: "geolocation",
-    placeholder: "Asset Location (Geolocation)",
-    type: "text",
-  },
-  {
-    name: "valuationDate",
-    placeholder: "Valuation Date",
-    type: "date",
-  },
-  {
-    name: "area",
-    placeholder: "Area (in square meters)",
-    type: "number",
-  },
-  {
-    name: "propertyType",
-    placeholder: "Property Type",
-    type: "text",
-    selectItems: PROPERTY_TYPES,
-  },
-  {
-    name: "constructionYear",
-    placeholder: "Construction Year",
-    type: "number",
-  },
-  {
-    name: "insuranceStatus",
-    placeholder: "Insurance Status",
-    type: "text",
-    selectItems: INSURANSE_STATUSES,
+    title: "",
+    fields: [
+      {
+        name: "geolocation",
+        placeholder: "Asset Location (Geolocation)",
+        type: "text",
+      },
+      {
+        name: "valuationDate",
+        placeholder: "Valuation Date",
+        type: "date",
+      },
+      {
+        name: "area",
+        placeholder: "Area (in square meters)",
+        type: "number",
+      },
+      {
+        name: "propertyType",
+        placeholder: "Property Type",
+        type: "text",
+        selectItems: PROPERTY_TYPES,
+      },
+      {
+        name: "constructionYear",
+        placeholder: "Construction Year",
+        type: "number",
+      },
+      {
+        name: "insuranceStatus",
+        placeholder: "Insurance Status",
+        type: "text",
+        selectItems: INSURANSE_STATUSES,
+      },
+    ],
   },
 ];

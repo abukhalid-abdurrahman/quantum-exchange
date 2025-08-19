@@ -1,11 +1,12 @@
 import { Coords } from "@/types/form/coords.type";
 import { FormField } from "@/types/form/formField.type";
 import { Dispatch, SetStateAction } from "react";
-import { UseFormReturn } from "react-hook-form";
+import { ControllerRenderProps, UseFormReturn } from "react-hook-form";
 
 export interface FieldProps {
   form: UseFormReturn<any>;
   input: FormField;
+  field?: ControllerRenderProps<any, string>;
   formItemClasses?: string;
   formLabelClasses?: string;
   selectTriggerClasses?: string;

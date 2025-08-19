@@ -1,5 +1,5 @@
 import { ASSET_TYPES, MIN_NUMBER, NETWORKS } from "@/lib/constants";
-import { FormField } from "@/types/form/formField.type";
+import { FormField, FormFieldGroup } from "@/types/form/formField.type";
 import { z } from "zod";
 
 export const tokenizeBaseSchema = z.object({
@@ -52,57 +52,78 @@ export const tokenizeBaseSchemaDefaultValues: TokenizeBaseSchema = {
   assetType: "",
 };
 
-export const tokenizeBaseSchemaFields: FormField[] = [
+export const tokenizeBaseSchemaFields: FormFieldGroup[] = [
   {
-    name: "image",
-    placeholder: "Image",
-    type: "text",
+    title: "General information",
+    fields: [
+      {
+        name: "title",
+        placeholder: "Title",
+        type: "text",
+        description: "This title will be the main name of your RWA",
+      },
+      {
+        name: "assetDescription",
+        placeholder: "Description",
+        type: "text",
+      },
+      {
+        name: "uniqueIdentifier",
+        placeholder: "Unique identifier",
+        type: "text",
+      },
+      {
+        name: "assetType",
+        placeholder: "Asset Type",
+        type: "select",
+        selectItems: ASSET_TYPES,
+      },
+      {
+        name: "proofOfOwnershipDocument",
+        placeholder: "Proof of ownership document",
+        type: "file",
+      },
+    ],
   },
   {
-    name: "title",
-    placeholder: "Title",
-    type: "text",
+    title: "Network and Price",
+    fields: [
+      {
+        name: "network",
+        placeholder: "Network",
+        type: "text",
+        selectItems: NETWORKS,
+      },
+      {
+        name: "price",
+        placeholder: "Price",
+        type: "number",
+        description: "Min price: 0,0001 zBTC",
+      },
+      {
+        name: "royalty",
+        placeholder: "Royalty",
+        type: "number",
+        description:
+          "You earn this from every resale — even after you sell the asset",
+      },
+      {
+        name: "netAmount",
+        placeholder: "Net amount",
+        disabled: true,
+        type: "number",
+        description: "Calculated royalty in zBTC",
+      },
+    ],
   },
   {
-    name: "assetDescription",
-    placeholder: "Description",
-    type: "text",
-  },
-  {
-    name: "proofOfOwnershipDocument",
-    placeholder: "Proof of ownership document",
-    type: "file",
-  },
-  {
-    name: "uniqueIdentifier",
-    placeholder: "Unique identifier",
-    type: "text",
-  },
-  {
-    name: "network",
-    placeholder: "Network",
-    type: "text",
-    selectItems: NETWORKS,
-  },
-  {
-    name: "royalty",
-    placeholder: "Royalty",
-    type: "number",
-  },
-  {
-    name: "price",
-    placeholder: "Price",
-    type: "number",
-  },
-  {
-    name: "ownerContact",
-    placeholder: "Owner contact",
-    type: "text",
-  },
-  {
-    name: "assetType",
-    placeholder: "Asset Type",
-    type: "text",
-    selectItems: ASSET_TYPES,
+    title: "Contacts",
+    fields: [
+      {
+        name: "ownerContact",
+        placeholder: "Owner contact",
+        type: "text",
+      },
+    ],
   },
 ];
