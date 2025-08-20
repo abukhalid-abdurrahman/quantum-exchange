@@ -88,21 +88,21 @@ export default function MobileHeader({ signin, signup }: MobileHeaderProps) {
                 Swap
               </Link>
               <Link
-                href={`${user ? "/rwa" : "?signin=true"}`}
+                href={`${user ? "/rwa" : "/signin"}`}
                 className="w-full flex gap-2 items-center"
               >
                 <ChartCandlestick size={5} strokeWidth={1} className="mr-1" />
                 RWA Market
               </Link>
               <Link
-                href={`${user ? "/rwa/create" : "?signin=true"}`}
+                href={`${user ? "/rwa/create" : "/signin"}`}
                 className="w-full flex gap-2 items-center"
               >
                 <ListPlus size={5} strokeWidth={1} className="mr-1" />
                 Create RWA
               </Link>
               <Link
-                href={`${user ? "/rwa/me" : "?signin=true"}`}
+                href={`${user ? "/rwa/me" : "/signin"}`}
                 className="w-full flex gap-2 items-center"
               >
                 <ListCheck size={5} strokeWidth={1} className="mr-1" />

@@ -31,7 +31,7 @@ export default function MobileHeaderBtns() {
     <>
       {!user ? (
         <Link
-          href="?signin=true"
+          href="/signin"
           className={`${buttonVariants({
             variant: "gray",
             size: "default",

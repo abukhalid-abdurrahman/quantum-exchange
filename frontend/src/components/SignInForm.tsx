@@ -90,7 +90,7 @@ export default function SignInForm() {
           {submit.isPending ? "Signing in..." : "Sign In"}
         </Button>
 
-        <Link href="?signup=true" className="text-sm text-blue-600">
+        <Link href="/signup" className="text-sm text-blue-600">
           Create account
         </Link>
 

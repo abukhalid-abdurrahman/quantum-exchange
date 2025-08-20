@@ -97,7 +97,7 @@ export default function SwapForm() {
 
   const onSubmit = (values: SwapSchema) => {
     if (!user?.Id) {
-      router.push("?signin=true");
+      router.push("/signin");
       return;
     }
 

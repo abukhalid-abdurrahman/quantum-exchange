@@ -2,19 +2,20 @@ import { NextRequest, NextResponse } from "next/server";
 
 export function middleware(req: NextRequest) {
   const token = req.cookies.get("oasisToken")?.value;
-  const { pathname, search } = req.nextUrl;
-  const isAuthPage = pathname === "/signin" || pathname === "/signup";
+  const { pathname } = req.nextUrl;
 
-  // if (token && isAuthPage) {
-  //   return NextResponse.redirect(new URL("/", req.url));
-  // }
+  const isAuthPage = ["/signin", "/signup"].includes(pathname);
+  const isPublicPage = ["/", "/signin", "/signup"].includes(pathname);
 
-  // if (!token && pathname !== "/") {
-  //   const url = new URL("/", req.url);
-  //   url.searchParams.set("signin", "true");
-  //   url.searchParams.set("callbackUrl", pathname + search);
-  //   return NextResponse.redirect(url);
-  // }
+  if (token && isAuthPage) {
+    return NextResponse.redirect(new URL("/", req.url));
+  }
+
+  if (!token && !isPublicPage) {
+    const url = new URL("/signin", req.url);
+    url.searchParams.set("callbackUrl", pathname);
+    return NextResponse.redirect(url);
+  }
 
   return NextResponse.next();
 }

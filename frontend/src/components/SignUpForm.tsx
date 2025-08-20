@@ -40,7 +40,7 @@ export default function SignUpForm() {
         if (data?.userId) {
           setSuccessMessage(true);
           setTimeout(() => {
-            router.push("/?signin=true");
+            router.push("/signin");
           }, 3000);
         }
       },
@@ -103,7 +103,7 @@ export default function SignUpForm() {
               : "Sign up"}
         </Button>
 
-        <Link href="?signin=true" className="text-sm text-blue-600">
+        <Link href="/signin" className="text-sm text-blue-600">
           Already have an account?
         </Link>
 

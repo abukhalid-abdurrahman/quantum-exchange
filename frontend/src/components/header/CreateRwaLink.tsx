@@ -15,7 +15,7 @@ export default function CreateRwaLink({ className }: CreateRwaLinkProps) {
   if (user)
     return (
       <Link
-        href={`${user ? "/rwa/create" : "?signin=true"}`}
+        href={`${user ? "/rwa/create" : "/signin"}`}
         className={cn(
           `${buttonVariants({ variant: "muted", size: "lg" })} !px-5`,
           className

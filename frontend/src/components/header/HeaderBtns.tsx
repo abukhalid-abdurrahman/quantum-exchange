@@ -37,13 +37,13 @@ export default function HeaderBtns() {
       {!user ? (
         <>
           <Link
-            href="?signin=true"
+            href="/signin"
             className={`${buttonVariants({ variant: "default", size: "lg" })} !px-5`}
           >
             Sign In
           </Link>
           <Link
-            href="?signup=true"
+            href="/signup"
             className={`${buttonVariants({ variant: "muted", size: "lg" })} !px-5`}
           >
             Get Started

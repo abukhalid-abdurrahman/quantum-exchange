@@ -7,5 +7,5 @@ export const removeUser = (
 ) => {
   setUser(null);
   Cookies.remove("oasisToken");
-  router.push("/?signin=true");
+  router.push("/signin");
 };
