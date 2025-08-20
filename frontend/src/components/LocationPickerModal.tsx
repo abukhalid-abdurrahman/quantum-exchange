@@ -97,7 +97,7 @@ export default function LocationPickerModal({
         <Button
           onClick={handleConfirm}
           disabled={!selectedCoords}
-          variant="gray"
+          variant="default"
           size="default"
           className="w-full"
         >

@@ -91,7 +91,7 @@ export const tokenizeBaseSchemaFields: FormFieldGroup[] = [
       {
         name: "network",
         placeholder: "Network",
-        type: "text",
+        type: "select",
         selectItems: NETWORKS,
       },
       {
@@ -123,6 +123,7 @@ export const tokenizeBaseSchemaFields: FormFieldGroup[] = [
         name: "ownerContact",
         placeholder: "Owner contact",
         type: "text",
+        description: "Users will be able to contact you if they need",
       },
     ],
   },

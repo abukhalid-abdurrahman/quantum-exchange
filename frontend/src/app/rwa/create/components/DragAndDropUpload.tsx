@@ -15,12 +15,14 @@ interface DragAndDropProps {
   control: Control<any>;
   name: string;
   isSuccessfullyDone: boolean;
+  className?: string;
 }
 
 export function DragAndDropUpload({
   control,
   name,
   isSuccessfullyDone,
+  className,
 }: DragAndDropProps) {
   const [preview, setPreview] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -81,54 +83,56 @@ export function DragAndDropUpload({
   }, [isSuccessfullyDone]);
 
   return (
-    <FormField
-      control={control}
-      name={name}
-      render={({ field }) => {
-        formField = field;
-        return (
-          <FormItem className="w-1/2 md:w-full">
-            <FormControl>
-              <div className="aspect-square h-auto rounded-2xl bg-text-gray">
-                <div
-                  {...getRootProps({
-                    className: `flex justify-center items-center border-2 border-dashed border-gray p-4 rounded-md text-center cursor-pointer h-full transition-colors duration-150 ${
-                      isUploading
-                        ? "bg-gray-700 cursor-not-allowed opacity-70"
-                        : "hover:bg-gray-50"
-                    }`,
-                  })}
-                >
-                  <input {...getInputProps()} />
-                  {isUploading ? (
-                    <div className="flex flex-col items-center gap-2 text-white">
-                      <Loader2 className="animate-spin" size={32} />
-                      <p className="p">Uploading...</p>
-                    </div>
-                  ) : preview || field.value ? (
-                    <img
-                      src={preview || field.value}
-                      alt="Preview"
-                      className="mx-auto max-h-64 rounded-md object-contain"
-                    />
-                  ) : (
-                    <div className="flex flex-col gap-3 justify-center text-white">
-                      <h2 className="h1">RWA Image</h2>
-                      <p className="p">
-                        {isDragActive
-                          ? "Drop the file here..."
-                          : "Drag & drop or click to upload"}
-                      </p>
-                    </div>
-                  )}
+    <div className={className}>
+      <FormField
+        control={control}
+        name={name}
+        render={({ field }) => {
+          formField = field;
+          return (
+            <FormItem>
+              <FormControl>
+                <div className="aspect-square h-auto rounded-2xl bg-text-gray">
+                  <div
+                    {...getRootProps({
+                      className: `flex justify-center items-center border-2 border-dashed border-gray p-4 rounded-md text-center cursor-pointer h-full transition-colors duration-150 ${
+                        isUploading
+                          ? "bg-gray-700 cursor-not-allowed opacity-70"
+                          : ""
+                      }`,
+                    })}
+                  >
+                    <input {...getInputProps()} />
+                    {isUploading ? (
+                      <div className="flex flex-col items-center gap-2 text-white">
+                        <Loader2 className="animate-spin" size={32} />
+                        <p className="p">Uploading...</p>
+                      </div>
+                    ) : preview || field.value ? (
+                      <img
+                        src={preview || field.value}
+                        alt="Preview"
+                        className="mx-auto max-h-64 rounded-md object-contain"
+                      />
+                    ) : (
+                      <div className="flex flex-col gap-3 justify-center text-white">
+                        <h2 className="h1">RWA Image</h2>
+                        <p className="p">
+                          {isDragActive
+                            ? "Drop the file here..."
+                            : "Drag & drop or click to upload"}
+                        </p>
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        );
-      }}
-    />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          );
+        }}
+      />
+    </div>
   );
 }
 

@@ -72,7 +72,7 @@ export default function SwapInput({
                 }}
               />
             </FormControl>
-            <FormDescription className="font-mono">
+            <FormDescription className="font-mono text-primary">
               {description}
             </FormDescription>
             <FormMessage />

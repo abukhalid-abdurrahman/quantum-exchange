@@ -22,7 +22,7 @@ export default function DateField({ input, field }: FieldProps) {
             variant="empty"
             size="xl"
             className={cn(
-              "py-1 px-[20px]",
+              "py-1 px-[20px] w-full",
               !field.value && "text-muted-foreground"
             )}
           >

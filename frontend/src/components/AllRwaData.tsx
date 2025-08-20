@@ -41,7 +41,7 @@ export default function AllRwaData({ data, setIsOpen }: AllRwaDataProps) {
   return (
     <div className="fixed inset-0 z-1000000 bg-background-website">
       <div className="w-full h-full overflow-y-auto p-10 md:p-5">
-        <div className="max-w-[1200px] mx-auto">
+        <div className="max-w-[1300px] mx-auto">
           <div className="flex justify-between items-center mb-10 md:mb-5">
             <h2 className="h2 text-white">All RWA information</h2>
             <Button

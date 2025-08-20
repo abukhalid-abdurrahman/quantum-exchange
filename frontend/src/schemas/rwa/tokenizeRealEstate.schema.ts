@@ -71,7 +71,7 @@ export const tokenizeRealEstateSchemaFields: FormFieldGroup[] = [
       {
         name: "geolocation",
         placeholder: "Asset Location (Geolocation)",
-        type: "text",
+        type: "map",
       },
       {
         name: "valuationDate",
@@ -86,7 +86,7 @@ export const tokenizeRealEstateSchemaFields: FormFieldGroup[] = [
       {
         name: "propertyType",
         placeholder: "Property Type",
-        type: "text",
+        type: "select",
         selectItems: PROPERTY_TYPES,
       },
       {
@@ -97,7 +97,7 @@ export const tokenizeRealEstateSchemaFields: FormFieldGroup[] = [
       {
         name: "insuranceStatus",
         placeholder: "Insurance Status",
-        type: "text",
+        type: "select",
         selectItems: INSURANSE_STATUSES,
       },
     ],

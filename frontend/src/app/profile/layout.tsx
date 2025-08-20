@@ -11,7 +11,7 @@ export default function ProfileLayout({
 }>) {
   return (
     <div className="w-full min-h-screen bg-background-website">
-      <div className="max-w-[1200px] min-h-screen mx-auto w-full md:px-5">
+      <div className="max-w-[1300px] min-h-screen mx-auto w-full md:px-5">
         {children}
       </div>
     </div>

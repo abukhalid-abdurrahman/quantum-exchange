@@ -27,7 +27,6 @@ export function FormFieldRenderer({
   formLabelClasses,
   inputFieldClasses,
   withFormLabel = true,
-  setIsMapOpen,
   coords,
   fieldType,
 }: FormFieldRendererProps) {
@@ -66,7 +65,6 @@ export function FormFieldRenderer({
                   <MapPickerField
                     form={form}
                     input={input}
-                    setIsMapOpen={setIsMapOpen}
                     coords={coords}
                     field={rhfField}
                   />
@@ -82,9 +80,7 @@ export function FormFieldRenderer({
                   </FormControl>
                 )}
                 {input.description && (
-                  <FormDescription className="text-secondary">
-                    {input.description}
-                  </FormDescription>
+                  <FormDescription>{input.description}</FormDescription>
                 )}
                 <FormMessage className={formMessageClasses} />
               </FormItem>

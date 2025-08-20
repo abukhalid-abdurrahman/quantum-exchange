@@ -14,7 +14,7 @@ export default async function page({ searchParams }: SearchParams) {
       }}
       className="h-screen"
     >
-      <div className="max-w-[1200px] mx-auto md:px-5">
+      <div className="max-w-[1300px] mx-auto md:px-5">
         <Header searchParams={searchParams} />
         <div className="max-w-[512px] mx-auto mt-36">
           <div className="mx-auto">

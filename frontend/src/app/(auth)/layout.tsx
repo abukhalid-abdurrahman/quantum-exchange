@@ -7,7 +7,7 @@ export default function ProfileLayout({
 }>) {
   return (
     <div className="w-full min-h-screen bg-background-website">
-      <div className="max-w-[1200px] min-h-screen mx-auto w-full md:px-5 flex flex-col justify-between">
+      <div className="max-w-[1300px] min-h-screen mx-auto w-full md:px-5 flex flex-col justify-between">
         <header className="pt-7">
           <Link href="/" className="font-semibold">
             Quantum Street Bridge

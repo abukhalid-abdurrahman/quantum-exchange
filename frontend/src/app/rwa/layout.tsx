@@ -11,7 +11,7 @@ export default function RwaMarketLayout({
 }>) {
   return (
     <div className="w-full min-h-screen bg-background-website">
-      <div className="max-w-[1200px] min-h-screen mx-auto w-full xl:px-5 pb-5">
+      <div className="max-w-[1300px] min-h-screen mx-auto w-full xl:px-5 pb-5">
         {children}
       </div>
     </div>
