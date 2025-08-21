@@ -2,16 +2,25 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ChevronLeft, Search } from "lucide-react";
-import { useState } from "react";
+import { ChevronLeft, Funnel, Search } from "lucide-react";
+import { Dispatch, SetStateAction, useState } from "react";
 
-export default function TopBar() {
+interface TopBarProps {
+  hideFilters: boolean;
+  setHideFilers: Dispatch<SetStateAction<boolean>>;
+}
+
+export default function TopBar({ hideFilters, setHideFilers }: TopBarProps) {
   const [search, setSearch] = useState("");
 
   return (
     <div className="flex gap-4">
-      <Button variant="default" size="lg">
-        <ChevronLeft />
+      <Button
+        variant="default"
+        size="lg"
+        onClick={() => setHideFilers((prevState) => !prevState)}
+      >
+        {hideFilters ? <Funnel /> : <ChevronLeft />}
         Filters
       </Button>
 

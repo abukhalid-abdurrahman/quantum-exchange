@@ -21,10 +21,13 @@ import { CombinedRwa } from "@/types/rwa/rwa.type";
 import { PriceChangeIndicator } from "@/app/rwa/components/PriceChangeIndicator";
 import { Loader2 } from "lucide-react";
 import TopBar from "@/app/rwa/components/TopBar";
+import { useState } from "react";
 
 export default function RWATable() {
   const searchParams = useSearchParams();
   const initialPage = parseInt(searchParams.get("page") || "1");
+
+  const [hideFilters, setHideFilers] = useState(false);
 
   const { user } = useUserStore();
 
@@ -33,9 +36,14 @@ export default function RWATable() {
 
   return (
     <>
-      <TopBar />
-      <div className="flex gap-10 mt-10">
-        <div className="max-w-[300px] w-full mb-5 text-sm">
+      <TopBar hideFilters={hideFilters} setHideFilers={setHideFilers} />
+      <div
+        className={`flex gap-10 mt-10 transition-all duration-400 ease-in-out ${hideFilters && "!gap-0"}`}
+      >
+        <div
+          className={`w-full mb-5 text-sm transition-all duration-400 ease-in-out relative z-10 overflow-hidden 
+            ${hideFilters && "!w-0"}`}
+        >
           <Filters setReqParams={setReqParams} />
         </div>
         {isSomeFetching ? (
@@ -47,7 +55,9 @@ export default function RWATable() {
         ) : (
           <>
             {combinedRwas.length ? (
-              <Table className="min-w-[965px]">
+              <Table
+                className={`min-w-[965px] relative z-20 ${hideFilters && "w-full"}`}
+              >
                 <TableHeader>
                   <TableRow className="hover:bg-transparent border-primary">
                     <TableHead colSpan={2} className="w-[100px]">

@@ -16,7 +16,7 @@ export default function Filters({ setReqParams }: FiltersProps) {
 
   return (
     <>
-      <div className="">
+      <div className="w-[300px]">
         <FiltersForm setReqParams={setReqParams} />
       </div>
     </>
