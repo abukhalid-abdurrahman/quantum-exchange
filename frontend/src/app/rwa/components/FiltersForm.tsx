@@ -1,7 +1,14 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Form } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import {
   FiltersSchema,
   filtersSchema,
@@ -15,6 +22,11 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import InputFilterField from "@/app/rwa/components/form/InputFilterField";
 import SelectFilterField from "@/app/rwa/components/form/SelectFilterField";
+import { RangeSlider } from "@/components/ui/range-slider";
+import { Input } from "@/components/ui/input";
+import { ASSET_TYPES } from "@/lib/constants";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Search } from "lucide-react";
 
 interface FiltersFormProps {
   setReqParams: Dispatch<SetStateAction<RwaFiltersParams>>;
@@ -26,13 +38,17 @@ export default function FiltersForm({
   setIsFiltersOpen,
 }: FiltersFormProps) {
   const [inputClasses] = useState(
-    "px-2 py-1 bg-transparent border-text-gray text-white rounded-sm text-sm w-full lg:text-base lg:text-black"
+    "px-3.5 border-text-gray rounded-sm text-sm w-full lg:text-base lg:text-black"
   );
+  const [search, setSearch] = useState("");
 
   const form = useForm<FiltersSchema>({
     resolver: zodResolver(filtersSchema),
     defaultValues: filtersSchemaDefaultValues,
   });
+
+  const priceMin = form.watch("priceMin");
+  const priceMax = form.watch("priceMax");
 
   const onSubmit = (data: z.infer<typeof filtersSchema>) => {
     setReqParams((prevState: RwaFiltersParams) => {
@@ -46,79 +62,126 @@ export default function FiltersForm({
   return (
     <Form {...form}>
       <form
-        className="flex gap-3 text-sm text-nowrap lg:flex-col lg:text-base"
+        className="flex flex-col gap-3 text-sm text-nowrap lg:text-base"
         onSubmit={form.handleSubmit(onSubmit)}
       >
-        <div className="flex items-center gap-3 lg:justify-between">
-          <p className="">Price</p>
-          <div className="flex gap-1 items-center max-w-36 lg:max-w-40">
-            {filtersSchemaFields
-              .filter(
-                (item) => item.name === "priceMin" || item.name === "priceMax"
-              )
-              .map((item, i) => (
-                <InputFilterField
-                  key={i}
-                  form={form}
-                  inputClasses={inputClasses}
-                  input={item}
+        <p className="p mb-7">Price</p>
+        <RangeSlider
+          min={0}
+          max={1000}
+          step={10}
+          value={[priceMin || 0, priceMax || 1000]}
+          onValueChange={(values) => {
+            form.setValue("priceMin", values[0]);
+            form.setValue("priceMax", values[1]);
+          }}
+        />
+
+        <div className="flex gap-1 mt-0">
+          <FormField
+            control={form.control}
+            name="priceMin"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel>From</FormLabel>
+                <FormControl>
+                  <Input
+                    type="number"
+                    className={`${inputClasses}`}
+                    placeholder="Min"
+                    {...field}
+                    value={field.value === null ? "" : field.value}
+                  />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="priceMax"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel>To</FormLabel>
+                <FormControl>
+                  <Input
+                    type="number"
+                    className={`${inputClasses}`}
+                    placeholder="Max"
+                    {...field}
+                    value={field.value === null ? "" : field.value}
+                  />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+        </div>
+
+        <hr className="my-5 border-muted/30" />
+
+        <FormField
+          control={form.control}
+          name="assetType"
+          render={() => (
+            <FormItem>
+              <div className="mb-4">
+                <FormLabel className="text-base">Asset Type</FormLabel>
+                <Input
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  icon={
+                    <Search
+                      color="var(--primary)"
+                      size={20}
+                      className="!w-5 !h-5"
+                    />
+                  }
+                  className={inputClasses}
+                  iconPosition="right"
+                  type="text"
+                  placeholder="Search for type"
+                />
+              </div>
+              {ASSET_TYPES.filter((item) =>
+                item.name.toLowerCase().includes(search.toLowerCase())
+              ).map((item) => (
+                <FormField
+                  key={item.value}
+                  control={form.control}
+                  name="assetType"
+                  render={({ field }) => {
+                    return (
+                      <FormItem
+                        key={item.value}
+                        className="flex flex-row items-center gap-2"
+                      >
+                        <FormControl>
+                          <Checkbox
+                            id={item.value}
+                            // checked={field.value?.includes(item.value)}
+                            // onCheckedChange={(checked) => {
+                            //   return checked
+                            //     ? field.onChange([...field.value, item.value])
+                            //     : field.onChange(
+                            //         field.value?.filter(
+                            //           (value) => value !== item.value
+                            //         )
+                            //       );
+                            // }}
+                          />
+                        </FormControl>
+                        <FormLabel className="text-sm font-normal">
+                          {item.name}
+                        </FormLabel>
+                      </FormItem>
+                    );
+                  }}
                 />
               ))}
-          </div>
-        </div>
-        {filtersSchemaFields
-          .filter(
-            (item) =>
-              item.name === "assetType" ||
-              item.name === "sortBy" ||
-              item.name === "sortOrder"
-          )
-          .map((item, i) => (
-            <SelectFilterField
-              key={i}
-              form={form}
-              inputClasses={inputClasses}
-              input={item}
-            />
-          ))}
-        <div className="flex gap-3 lg:hidden">
-          <Button variant="gray" size="sm" type="submit">
-            Apply filters
-          </Button>
-          <Button
-            onClick={() => {
-              form.reset();
-              if (setIsFiltersOpen) setIsFiltersOpen(false);
-            }}
-            variant="gray"
-            size="sm"
-            type="submit"
-          >
-            Clear filters
-          </Button>
-        </div>
-        <div className="hidden lg:flex lg:flex-col lg:gap-3">
-          <Button
-            onClick={() => (setIsFiltersOpen ? setIsFiltersOpen(false) : null)}
-            variant="gray"
-            size="default"
-            type="submit"
-            className="hidden lg:flex lg:mt-3"
-          >
-            Apply filters
-          </Button>
-          <Button
-            onClick={() => {
-              form.reset();
-              if (setIsFiltersOpen) setIsFiltersOpen(false);
-            }}
-            variant="gray"
-            size="default"
-            type="submit"
-          >
-            Clear filters
-          </Button>
-        </div>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
       </form>
     </Form>
   );
