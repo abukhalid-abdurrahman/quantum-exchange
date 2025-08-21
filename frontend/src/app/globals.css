@@ -29,7 +29,7 @@
     /* --gray: #ededed; */
     /* --dark-gray: #d9d9d9; */
     /* --text-gray: #787878; */
-    --backgroundWebsite: #141115;
+    --backgroundWebsite: oklch(0.1353 0.0271 230.82);
   }
 
   body {

@@ -120,7 +120,7 @@ export function DragAndDropUpload({
                         <p className="p">
                           {isDragActive
                             ? "Drop the file here..."
-                            : "Drag & drop or click to upload"}
+                            : "Drag & drop or click to upload an image"}
                         </p>
                       </div>
                     )}
