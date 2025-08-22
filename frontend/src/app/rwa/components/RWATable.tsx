@@ -48,7 +48,7 @@ export default function RWATable() {
         </div>
         {isSomeFetching ? (
           <Loader2
-            className="animate-spin text-center mt-14 w-[960px]"
+            className={`animate-spin text-center mt-14 w-[960px] ${hideFilters && "w-full"}`}
             size={60}
             strokeWidth={3}
           />
@@ -145,7 +145,9 @@ export default function RWATable() {
               </Table>
             ) : (
               <>
-                <h3 className="h3 text-center mt-20 opacity-60 w-[960px]">
+                <h3
+                  className={`h3 text-center mt-20 opacity-60 w-[960px] ${hideFilters && "w-full"}`}
+                >
                   There are no RWAs available yet.
                 </h3>
               </>
