@@ -41,23 +41,21 @@ export default function RWATable() {
         className={`flex gap-10 mt-10 transition-all duration-400 ease-in-out ${hideFilters && "!gap-0"}`}
       >
         <div
-          className={`w-full mb-5 text-sm transition-all duration-400 ease-in-out relative z-10 overflow-hidden 
+          className={`mb-5 text-sm transition-all duration-400 ease-in-out overflow-hidden 
             ${hideFilters && "!w-0"}`}
         >
           <Filters setReqParams={setReqParams} />
         </div>
         {isSomeFetching ? (
           <Loader2
-            className="animate-spin text-center w-full mt-14"
+            className="animate-spin text-center mt-14 w-[960px]"
             size={60}
             strokeWidth={3}
           />
         ) : (
           <>
             {combinedRwas.length ? (
-              <Table
-                className={`min-w-[965px] relative z-20 ${hideFilters && "w-full"}`}
-              >
+              <Table className={`min-w-[965px] ${hideFilters && "w-full"}`}>
                 <TableHeader>
                   <TableRow className="hover:bg-transparent border-primary">
                     <TableHead colSpan={2} className="w-[100px]">
@@ -147,7 +145,7 @@ export default function RWATable() {
               </Table>
             ) : (
               <>
-                <h3 className="h3 w-full text-center mt-20 opacity-60">
+                <h3 className="h3 text-center mt-20 opacity-60 w-[960px]">
                   There are no RWAs available yet.
                 </h3>
               </>

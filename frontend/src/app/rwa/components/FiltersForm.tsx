@@ -17,7 +17,7 @@ import {
 } from "@/schemas/rwa/rwaFilters.schema";
 import { RwaFiltersParams } from "@/types/rwa/rwa.type";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import InputFilterField from "@/app/rwa/components/form/InputFilterField";
@@ -27,6 +27,7 @@ import { Input } from "@/components/ui/input";
 import { ASSET_TYPES } from "@/lib/constants";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Search } from "lucide-react";
+import { useFiltersFormStore } from "@/store/useFiltersFormStore";
 
 interface FiltersFormProps {
   setReqParams: Dispatch<SetStateAction<RwaFiltersParams>>;
@@ -41,6 +42,7 @@ export default function FiltersForm({
     "px-3.5 border-text-gray rounded-sm text-sm w-full lg:text-base lg:text-black"
   );
   const [search, setSearch] = useState("");
+  const { setForm } = useFiltersFormStore();
 
   const form = useForm<FiltersSchema>({
     resolver: zodResolver(filtersSchema),
@@ -58,6 +60,10 @@ export default function FiltersForm({
       };
     });
   };
+
+  useEffect(() => {
+    setForm(form);
+  }, [form, setForm]);
 
   return (
     <Form {...form}>
