@@ -15,10 +15,10 @@ export default async function Header({ searchParams }: SearchParams) {
 
   return (
     <>
-      <header className="flex justify-between items-center text-white py-4 mb-10 w-full xl:px-5 lg:hidden">
+      <header className="flex justify-between items-center text-white pt-6 pb-5 mb-10 w-full xl:px-5 lg:hidden">
         <div className="flex items-center gap-7">
-          <Link href="/" className="font-semibold">
-            Quantum Street Bridge
+          <Link href="/" className="text-2xl font-black mr-12">
+            Quantum Street
           </Link>
           <ul className="flex items-center gap-7 lg:gap-3">
             <li className="">

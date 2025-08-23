@@ -9,12 +9,13 @@ import { SearchParams } from "@/types/params.type";
 export default async function page({ searchParams }: SearchParams) {
   return (
     <div className="">
-      <Header searchParams={searchParams} />
-      <div className="max-w-[512px] mx-auto mt-20 flex flex-col gap-7 md:mt-14 md:pb-5 sm:mt-10! xs:mt-7!">
+      {/* <Header searchParams={searchParams} /> */}
+      {/* <div className="max-w-[512px] mx-auto mt-20 flex flex-col gap-7 md:mt-14 md:pb-5 sm:mt-10! xs:mt-7!">
         <AccountAddresses />
         <LinkedWallets />
         <ChangePassword />
-      </div>
+      </div> */}
+      <div className=""></div>
     </div>
   );
 }
