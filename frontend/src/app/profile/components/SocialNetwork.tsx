@@ -16,7 +16,13 @@ export default function SocialNetwork({
   return (
     <div className="bg-muted p-5 rounded-md text-black min-w-[224px]">
       <div className="flex gap-[15px] items-center">
-        <Image src={iconPath} alt={socialNetwork} width={30} height={30} />
+        <Image
+          src={iconPath}
+          alt={socialNetwork}
+          width={30}
+          height={30}
+          priority
+        />
         <p className="p">{socialNetwork}</p>
       </div>
 

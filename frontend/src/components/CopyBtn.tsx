@@ -15,7 +15,7 @@ export default function CopyBtn({ address }: CopyBtnProps) {
   return (
     <div className="relative">
       <Button
-        variant="empty"
+        variant="secondary"
         size="icon"
         className="flex justify-center gap-2 w-[48px] h-[48px] items-center 
         aspect-square sm:w-[46px] sm:h-[46px] hover:bg-secondary transition-all"
