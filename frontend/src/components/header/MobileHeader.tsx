@@ -14,7 +14,7 @@ import {
   ListPlus,
   Menu,
 } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "nextjs-toploader/app";
 import { useUserStore } from "@/store/useUserStore";
 import { Button, buttonVariants } from "@/components/ui/button";
 

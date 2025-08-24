@@ -1,4 +1,10 @@
-import { Database, History, UserRound, WalletCards } from "lucide-react";
+import {
+  Database,
+  History,
+  Shield,
+  UserRound,
+  WalletCards,
+} from "lucide-react";
 
 export const profileNavList = [
   {
@@ -7,18 +13,23 @@ export const profileNavList = [
     icon: UserRound,
   },
   {
+    name: "Security",
+    href: "/profile/security",
+    icon: Shield,
+  },
+  {
     name: "My RWAs",
-    href: "/profile/linked-wallets",
+    href: "/profile/my-rwas",
     icon: Database,
   },
   {
-    name: "History",
-    href: "/profile/change-password",
-    icon: History,
+    name: "My Wallets",
+    href: "/profile/wallets",
+    icon: WalletCards,
   },
   {
-    name: "My Wallets",
-    href: "/profile/change-password",
-    icon: WalletCards,
+    name: "History",
+    href: "/profile/history",
+    icon: History,
   },
 ];

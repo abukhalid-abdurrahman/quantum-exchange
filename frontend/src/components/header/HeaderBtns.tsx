@@ -5,7 +5,7 @@ import Image from "next/image";
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import { useUserStore } from "@/store/useUserStore";
-import { useRouter } from "next/navigation";
+import { useRouter } from "nextjs-toploader/app";
 import { useWalletStore } from "@/store/useWalletStore";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";

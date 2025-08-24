@@ -3,6 +3,7 @@ import { DM_Mono, DM_Sans } from "next/font/google";
 import "./globals.css";
 import TanstackProvider from "@/providers/TanstackProvider";
 import TooltipProv from "@/providers/TooltipProvider";
+import NextTopLoader from "nextjs-toploader";
 
 const dmSans = DM_Sans({
   weight: ["400", "600", "700", "900"],
@@ -30,6 +31,7 @@ export default function RootLayout({
       <body
         className={`${dmMono.className} ${dmSans.className} antialiased min-h-screen bg-background-website`}
       >
+        <NextTopLoader color="var(--secondary)" height={2} />
         <TanstackProvider>
           <TooltipProv>
             <main className="main w-full h-full">{children}</main>

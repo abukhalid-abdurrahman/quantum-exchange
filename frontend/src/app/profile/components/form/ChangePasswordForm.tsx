@@ -7,7 +7,7 @@ import {
   changePasswordSchemaFileds,
 } from "@/schemas/auth/changePassword.schema";
 import { useUserStore } from "@/store/useUserStore";
-import { useRouter } from "next/navigation";
+import { useRouter } from "nextjs-toploader/app";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
