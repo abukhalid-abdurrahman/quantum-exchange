@@ -12,7 +12,7 @@ export default function ProfileSidebar() {
   if (!user) return null;
 
   return (
-    <aside className="max-w-[240px]">
+    <aside className="">
       <div className="flex justify-between items-center cursor-pointer group">
         <div className="flex gap-4 items-center">
           <Avatar className="w-10 h-10 flex justify-center items-center border-2 border-secondary">

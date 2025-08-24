@@ -151,7 +151,6 @@ const FormMessage = React.forwardRef<
   const { name, formMessageId } = useFormField();
   const { formState } = useFormContext();
 
-  // Получаем ошибку по пути, например: geolocation.latitude
   const error = getErrorByPath(formState.errors, name);
   const messages = extractMessages(error);
 
@@ -163,7 +162,10 @@ const FormMessage = React.forwardRef<
     <p
       ref={ref}
       id={formMessageId}
-      className={cn("text-[0.8rem] font-medium text-destructive", className)}
+      className={cn(
+        "text-[0.8rem] leading-3.5 font-medium text-destructive",
+        className
+      )}
       {...props}
     >
       {body}

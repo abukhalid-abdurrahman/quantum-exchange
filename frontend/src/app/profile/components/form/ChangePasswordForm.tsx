@@ -15,6 +15,7 @@ import {
   FormControl,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -61,33 +62,36 @@ export default function ChangePasswordForm() {
         onSubmit={form.handleSubmit(onSubmit)}
         className="flex flex-col gap-[5px]"
       >
-        {changePasswordSchemaFileds.map((item) => (
-          <FormField
-            key={item.name}
-            control={form.control}
-            name={item.name as keyof ChangePasswordSchema}
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Input
-                    type={item.type}
-                    placeholder={item.placeholder}
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        ))}
+        <div className="space-y-3.5">
+          {changePasswordSchemaFileds.map((item) => (
+            <FormField
+              key={item.name}
+              control={form.control}
+              name={item.name as keyof ChangePasswordSchema}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{item.placeholder}</FormLabel>
+                  <FormControl>
+                    <Input
+                      type={item.type}
+                      placeholder={item.placeholder}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          ))}
+        </div>
 
         {errorMessage && <p className="p-sm text-red-500">{errorMessage}</p>}
 
         <Button
-          variant="gray"
+          variant="default"
           type="submit"
           size="xl"
-          className="w-full"
+          className="w-full mt-1"
           disabled={isLoading ? true : false}
         >
           {isLoading ? "Changing..." : "Change"}
