@@ -32,6 +32,7 @@ const buttonVariants = cva(
         xxl: "h-[52px] rounded-md px-12 text-md",
         icon: "h-9 w-9",
         full: "h-full w-auto aspect-square",
+        normal: "p-0",
       },
     },
     defaultVariants: {
