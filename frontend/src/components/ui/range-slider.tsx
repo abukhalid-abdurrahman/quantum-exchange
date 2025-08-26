@@ -59,7 +59,7 @@ const RangeSlider = forwardRef(
         {...props}
       >
         <SliderPrimitive.Track className="relative h-1 w-full grow overflow-hidden rounded-full bg-primary/20">
-          <SliderPrimitive.Range className="absolute h-full bg-primary" />
+          <SliderPrimitive.Range className="absolute h-full bg-muted" />
         </SliderPrimitive.Track>
         {localValues.map((value, index) => (
           <Fragment key={index}>

@@ -39,7 +39,7 @@ export default function FiltersForm({
   setIsFiltersOpen,
 }: FiltersFormProps) {
   const [inputClasses] = useState(
-    "px-3.5 border-text-gray rounded-sm text-sm w-full lg:text-base lg:text-black"
+    "px-3.5 rounded-sm text-sm w-full lg:text-base lg:text-black"
   );
   const [search, setSearch] = useState("");
   const { setForm } = useFiltersFormStore();

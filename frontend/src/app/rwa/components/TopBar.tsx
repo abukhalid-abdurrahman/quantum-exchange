@@ -30,10 +30,10 @@ import { Dispatch, SetStateAction, useState } from "react";
 
 interface TopBarProps {
   hideFilters: boolean;
-  setHideFilers: Dispatch<SetStateAction<boolean>>;
+  setHideFilters: Dispatch<SetStateAction<boolean>>;
 }
 
-export default function TopBar({ hideFilters, setHideFilers }: TopBarProps) {
+export default function TopBar({ hideFilters, setHideFilters }: TopBarProps) {
   const { form } = useFiltersFormStore();
   const [search, setSearch] = useState("");
 
@@ -45,7 +45,7 @@ export default function TopBar({ hideFilters, setHideFilers }: TopBarProps) {
         <Button
           variant="default"
           size="lg"
-          onClick={() => setHideFilers((prevState) => !prevState)}
+          onClick={() => setHideFilters((prevState) => !prevState)}
         >
           {hideFilters ? <Funnel /> : <ChevronLeft />}
           Filters
