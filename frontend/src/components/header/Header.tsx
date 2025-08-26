@@ -9,8 +9,22 @@ import SignInModal from "@/components/SignInModal";
 import SignUpModal from "@/components/SignUpModal";
 import MobileHeader from "@/components/header/MobileHeader";
 import { SearchParams } from "@/types/params.type";
+import { headers } from "next/headers";
+
+const headerLinks = [
+  {
+    name: "Swap",
+    href: "/",
+  },
+  {
+    name: "RWA Market",
+    href: "/rwa",
+  },
+];
 
 export default async function Header({ searchParams }: SearchParams) {
+  const headerList = await headers();
+  const pathname = headerList.get("x-current-path");
   const { signin, signup } = await searchParams;
 
   return (
@@ -21,13 +35,14 @@ export default async function Header({ searchParams }: SearchParams) {
             Quantum Street
           </Link>
           <ul className="flex items-center gap-7 lg:gap-3">
-            <li className="">
-              <Link href="/">Swap</Link>
-            </li>
-            <li className="">
-              <Link href="/rwa">RWA Market</Link>
-              {/* <RwaLink /> */}
-            </li>
+            {headerLinks.map((link) => (
+              <li
+                className={`${pathname === link.href && "border-b"}`}
+                key={link.name}
+              >
+                <Link href={link.href}>{link.name}</Link>
+              </li>
+            ))}
           </ul>
         </div>
         <div className="flex gap-[10px] sm:gap-2">
