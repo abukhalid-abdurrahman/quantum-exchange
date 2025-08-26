@@ -1,5 +1,6 @@
 "use cleint";
 
+import PasswordRules from "@/components/PasswordRules";
 import {
   FormControl,
   FormField,
@@ -23,6 +24,8 @@ export default function PasswordField({
   withRules = false,
 }: PasswordFieldProps) {
   const [showPassword, setShowPassword] = useState(false);
+
+  const password = form.watch("password");
 
   return (
     <>
@@ -65,31 +68,7 @@ export default function PasswordField({
         )}
       />
 
-      {withRules && (
-        <div className="">
-          <p className="p-sm">Password must contain:</p>
-          <ul className="text-secondary p-sm mt-2">
-            {passwordRules.map((rule, i) => {
-              const passed = rule.check(form.watch("password"));
-              return (
-                <li
-                  key={i}
-                  className={`flex items-center gap-1 ${
-                    passed ? "text-green-600" : "text-secondary"
-                  }`}
-                >
-                  <CircleCheckBig
-                    size={16}
-                    color="green"
-                    className={`${passed ? "block" : "hidden"}`}
-                  />
-                  {rule.text}
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-      )}
+      {withRules && <PasswordRules passwordField={password} />}
     </>
   );
 }

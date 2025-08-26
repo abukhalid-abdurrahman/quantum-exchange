@@ -23,6 +23,7 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { removeUser } from "@/utils/removeUser.util";
 import { useChangePassword } from "@/requests/auth/changePassword.request";
+import PasswordRules from "@/components/PasswordRules";
 
 export default function ChangePasswordForm() {
   const router = useRouter();
@@ -36,6 +37,8 @@ export default function ChangePasswordForm() {
   });
 
   const changePassword = useChangePassword();
+
+  const password = form.watch("newPassword");
 
   const onSubmit = (data: ChangePasswordSchema) => {
     setIsLoading(true);
@@ -58,10 +61,7 @@ export default function ChangePasswordForm() {
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col gap-[5px]"
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-[5px]">
         <div className="space-y-3.5">
           {changePasswordSchemaFileds.map((item) => (
             <FormField
@@ -87,11 +87,13 @@ export default function ChangePasswordForm() {
 
         {errorMessage && <p className="p-sm text-red-500">{errorMessage}</p>}
 
+        <PasswordRules className="mt-4" passwordField={password} />
+
         <Button
           variant="default"
           type="submit"
-          size="xl"
-          className="w-full mt-1"
+          size="lg"
+          className="transtion-all mt-10"
           disabled={isLoading ? true : false}
         >
           {isLoading ? "Changing..." : "Change"}
