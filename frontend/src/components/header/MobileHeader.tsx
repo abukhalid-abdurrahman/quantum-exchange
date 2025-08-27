@@ -18,12 +18,7 @@ import { useRouter } from "nextjs-toploader/app";
 import { useUserStore } from "@/store/useUserStore";
 import { Button, buttonVariants } from "@/components/ui/button";
 
-interface MobileHeaderProps {
-  signin?: string;
-  signup?: string;
-}
-
-export default function MobileHeader({ signin, signup }: MobileHeaderProps) {
+export default function MobileHeader() {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
@@ -127,9 +122,6 @@ export default function MobileHeader({ signin, signup }: MobileHeaderProps) {
           )}
         </div>
       </div>
-
-      {signin && <SignInModal />}
-      {signup && <SignUpModal />}
     </>
   );
 }

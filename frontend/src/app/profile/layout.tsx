@@ -11,8 +11,8 @@ export default function ProfileLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="w-full min-h-screen bg-background-website mt-20">
-      <div className="max-w-[1300px] min-h-screen mx-auto w-full flex gap-12 md:px-5">
+    <div className="bg-background-website mt-10">
+      <div className="w-full flex gap-12 md:px-5">
         <div className="w-[240px]">
           <ProfileSidebar />
         </div>
