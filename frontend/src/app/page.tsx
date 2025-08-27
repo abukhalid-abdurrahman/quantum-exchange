@@ -1,8 +1,10 @@
+import Header from "@/components/header/Header";
 import SwapForm from "@/components/SwapForm";
 
 export default function page() {
   return (
     <>
+      <Header />
       <div
         style={{
           backgroundImage: "url(/bg3.png)",

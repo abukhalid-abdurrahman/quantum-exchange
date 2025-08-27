@@ -1,6 +1,6 @@
 "use client";
 
-import SocialNetwork from "@/app/profile/components/SocialNetwork";
+import SocialNetwork from "@/app/(main)/profile/components/SocialNetwork";
 import { Button } from "@/components/ui/button";
 import {
   Form,

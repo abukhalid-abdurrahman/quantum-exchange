@@ -1,7 +1,7 @@
-import AccountAddresses from "@/app/profile/components/AccountAddresses";
-import ChangePassword from "@/app/profile/components/ChangePassword";
-import LinkedWallets from "@/app/profile/components/LinkedWallets";
-import PersonalnformationForm from "@/app/profile/components/form/PersonalnformationForm";
+import AccountAddresses from "@/app/(main)/profile/components/AccountAddresses";
+import ChangePassword from "@/app/(main)/profile/components/ChangePassword";
+import LinkedWallets from "@/app/(main)/profile/components/LinkedWallets";
+import PersonalnformationForm from "@/app/(main)/profile/components/form/PersonalnformationForm";
 
 export default function page() {
   return (

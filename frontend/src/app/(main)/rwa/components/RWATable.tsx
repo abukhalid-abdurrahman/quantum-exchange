@@ -18,10 +18,10 @@ import { useUserStore } from "@/store/useUserStore";
 import { useSearchParams } from "next/navigation";
 import { useRwasData } from "@/hooks/useRwasData";
 import { CombinedRwa } from "@/types/rwa/rwa.type";
-import { PriceChangeIndicator } from "@/app/rwa/components/PriceChangeIndicator";
 import { Loader2 } from "lucide-react";
-import TopBar from "@/app/rwa/components/TopBar";
 import { useState } from "react";
+import TopBar from "@/app/(main)/rwa/components/TopBar";
+import { PriceChangeIndicator } from "@/app/(main)/rwa/components/PriceChangeIndicator";
 
 interface RWATableProps {
   absoluteFilters?: boolean;

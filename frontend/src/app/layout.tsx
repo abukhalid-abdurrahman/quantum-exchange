@@ -4,7 +4,6 @@ import "./globals.css";
 import TanstackProvider from "@/providers/TanstackProvider";
 import TooltipProv from "@/providers/TooltipProvider";
 import NextTopLoader from "nextjs-toploader";
-import Header from "@/components/header/Header";
 
 const dmSans = DM_Sans({
   weight: ["400", "600", "700", "900"],
@@ -36,7 +35,6 @@ export default function RootLayout({
         <TanstackProvider>
           <TooltipProv>
             <div className="max-w-[1300px] mx-auto md:px-5">
-              <Header />
               <main className="main w-full h-full">{children}</main>
             </div>
           </TooltipProv>

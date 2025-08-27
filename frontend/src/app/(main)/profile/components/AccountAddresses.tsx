@@ -1,8 +1,8 @@
 "use client";
 
-import ProfileSkeleton from "@/app/profile/components/states/ProfileSkeleton";
-import NoAccounts from "@/app/profile/components/states/NoAccounts";
-import AccountAddressItem from "@/app/profile/components/account/AccountAddressItem";
+import ProfileSkeleton from "@/app/(main)/profile/components/states/ProfileSkeleton";
+import NoAccounts from "@/app/(main)/profile/components/states/NoAccounts";
+import AccountAddressItem from "@/app/(main)/profile/components/account/AccountAddressItem";
 import { useUserStore } from "@/store/useUserStore";
 import { useGetVirtualAccounts } from "@/requests/user/getVirtualAccounts.request";
 import { AccountAddress } from "@/types/user/profile.type";

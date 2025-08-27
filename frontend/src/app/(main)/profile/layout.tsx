@@ -1,4 +1,4 @@
-import ProfileSidebar from "@/app/profile/components/ProfileSidebar";
+import ProfileSidebar from "@/app/(main)/profile/components/ProfileSidebar";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {

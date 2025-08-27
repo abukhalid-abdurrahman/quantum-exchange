@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import GeneralFilters from "@/app/profile/history/components/GeneralFilters";
+import GeneralFilters from "@/app/(main)/profile/history/components/GeneralFilters";
 import {
   rwaTypeHistoryFiltersSchemaDefaultValues,
   RwaTypeHistoryFiltersSchemaType,

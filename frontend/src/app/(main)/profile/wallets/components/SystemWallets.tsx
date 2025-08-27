@@ -1,6 +1,6 @@
 "use client";
 
-import Wallet from "@/app/profile/wallets/components/Wallet";
+import Wallet from "@/app/(main)/profile/wallets/components/Wallet";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useGetVirtualAccounts } from "@/requests/user/getVirtualAccounts.request";
 import { useUserStore } from "@/store/useUserStore";

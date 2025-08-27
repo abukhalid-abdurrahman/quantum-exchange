@@ -1,5 +1,5 @@
-import ConnectedWallets from "@/app/profile/wallets/components/ConnectedWallets";
-import SystemWallets from "@/app/profile/wallets/components/SystemWallets";
+import ConnectedWallets from "@/app/(main)/profile/wallets/components/ConnectedWallets";
+import SystemWallets from "@/app/(main)/profile/wallets/components/SystemWallets";
 
 export default function page() {
   return (

@@ -1,6 +1,6 @@
 "use client";
 
-import Wallet from "@/app/profile/wallets/components/Wallet";
+import Wallet from "@/app/(main)/profile/wallets/components/Wallet";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useGetLinkedWallets } from "@/requests/user/getLinkedWallets.request";
 import { useUserStore } from "@/store/useUserStore";
