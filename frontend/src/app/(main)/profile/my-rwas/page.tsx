@@ -1,4 +1,4 @@
-import RWATable from "@/app/rwa/components/RWATable";
+import RWATable from "@/app/(main)/rwa/components/RWATable";
 
 export default function page() {
   return (

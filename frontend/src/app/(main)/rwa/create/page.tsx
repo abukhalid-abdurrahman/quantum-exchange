@@ -1,5 +1,5 @@
-import CreateRwa from "@/app/rwa/create/components/CreateRwa";
-import Steps from "@/app/rwa/create/components/Steps";
+import CreateRwa from "@/app/(main)/rwa/create/components/CreateRwa";
+import Steps from "@/app/(main)/rwa/create/components/Steps";
 
 export default function page() {
   return (

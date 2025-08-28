@@ -3,10 +3,10 @@
 import Loading from "@/components/Loading";
 import Chart from "@/components/Chart";
 import PurchaseButton from "@/components/PurchaseButton";
-import CopyIpfsButton from "@/app/rwa/components/CopyIpfsButton";
+import CopyIpfsButton from "@/app/(main)/rwa/components/CopyIpfsButton";
 import AllRwaData from "@/components/AllRwaData";
 import SellBuyData from "./SellBuyData";
-import InfoRow from "@/app/rwa/components/InfoRow";
+import InfoRow from "@/app/(main)/rwa/components/InfoRow";
 import Link from "next/link";
 import { useRwaData } from "@/hooks/useRwaData";
 import { buttonVariants, Button } from "@/components/ui/button";

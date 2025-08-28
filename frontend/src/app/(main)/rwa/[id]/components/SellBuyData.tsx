@@ -1,6 +1,6 @@
 "use client";
 
-import RwaPurchasHistoryeRow from "@/app/rwa/[id]/components/PurchaseHistoryRow";
+import RwaPurchasHistoryeRow from "@/app/(main)/rwa/[id]/components/PurchaseHistoryRow";
 import Loading from "@/components/Loading";
 import { RwaPurchaseHistoryProps } from "@/types/rwa/rwaProps.type";
 import {

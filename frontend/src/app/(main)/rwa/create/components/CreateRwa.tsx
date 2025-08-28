@@ -7,7 +7,7 @@ import { z } from "zod";
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
-import { DragAndDropUpload } from "@/app/rwa/create/components/DragAndDropUpload";
+import { DragAndDropUpload } from "@/app/(main)/rwa/create/components/DragAndDropUpload";
 import { useCreateRwa } from "@/requests/rwa/createRwa.request";
 import { useTokenizationFields } from "@/hooks/useTokenizationFields";
 import { getFieldsByAssetType } from "@/utils/getFieldsByAssetType.util";
