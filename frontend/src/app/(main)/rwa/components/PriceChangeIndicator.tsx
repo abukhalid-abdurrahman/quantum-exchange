@@ -20,7 +20,7 @@ export function PriceChangeIndicator({
 
   return (
     <span
-      className={`flex items-center text-xs justify-end ${
+      className={`flex gap-1 items-center text-sm justify-end ${
         isPositive
           ? "text-green-500"
           : isNeutral
@@ -28,11 +28,11 @@ export function PriceChangeIndicator({
             : "text-red-600"
       }`}
     >
-      {isPositive && <ChevronUp size={15} className="inline" />}
-      {!isPositive && !isNeutral && (
-        <ChevronDown size={15} className="inline" />
-      )}
       {percentage}
+      {isPositive && <ChevronUp size={18} className="inline" />}
+      {!isPositive && !isNeutral && (
+        <ChevronDown size={18} className="inline" />
+      )}
     </span>
   );
 }
