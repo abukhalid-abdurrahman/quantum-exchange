@@ -45,6 +45,11 @@ export type RwaWithPagination = Pick<
   | "updatedAt"
 >;
 
+export type RwaCard = Pick<
+  Rwa,
+  "tokenId" | "title" | "price" | "assetType" | "assetDescription" | "image"
+>;
+
 export type RwasWithPagination = {
   totalPages: number;
   totalRecords: number;
