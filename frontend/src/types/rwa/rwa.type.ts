@@ -46,8 +46,14 @@ export type RwaWithPagination = Pick<
 >;
 
 export type RwaCard = Pick<
-  Rwa,
-  "tokenId" | "title" | "price" | "assetType" | "assetDescription" | "image"
+  CombinedRwa,
+  | "tokenId"
+  | "title"
+  | "price"
+  | "assetType"
+  | "assetDescription"
+  | "image"
+  | "oldPrice"
 >;
 
 export type RwasWithPagination = {
@@ -62,6 +68,7 @@ export interface RwaChanges extends Rwa {
   oldPrice: number;
   newPrice: number;
   changedAt: string;
+  rwaTokenId: string;
 }
 
 export type CombinedRwa = RwaChanges & Rwa;

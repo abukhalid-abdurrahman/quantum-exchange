@@ -29,9 +29,11 @@ export function PriceChangeIndicator({
       }`}
     >
       {percentage}
-      {isPositive && <ChevronUp size={18} className="inline" />}
+      {isPositive && (
+        <ChevronUp size={18} className="inline" strokeWidth={1.5} />
+      )}
       {!isPositive && !isNeutral && (
-        <ChevronDown size={18} className="inline" />
+        <ChevronDown size={18} className="inline" strokeWidth={1.5} />
       )}
     </span>
   );

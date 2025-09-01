@@ -30,13 +30,23 @@ export const useRwasData = (initialPage: number) => {
     arr: (Rwa | RwaChanges | undefined)[]
   ): CombinedRwa[] =>
     arr
-      .filter((item): item is Rwa | RwaChanges => !!item && !!item.tokenId)
-      .map((item) => ({ ...item, tokenId: item.tokenId }) as CombinedRwa);
+      .filter(
+        (item): item is Rwa | RwaChanges =>
+          !!item && (!!item.tokenId || !!(item as RwaChanges).rwaTokenId)
+      )
+      .map((item) => {
+        const tokenId =
+          "tokenId" in item ? item.tokenId : (item as RwaChanges).rwaTokenId;
+        return { ...item, tokenId } as CombinedRwa;
+      });
 
   const combinedRwas = useMemo(() => {
     const base = normalizeTokenData(rwaMultiple.data.map((rwa) => rwa?.data));
     const changes = normalizeTokenData(
-      rwaChangesMultiple.data.map((rwa) => rwa?.data?.at(-1))
+      rwaChangesMultiple.data.map((rwa) => {
+        const history = rwa?.data;
+        return Array.isArray(history) ? history[history.length - 1] : undefined;
+      })
     );
 
     const combinedMap = new Map<string, CombinedRwa>();
