@@ -80,7 +80,25 @@ export default function Chart({ className, data, firstData }: ChartProps) {
       bottomColor: "rgba(12, 18, 59, 0.1)",
     });
 
-    candleSeries.setData(convertedData);
+    // candleSeries.setData(convertedData);
+    candleSeries.setData([
+      {
+        time: "2025-07-22",
+        value: 32.562,
+      },
+      {
+        time: "2025-07-23",
+        value: 33.65,
+      },
+      {
+        time: "2025-07-25",
+        value: 32.462,
+      },
+      {
+        time: "2025-07-29",
+        value: 31.985,
+      },
+    ]);
 
     chart.timeScale().fitContent();
     return () => chart.remove();

@@ -17,6 +17,7 @@ export default function RwaTabs({ rwa }: { rwa: any }) {
       <TabsContent value="characteristics">
         Change your password here.
       </TabsContent>
+      <TabsContent value="tokenDetails">Change your password here.</TabsContent>
     </Tabs>
   );
 }

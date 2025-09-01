@@ -2,6 +2,7 @@ import { SelectItems } from "@/types/form/formField.type";
 
 export const API = process.env.NEXT_PUBLIC_API_URL;
 export const SOLANA_ENVIRONMENT = process.env.NEXT_PUBLIC_SOLANA_ENVIRONMENT;
+export const GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!;
 
 export const SOL_EXPLORER_URL = "https://explorer.solana.com";
 

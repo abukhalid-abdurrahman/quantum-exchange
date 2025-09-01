@@ -13,21 +13,21 @@ export default function ConnectedWallets() {
   if (isFetching)
     return <Skeleton className="bg-primary w-[230px] h-[209px]" />;
 
-  // const wallets = data?.data || [];
-  const wallets = [
-    {
-      network: "Solana",
-      walletAddress: "ffUhngvbngjkfbdhgjfdsb",
-    },
-    {
-      network: "Solana",
-      walletAddress: "nfmdspjIFnv438ndu",
-    },
-    {
-      network: "Solana",
-      walletAddress: "okpfNG483ndksB",
-    },
-  ];
+  const wallets = data?.data || [];
+  // const wallets = [
+  //   {
+  //     network: "Solana",
+  //     walletAddress: "ffUhngvbngjkfbdhgjfdsb",
+  //   },
+  //   {
+  //     network: "Solana",
+  //     walletAddress: "nfmdspjIFnv438ndu",
+  //   },
+  //   {
+  //     network: "Solana",
+  //     walletAddress: "okpfNG483ndksB",
+  //   },
+  // ];
   return (
     <div className="flex gap-2">
       {wallets.length > 0 &&

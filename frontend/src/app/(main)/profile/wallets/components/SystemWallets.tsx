@@ -13,19 +13,19 @@ export default function SystemWallets() {
   if (isFetching)
     return <Skeleton className="bg-primary w-[230px] h-[209px]" />;
 
-  // const accounts = data?.data || [];
-  const accounts = [
-    {
-      token: "SOL",
-      balance: "3.545635",
-      address: "ffUhngvbngjkfbdhgjfdsb",
-    },
-    {
-      token: "XRD",
-      balance: "12352.635",
-      address: "nfmdspjIFnv438ndu",
-    },
-  ];
+  const accounts = data?.data || [];
+  // const accounts = [
+  //   {
+  //     token: "SOL",
+  //     balance: "3.545635",
+  //     address: "ffUhngvbngjkfbdhgjfdsb",
+  //   },
+  //   {
+  //     token: "XRD",
+  //     balance: "12352.635",
+  //     address: "nfmdspjIFnv438ndu",
+  //   },
+  // ];
   return (
     <div className="flex gap-2">
       {accounts.length > 0 &&
