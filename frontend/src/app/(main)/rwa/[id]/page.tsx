@@ -27,6 +27,7 @@ const rwa = {
   oldPrice: 31.213,
   network: "Solana",
   image: "/nft.avif",
+  ipfsCid: "Ip3nL1-fnMFuenns8FH",
   documents: [
     {
       name: "Ownership Document",

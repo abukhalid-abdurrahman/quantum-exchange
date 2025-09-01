@@ -1,4 +1,5 @@
 import Overview from "@/app/(main)/rwa/[id]/components/tabs/Overview";
+import TokenDetails from "@/app/(main)/rwa/[id]/components/tabs/TokenDetails";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function RwaTabs({ rwa }: { rwa: any }) {
@@ -17,7 +18,9 @@ export default function RwaTabs({ rwa }: { rwa: any }) {
       <TabsContent value="characteristics">
         Change your password here.
       </TabsContent>
-      <TabsContent value="tokenDetails">Change your password here.</TabsContent>
+      <TabsContent value="tokenDetails">
+        <TokenDetails rwa={rwa} />
+      </TabsContent>
     </Tabs>
   );
 }
