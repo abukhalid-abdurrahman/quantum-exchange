@@ -198,7 +198,7 @@ export default function SwapForm() {
 
           {isError && (
             <div className="flex gap-3 items-center">
-              <p className="p-sm text-red-500">Failed to get Exchange Rate</p>
+              <p className="p-sm text-red-500">Failed to get Exchange rate</p>
               <p
                 className="p-sm flex gap-2 items-center text-white cursor-pointer transition-all hover:opacity-70"
                 onClick={() => refetch()}

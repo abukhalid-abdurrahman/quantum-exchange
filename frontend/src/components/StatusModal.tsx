@@ -135,7 +135,7 @@ export default function StatusModal({
           If there are any left funds in your account. You can find them by
           checking your account balance in your{" "}
           <BlankLink
-            href="/profile"
+            href="/profile/wallets"
             className="text-blue-700"
             size={18}
             color="var(--color-blue-700)"

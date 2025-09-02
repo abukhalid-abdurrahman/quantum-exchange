@@ -95,7 +95,7 @@ export default function SignInForm() {
 
         {errorMessage && <p className="text-sm text-red-500">{errorMessage}</p>}
 
-        <Link href="/forgot-password" className="p-sm text-white my-1">
+        <Link href="#" className="p-sm text-white my-1">
           Forgot your password?
         </Link>
 

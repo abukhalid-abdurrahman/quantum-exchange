@@ -30,7 +30,7 @@ export default function HeaderBtns() {
     }
   }, [Cookies.get("oasisToken")]);
 
-  if (loading) return <Skeleton className="h-10 w-36 bg-primary" />;
+  if (loading) return <Skeleton className="h-10.5 w-36 bg-primary" />;
 
   return (
     <>

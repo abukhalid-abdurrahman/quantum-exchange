@@ -18,7 +18,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { SORT_BY, SORT_ORDER } from "@/lib/constants";
-import { useFiltersFormStore } from "@/store/useFiltersFormStore";
+import {
+  filterTopSchema,
+  FilterTopSchema,
+  filterTopSchemaDefaultValues,
+} from "@/schemas/rwa/rwaFilters.schema";
+import { RwaFiltersParams } from "@/types/rwa/rwa.type";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   ArrowDownNarrowWide,
   ArrowDownWideNarrow,
@@ -27,17 +33,35 @@ import {
   Search,
 } from "lucide-react";
 import { Dispatch, SetStateAction, useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 interface TopBarProps {
   hideFilters: boolean;
   setHideFilters: Dispatch<SetStateAction<boolean>>;
+  setReqParams: Dispatch<SetStateAction<RwaFiltersParams>>;
 }
 
-export default function TopBar({ hideFilters, setHideFilters }: TopBarProps) {
-  const { form } = useFiltersFormStore();
+export default function TopBar({
+  hideFilters,
+  setHideFilters,
+  setReqParams,
+}: TopBarProps) {
   const [search, setSearch] = useState("");
 
-  if (!form) return null;
+  const form = useForm<FilterTopSchema>({
+    resolver: zodResolver(filterTopSchema),
+    defaultValues: filterTopSchemaDefaultValues,
+  });
+
+  const onSubmit = (data: z.infer<typeof filterTopSchema>) => {
+    setReqParams((prevState: RwaFiltersParams) => {
+      return {
+        ...prevState,
+        ...data,
+      };
+    });
+  };
 
   return (
     <div className="flex justify-between items-center">
@@ -68,7 +92,7 @@ export default function TopBar({ hideFilters, setHideFilters }: TopBarProps) {
 
       <div className="">
         <Form {...form}>
-          <form className="flex gap-6">
+          <form className="flex gap-6" onSubmit={form.handleSubmit(onSubmit)}>
             <FormField
               control={form.control}
               name="sortOrder"
@@ -78,14 +102,18 @@ export default function TopBar({ hideFilters, setHideFilters }: TopBarProps) {
                     <p
                       className="p-sm cursor-pointer flex gap-2 items-center transition-all hover:opacity-70"
                       onClick={() => {
-                        field.onChange(field.value === "asc" ? "desc" : "asc");
+                        const newVal = field.value === "Asc" ? "Desc" : "Asc";
+                        field.onChange(newVal);
+                        setTimeout(() => {
+                          onSubmit(form.getValues());
+                        }, 0);
                       }}
                     >
                       Sort order
-                      {field.value === "asc" && (
+                      {field.value === "Asc" && (
                         <ArrowDownNarrowWide size={16} />
                       )}
-                      {field.value === "desc" && (
+                      {field.value === "Desc" && (
                         <ArrowDownWideNarrow size={16} />
                       )}
                     </p>
@@ -100,7 +128,12 @@ export default function TopBar({ hideFilters, setHideFilters }: TopBarProps) {
               render={({ field }) => (
                 <FormItem className="flex gap-2 items-center lg:justify-between">
                   <Select
-                    onValueChange={field.onChange}
+                    onValueChange={(val) => {
+                      field.onChange(val);
+                      setTimeout(() => {
+                        onSubmit(form.getValues());
+                      }, 0);
+                    }}
                     value={field.value}
                     defaultValue={field.value}
                   >

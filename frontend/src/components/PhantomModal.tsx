@@ -2,6 +2,7 @@ import Loading from "@/components/Loading";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { useEffect } from "react";
+import { LoaderCircle } from "lucide-react";
 
 type PhantomModalProps = {
   onClose: () => void;
@@ -75,11 +76,13 @@ export default function PhantomModal({
           (publicKey || walletDenied || errorMessage) && "mt-5! mb-0!"
         }`}
       >
-        <Loading
-          className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-all ${
+        <LoaderCircle
+          size={160}
+          color="var(--secondary)"
+          strokeWidth={1}
+          className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-all animate-spin ${
             (publicKey || walletDenied || errorMessage) && "opacity-0"
           }`}
-          classNameLoading="w-[130px]! h-[130px]! border-text-gray! border-r-transparent! border-4!"
         />
         <Image
           src="/phantom.svg"
@@ -96,7 +99,7 @@ export default function PhantomModal({
       </div>
 
       <Button
-        variant="gray"
+        variant="default"
         size="xl"
         className="w-full"
         disabled={buttonDisabled}

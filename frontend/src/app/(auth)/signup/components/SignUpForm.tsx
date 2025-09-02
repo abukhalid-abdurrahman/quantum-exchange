@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "nextjs-toploader/app";
 import { useForm } from "react-hook-form";
@@ -45,6 +45,12 @@ export default function SignUpForm() {
     mode: "onBlur",
   });
 
+  const password = form.watch("password");
+
+  useEffect(() => {
+    form.setValue("confirmPassword", password);
+  }, [password]);
+
   const submit = useSignUp();
   const submitSignIn = useSignIn();
 
@@ -62,11 +68,13 @@ export default function SignUpForm() {
             password: data.password,
           },
           {
-            onSuccess: ({ res }) => {
+            onSuccess: ({ data: res }) => {
+              console.log(res);
               saveUser(res, setUser);
               router.push(callbackUrl);
             },
             onError: (error: any) => {
+              setRedirecting(false);
               setErrorMessage(
                 error.response?.data?.error?.message || "An error occurred"
               );
@@ -75,6 +83,7 @@ export default function SignUpForm() {
         );
       },
       onError: (error: any) => {
+        setRedirecting(false);
         setErrorMessage(
           error.response?.data?.error?.message || "An error occurred"
         );
@@ -129,7 +138,7 @@ export default function SignUpForm() {
 
           <PasswordField withRules form={form} />
 
-          <FormField
+          {/* <FormField
             control={form.control}
             name="confirmPassword"
             render={({ field }) => (
@@ -146,7 +155,7 @@ export default function SignUpForm() {
                 <FormMessage />
               </FormItem>
             )}
-          />
+          /> */}
         </div>
 
         {errorMessage && <p className="text-sm text-red-500">{errorMessage}</p>}

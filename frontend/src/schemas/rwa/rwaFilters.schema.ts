@@ -11,6 +11,9 @@ export const filtersSchema = z.object({
       "",
     ])
     .optional(),
+});
+
+export const filterTopSchema = z.object({
   sortBy: z
     .enum([...(SORT_BY.map((item) => item.value) as [string, ...string[]]), ""])
     .optional(),
@@ -23,11 +26,15 @@ export const filtersSchema = z.object({
 });
 
 export type FiltersSchema = z.infer<typeof filtersSchema>;
+export type FilterTopSchema = z.infer<typeof filterTopSchema>;
 
 export const filtersSchemaDefaultValues: FiltersSchema = {
   assetType: "",
   priceMin: null,
   priceMax: null,
+};
+
+export const filterTopSchemaDefaultValues: FilterTopSchema = {
   sortBy: "",
   sortOrder: "",
 };
@@ -49,6 +56,9 @@ export const filtersSchemaFields: FormField[] = [
     type: "text",
     selectItems: ASSET_TYPES,
   },
+];
+
+export const filterTopSchemaFields: FormField[] = [
   {
     name: "sortBy",
     placeholder: "Sort by",

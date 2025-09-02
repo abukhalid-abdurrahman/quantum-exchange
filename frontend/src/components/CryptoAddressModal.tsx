@@ -226,7 +226,7 @@ export default function CryptoAddressModal({
               Don’t worry — your funds stay safe and won’t be lost. They will
               stay in your account. You can find it in your{" "}
               <BlankLink
-                href="/profile"
+                href="/profile/wallets"
                 className="text-blue-700"
                 size={18}
                 color="var(--color-blue-700)"

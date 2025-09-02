@@ -32,6 +32,27 @@
     --backgroundWebsite: oklch(0.1353 0.0271 230.82);
   }
 
+  html {
+    scrollbar-width: thin;
+  }
+
+  ::-moz-horizontal-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--backgroundWebsite) !important;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #242438 !important;
+    border-radius: 6px !important;
+  }
+
   body {
     font-family: "DM Sans" !important;
   }

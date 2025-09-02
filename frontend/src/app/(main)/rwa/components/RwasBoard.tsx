@@ -11,6 +11,7 @@ interface RwasBoardProps {
   combinedRwas: CombinedRwa[];
   hideFilters: boolean;
   className?: string;
+  absoluteFilters?: boolean;
 }
 
 export default function RwasBoard({
@@ -18,6 +19,7 @@ export default function RwasBoard({
   combinedRwas,
   className,
   hideFilters,
+  absoluteFilters,
 }: RwasBoardProps) {
   const { user } = useUserStore();
 
@@ -33,7 +35,7 @@ export default function RwasBoard({
           <Skeleton
             key={i}
             className={`bg-primary w-[313px] h-[490px] ${
-              hideFilters
+              hideFilters && !absoluteFilters
                 ? "basis-[calc((100%-3*10px)/4)]"
                 : "basis-[calc((100%-2*10px)/3)]"
             }`}
@@ -45,7 +47,7 @@ export default function RwasBoard({
 
   if (!combinedRwas.length) {
     return (
-      <div className="flex justify-center mt-14">
+      <div className="flex flex-1 justify-center mt-14">
         <h3 className="h3 text-center mt-20 opacity-60">
           There are no RWAs available yet.
         </h3>
@@ -60,7 +62,7 @@ export default function RwasBoard({
           key={rwa.tokenId}
           className={cn(
             "transition-all duration-400",
-            hideFilters
+            hideFilters && !absoluteFilters
               ? "basis-[calc((100%-3*10px)/4)]"
               : "basis-[calc((100%-2*10px)/3)]"
           )}

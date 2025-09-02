@@ -20,8 +20,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import InputFilterField from "@/app/rwa/components/form/InputFilterField";
-import SelectFilterField from "@/app/rwa/components/form/SelectFilterField";
 import { RangeSlider } from "@/components/ui/range-slider";
 import { Input } from "@/components/ui/input";
 import { ASSET_TYPES } from "@/lib/constants";
@@ -188,6 +186,24 @@ export default function FiltersForm({
             </FormItem>
           )}
         />
+
+        <div className="flex justify-between gap-2 mt-2">
+          <Button
+            className="flex-1"
+            type="button"
+            variant="outline"
+            size="md"
+            onClick={() => {
+              form.reset();
+              form.handleSubmit(onSubmit)();
+            }}
+          >
+            Clear Filters
+          </Button>
+          <Button className="flex-1" type="submit" variant="default" size="md">
+            Apply filters
+          </Button>
+        </div>
       </form>
     </Form>
   );

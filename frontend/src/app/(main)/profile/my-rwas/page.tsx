@@ -1,9 +1,9 @@
-import RWATable from "@/app/(main)/rwa/components/RWATable";
+import RwasWithFilters from "@/app/(main)/rwa/components/RwasWithFilters";
 
 export default function page() {
   return (
     <div>
-      <RWATable areFiltersHidden={true} absoluteFilters={true} />
+      <RwasWithFilters absoluteFilters={true} />
     </div>
   );
 }
