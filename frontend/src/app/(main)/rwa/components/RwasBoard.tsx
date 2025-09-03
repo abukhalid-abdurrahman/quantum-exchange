@@ -1,10 +1,13 @@
 "use client";
 
+import FilterCard from "@/app/(main)/rwa/components/FilterCard";
 import RwaCard from "@/components/RwaCard";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useFilters } from "@/hooks/useFilters";
 import { cn } from "@/lib/utils";
 import { useUserStore } from "@/store/useUserStore";
-import { CombinedRwa } from "@/types/rwa/rwa.type";
+import { CombinedRwa, RwaFiltersParams } from "@/types/rwa/rwa.type";
+import { Dispatch, SetStateAction } from "react";
 
 interface RwasBoardProps {
   isSomeFetching: boolean;
@@ -12,6 +15,8 @@ interface RwasBoardProps {
   hideFilters: boolean;
   className?: string;
   absoluteFilters?: boolean;
+  reqParams?: RwaFiltersParams;
+  setReqParams?: Dispatch<SetStateAction<RwaFiltersParams>>;
 }
 
 export default function RwasBoard({
@@ -22,6 +27,16 @@ export default function RwasBoard({
   absoluteFilters,
 }: RwasBoardProps) {
   const { user } = useUserStore();
+  const { setFilters, getFilters } = useFilters();
+
+  const filters = getFilters();
+  const displayFilters = { ...(filters as any) };
+
+  if (filters.priceMin || filters.priceMax) {
+    displayFilters.priceRange = `${filters.priceMin ?? ""} - ${filters.priceMax ?? ""}`;
+    delete displayFilters.priceMin;
+    delete displayFilters.priceMax;
+  }
 
   if (isSomeFetching) {
     return (
@@ -56,19 +71,26 @@ export default function RwasBoard({
   }
 
   return (
-    <div className={cn("flex flex-wrap gap-x-2.5 gap-y-3", className)}>
-      {combinedRwas.map((rwa) => (
-        <RwaCard
-          key={rwa.tokenId}
-          className={cn(
-            "transition-all duration-400",
-            hideFilters && !absoluteFilters
-              ? "basis-[calc((100%-3*10px)/4)]"
-              : "basis-[calc((100%-2*10px)/3)]"
-          )}
-          {...rwa}
-        />
-      ))}
+    <div className="block">
+      {/* <div className="flex gap-2 mb-2.5">
+        {Object.entries(displayFilters).map(([key, value]) => (
+          <FilterCard key={key} filter={key} value={value as string} />
+        ))}
+      </div> */}
+      <div className={cn("flex flex-wrap gap-x-2.5 gap-y-3", className)}>
+        {combinedRwas.map((rwa) => (
+          <RwaCard
+            key={rwa.tokenId}
+            className={cn(
+              "transition-all duration-400",
+              hideFilters && !absoluteFilters
+                ? "basis-[calc((100%-3*10px)/4)]"
+                : "basis-[calc((100%-2*10px)/3)]"
+            )}
+            {...rwa}
+          />
+        ))}
+      </div>
     </div>
   );
 }

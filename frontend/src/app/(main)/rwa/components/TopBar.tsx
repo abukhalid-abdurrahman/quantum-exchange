@@ -17,6 +17,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useFilters } from "@/hooks/useFilters";
 import { SORT_BY, SORT_ORDER } from "@/lib/constants";
 import {
   filterTopSchema,
@@ -32,7 +33,8 @@ import {
   Funnel,
   Search,
 } from "lucide-react";
-import { Dispatch, SetStateAction, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -47,6 +49,9 @@ export default function TopBar({
   setHideFilters,
   setReqParams,
 }: TopBarProps) {
+  const { setFilters, getFilters } = useFilters();
+  const searchParams = useSearchParams();
+
   const [search, setSearch] = useState("");
 
   const form = useForm<FilterTopSchema>({
@@ -54,14 +59,34 @@ export default function TopBar({
     defaultValues: filterTopSchemaDefaultValues,
   });
 
-  const onSubmit = (data: z.infer<typeof filterTopSchema>) => {
-    setReqParams((prevState: RwaFiltersParams) => {
-      return {
-        ...prevState,
-        ...data,
-      };
-    });
+  const watchedValues = form.watch();
+
+  useEffect(() => {
+    const filtersFromUrl = getFilters();
+    const topFilters: Partial<FilterTopSchema> = {
+      sortBy: filtersFromUrl.sortBy as string,
+      sortOrder: filtersFromUrl.sortOrder as string,
+    };
+
+    form.reset(topFilters);
+  }, [searchParams]);
+
+  const onSubmit = (data: FilterTopSchema) => {
+    const cleanData = Object.fromEntries(
+      Object.entries(data).filter(([_, v]) => v != null && v !== "")
+    ) as FilterTopSchema;
+
+    setReqParams((prevState: RwaFiltersParams) => ({
+      ...prevState,
+      ...cleanData,
+    }));
+
+    setFilters(cleanData);
   };
+
+  useEffect(() => {
+    onSubmit(watchedValues);
+  }, [watchedValues.sortOrder, watchedValues.sortBy]);
 
   return (
     <div className="flex justify-between items-center">
@@ -92,7 +117,7 @@ export default function TopBar({
 
       <div className="">
         <Form {...form}>
-          <form className="flex gap-6" onSubmit={form.handleSubmit(onSubmit)}>
+          <form className="flex gap-6">
             <FormField
               control={form.control}
               name="sortOrder"
@@ -104,9 +129,6 @@ export default function TopBar({
                       onClick={() => {
                         const newVal = field.value === "Asc" ? "Desc" : "Asc";
                         field.onChange(newVal);
-                        setTimeout(() => {
-                          onSubmit(form.getValues());
-                        }, 0);
                       }}
                     >
                       Sort order
@@ -129,10 +151,10 @@ export default function TopBar({
                 <FormItem className="flex gap-2 items-center lg:justify-between">
                   <Select
                     onValueChange={(val) => {
+                      if (val === "") {
+                        return;
+                      }
                       field.onChange(val);
-                      setTimeout(() => {
-                        onSubmit(form.getValues());
-                      }, 0);
                     }}
                     value={field.value}
                     defaultValue={field.value}

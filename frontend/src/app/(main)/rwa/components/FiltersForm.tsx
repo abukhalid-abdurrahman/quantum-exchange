@@ -13,11 +13,10 @@ import {
   FiltersSchema,
   filtersSchema,
   filtersSchemaDefaultValues,
-  filtersSchemaFields,
 } from "@/schemas/rwa/rwaFilters.schema";
 import { RwaFiltersParams } from "@/types/rwa/rwa.type";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { RangeSlider } from "@/components/ui/range-slider";
@@ -25,7 +24,8 @@ import { Input } from "@/components/ui/input";
 import { ASSET_TYPES } from "@/lib/constants";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Search } from "lucide-react";
-import { useFiltersFormStore } from "@/store/useFiltersFormStore";
+import { useFilters } from "@/hooks/useFilters";
+import { useSearchParams } from "next/navigation";
 
 interface FiltersFormProps {
   setReqParams: Dispatch<SetStateAction<RwaFiltersParams>>;
@@ -36,16 +36,30 @@ export default function FiltersForm({
   setReqParams,
   setIsFiltersOpen,
 }: FiltersFormProps) {
+  const { setFilters, getFilters } = useFilters();
+  const searchParams = useSearchParams();
+
   const [inputClasses] = useState(
     "px-3.5 rounded-sm text-sm w-full lg:text-base lg:text-black"
   );
   const [search, setSearch] = useState("");
-  const { setForm } = useFiltersFormStore();
 
   const form = useForm<FiltersSchema>({
     resolver: zodResolver(filtersSchema),
     defaultValues: filtersSchemaDefaultValues,
   });
+
+  useEffect(() => {
+    const filtersFromUrl = getFilters();
+    const topFilters: Partial<FiltersSchema> = {
+      priceMin: filtersFromUrl.priceMin as number | undefined,
+      priceMax: filtersFromUrl.priceMax as number | undefined,
+      assetType: filtersFromUrl.assetType as string | undefined,
+    };
+
+    form.reset(topFilters);
+    form.getValues();
+  }, [searchParams]);
 
   const priceMin = form.watch("priceMin");
   const priceMax = form.watch("priceMax");
@@ -57,11 +71,9 @@ export default function FiltersForm({
         ...data,
       };
     });
-  };
 
-  useEffect(() => {
-    setForm(form);
-  }, [form, setForm]);
+    setFilters(data);
+  };
 
   return (
     <Form {...form}>

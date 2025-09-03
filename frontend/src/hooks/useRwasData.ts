@@ -9,15 +9,12 @@ import {
   RwaFiltersParams,
   RwaWithPagination,
 } from "@/types/rwa/rwa.type";
+import { filtersParams } from "@/lib/helpers/filtersParams";
 
 export const useRwasData = (initialPage: number) => {
   const [tokenIds, setTokenIds] = useState<string[]>([]);
   const [reqParams, setReqParams] = useState<RwaFiltersParams>({
-    assetType: null,
-    priceMin: null,
-    priceMax: null,
-    sortBy: null,
-    sortOrder: null,
+    ...filtersParams,
     pageSize: 10,
     pageNumber: initialPage,
   });

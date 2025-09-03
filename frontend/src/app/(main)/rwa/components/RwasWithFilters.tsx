@@ -35,6 +35,8 @@ export default function RwasWithFilters({
           <Filters setReqParams={setReqParams} />
         </div>
         <RwasBoard
+          reqParams={reqParams}
+          setReqParams={setReqParams}
           className={`w-[960px] transition-all duration-400 ${hideFilters && !absoluteFilters && "w-full"} ${absoluteFilters && "w-full"}`}
           isSomeFetching={isSomeFetching}
           combinedRwas={combinedRwas}
