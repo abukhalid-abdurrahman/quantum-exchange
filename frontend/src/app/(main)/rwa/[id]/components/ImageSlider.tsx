@@ -15,6 +15,7 @@ export default function ImageSlider({ images, title }: ImageSliderProps) {
   const [mainImage, setMainImage] = useState(images[0]);
 
   const [isDragging, setIsDragging] = useState(false);
+  const [dragging, setDragging] = useState(false);
   const [startY, setStartY] = useState(0);
   const [scrollTop, setScrollTop] = useState(0);
 
@@ -31,6 +32,7 @@ export default function ImageSlider({ images, title }: ImageSliderProps) {
   const handleMouseDown = (e: React.MouseEvent) => {
     if (!carouselRef.current) return;
     setIsDragging(true);
+    setDragging(false);
     setStartY(e.pageY - carouselRef.current.offsetTop);
     setScrollTop(carouselRef.current.scrollTop);
   };
@@ -38,6 +40,7 @@ export default function ImageSlider({ images, title }: ImageSliderProps) {
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!isDragging || !carouselRef.current) return;
     e.preventDefault();
+    setDragging(true);
     const y = e.pageY - carouselRef.current.offsetTop;
     const walk = y - startY;
     carouselRef.current.scrollTop = scrollTop - walk;
@@ -87,7 +90,11 @@ export default function ImageSlider({ images, title }: ImageSliderProps) {
           {images.map((image, i) => (
             <div
               key={i}
-              onClick={() => setMainImage(image)}
+              onClick={() => {
+                if (!dragging) {
+                  setMainImage(image);
+                }
+              }}
               className="bg-muted/80 bg-cover bg-no-repeat bg-center aspect-square rounded-sm overflow-hidden flex justify-center items-center cursor-pointer border-2 border-muted/80"
             >
               <img
