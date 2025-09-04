@@ -14,11 +14,9 @@ import {
   filtersSchema,
   filtersSchemaDefaultValues,
 } from "@/schemas/rwa/rwaFilters.schema";
-import { RwaFiltersParams } from "@/types/rwa/rwa.type";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { RangeSlider } from "@/components/ui/range-slider";
 import { Input } from "@/components/ui/input";
 import { ASSET_TYPES } from "@/lib/constants";
@@ -28,15 +26,11 @@ import { useFilters } from "@/hooks/useFilters";
 import { useSearchParams } from "next/navigation";
 
 interface FiltersFormProps {
-  setReqParams: Dispatch<SetStateAction<RwaFiltersParams>>;
   setIsFiltersOpen?: Dispatch<SetStateAction<boolean>>;
 }
 
-export default function FiltersForm({
-  setReqParams,
-  setIsFiltersOpen,
-}: FiltersFormProps) {
-  const { setFilters, getFilters } = useFilters();
+export default function FiltersForm({ setIsFiltersOpen }: FiltersFormProps) {
+  const { setFilters, getFilters, clearFilters } = useFilters();
   const searchParams = useSearchParams();
 
   const [inputClasses] = useState(
@@ -64,14 +58,7 @@ export default function FiltersForm({
   const priceMin = form.watch("priceMin");
   const priceMax = form.watch("priceMax");
 
-  const onSubmit = (data: z.infer<typeof filtersSchema>) => {
-    setReqParams((prevState: RwaFiltersParams) => {
-      return {
-        ...prevState,
-        ...data,
-      };
-    });
-
+  const onSubmit = (data: FiltersSchema) => {
     setFilters(data);
   };
 
@@ -205,10 +192,7 @@ export default function FiltersForm({
             type="button"
             variant="outline"
             size="md"
-            onClick={() => {
-              form.reset();
-              form.handleSubmit(onSubmit)();
-            }}
+            onClick={() => clearFilters()}
           >
             Clear Filters
           </Button>

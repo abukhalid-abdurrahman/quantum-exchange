@@ -12,7 +12,7 @@ export default function FilterCard({ filter, value }: FilterCardProps) {
   const { removeFilter } = useFilters();
 
   return (
-    <div className="flex gap-2.5 px-2.5 py-1 bg-muted text-black rounded-xs items-center">
+    <div className="flex gap-2.5 px-2.5 py-1 bg-zinc-900 text-white rounded-sm items-center">
       <p className="p-sm">{value}</p>
       <X
         onClick={() => {
@@ -22,7 +22,7 @@ export default function FilterCard({ filter, value }: FilterCardProps) {
         }}
         className="cursor-pointer"
         size={18}
-        color="#000"
+        color="#fff"
       />
     </div>
   );

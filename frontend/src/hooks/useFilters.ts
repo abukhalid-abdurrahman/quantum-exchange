@@ -20,6 +20,7 @@ export function useFilters() {
 
     for (const [key, value] of entries) {
       if (value === "" || value === "null" || value === "undefined") continue;
+      if (key === "page") continue;
 
       if (key === "priceMin" || key === "priceMax") {
         result[key] = Number(value);
@@ -56,9 +57,11 @@ export function useFilters() {
   const clearFilters = () => {
     const params = new URLSearchParams(searchParams.toString());
 
-    (Object.keys({} as AllFilters) as (keyof AllFilters)[]).forEach((key) => {
-      params.delete(key as string);
-    });
+    (Object.keys(getFilters() as AllFilters) as (keyof AllFilters)[]).forEach(
+      (key) => {
+        params.delete(key as string);
+      }
+    );
 
     router.push(`${pathname}?${params.toString()}`);
   };

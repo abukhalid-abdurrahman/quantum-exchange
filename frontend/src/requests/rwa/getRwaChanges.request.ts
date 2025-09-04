@@ -25,6 +25,7 @@ export const useGetRwaChangesMultiple = (tokenIds: string[]) => {
       return {
         data: results.map((result) => result.data),
         isFetching: results.map((result) => result.isFetching),
+        refetch: results.map((result) => result.refetch),
       };
     },
   });

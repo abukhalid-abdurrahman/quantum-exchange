@@ -24,7 +24,6 @@ import {
   FilterTopSchema,
   filterTopSchemaDefaultValues,
 } from "@/schemas/rwa/rwaFilters.schema";
-import { RwaFiltersParams } from "@/types/rwa/rwa.type";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   ArrowDownNarrowWide,
@@ -36,19 +35,13 @@ import {
 import { useSearchParams } from "next/navigation";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 
 interface TopBarProps {
   hideFilters: boolean;
   setHideFilters: Dispatch<SetStateAction<boolean>>;
-  setReqParams: Dispatch<SetStateAction<RwaFiltersParams>>;
 }
 
-export default function TopBar({
-  hideFilters,
-  setHideFilters,
-  setReqParams,
-}: TopBarProps) {
+export default function TopBar({ hideFilters, setHideFilters }: TopBarProps) {
   const { setFilters, getFilters } = useFilters();
   const searchParams = useSearchParams();
 
@@ -75,11 +68,6 @@ export default function TopBar({
     const cleanData = Object.fromEntries(
       Object.entries(data).filter(([_, v]) => v != null && v !== "")
     ) as FilterTopSchema;
-
-    setReqParams((prevState: RwaFiltersParams) => ({
-      ...prevState,
-      ...cleanData,
-    }));
 
     setFilters(cleanData);
   };

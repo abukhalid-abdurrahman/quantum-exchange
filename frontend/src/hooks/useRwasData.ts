@@ -10,14 +10,20 @@ import {
   RwaWithPagination,
 } from "@/types/rwa/rwa.type";
 import { filtersParams } from "@/lib/helpers/filtersParams";
+import { useFilters } from "@/hooks/useFilters";
+import { useSearchParams } from "next/navigation";
 
 export const useRwasData = (initialPage: number) => {
+  const searchParams = useSearchParams();
+
   const [tokenIds, setTokenIds] = useState<string[]>([]);
   const [reqParams, setReqParams] = useState<RwaFiltersParams>({
     ...filtersParams,
     pageSize: 10,
     pageNumber: initialPage,
   });
+
+  const { getFilters } = useFilters();
 
   const rwas = useGetRwas(reqParams);
   const rwaMultiple = useGetRwaMultiple(tokenIds);
@@ -66,6 +72,16 @@ export const useRwasData = (initialPage: number) => {
       rwas.isFetching
     );
   }, [rwaMultiple.isFetching, rwaChangesMultiple.isFetching, rwas.isFetching]);
+
+  useEffect(() => {
+    setReqParams((prev) => ({
+      ...prev,
+      ...getFilters(),
+    }));
+    rwas.refetch();
+    rwaMultiple.refetch.forEach((refetch) => refetch());
+    rwaChangesMultiple.refetch.forEach((refetch) => refetch());
+  }, [searchParams]);
 
   useEffect(() => {
     if (rwas?.data?.data?.data) {

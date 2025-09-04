@@ -7,7 +7,6 @@ import { useFilters } from "@/hooks/useFilters";
 import { cn } from "@/lib/utils";
 import { useUserStore } from "@/store/useUserStore";
 import { CombinedRwa, RwaFiltersParams } from "@/types/rwa/rwa.type";
-import { Dispatch, SetStateAction } from "react";
 
 interface RwasBoardProps {
   isSomeFetching: boolean;
@@ -16,7 +15,6 @@ interface RwasBoardProps {
   className?: string;
   absoluteFilters?: boolean;
   reqParams?: RwaFiltersParams;
-  setReqParams?: Dispatch<SetStateAction<RwaFiltersParams>>;
 }
 
 export default function RwasBoard({
@@ -27,16 +25,6 @@ export default function RwasBoard({
   absoluteFilters,
 }: RwasBoardProps) {
   const { user } = useUserStore();
-  const { setFilters, getFilters } = useFilters();
-
-  const filters = getFilters();
-  const displayFilters = { ...(filters as any) };
-
-  if (filters.priceMin || filters.priceMax) {
-    displayFilters.priceRange = `${filters.priceMin ?? ""} - ${filters.priceMax ?? ""}`;
-    delete displayFilters.priceMin;
-    delete displayFilters.priceMax;
-  }
 
   if (isSomeFetching) {
     return (
@@ -72,11 +60,6 @@ export default function RwasBoard({
 
   return (
     <div className="block">
-      {/* <div className="flex gap-2 mb-2.5">
-        {Object.entries(displayFilters).map(([key, value]) => (
-          <FilterCard key={key} filter={key} value={value as string} />
-        ))}
-      </div> */}
       <div className={cn("flex flex-wrap gap-x-2.5 gap-y-3", className)}>
         {combinedRwas.map((rwa) => (
           <RwaCard
