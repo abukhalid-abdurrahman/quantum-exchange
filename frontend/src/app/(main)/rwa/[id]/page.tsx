@@ -1,5 +1,6 @@
 "use server";
 
+import ImageSlider from "@/app/(main)/rwa/[id]/components/ImageSlider";
 import RwaTabs from "@/app/(main)/rwa/[id]/components/RwaTabs";
 import { PriceChangeIndicator } from "@/app/(main)/rwa/components/PriceChangeIndicator";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -26,7 +27,17 @@ const rwa = {
   priceUSD: 3236895.23,
   oldPrice: 31.213,
   network: "Solana",
-  image: "/nft.avif",
+  image: [
+    "/nft.avif",
+    "/nft.avif",
+    "/nft.avif",
+    "/nft.avif",
+    "/nft.avif",
+    "/nft.avif",
+    "/nft.avif",
+    "/nft.avif",
+    "/nft1.webp",
+  ],
   ipfsCid: "Ip3nL1-fnMFuenns8FH",
   documents: [
     {
@@ -72,8 +83,7 @@ export default async function page() {
       {/* <RwaData /> */}
       <div className="grid grid-cols-11 gap-[72px] relative">
         <div className="col-span-6">
-          <img src={rwa.image} alt={rwa.title} className="rounded-xl" />
-
+          <ImageSlider images={rwa.image} title={rwa.title} />
           <RwaTabs rwa={rwa} />
         </div>
 
