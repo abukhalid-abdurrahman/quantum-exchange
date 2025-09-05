@@ -2,19 +2,25 @@
 
 import FilterCard from "@/app/(main)/rwa/components/FilterCard";
 import RwaCard from "@/components/RwaCard";
+import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useFilters } from "@/hooks/useFilters";
+import { useIntersection } from "react-use";
 import { cn } from "@/lib/utils";
 import { useUserStore } from "@/store/useUserStore";
 import { CombinedRwa, RwaFiltersParams } from "@/types/rwa/rwa.type";
+import { RefreshCcw } from "lucide-react";
+import { useEffect, useRef } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { PaginationButtons } from "@/components/PaginationButtons";
 
 interface RwasBoardProps {
   isSomeFetching: boolean;
   combinedRwas: CombinedRwa[];
   hideFilters: boolean;
-  className?: string;
   absoluteFilters?: boolean;
   reqParams?: RwaFiltersParams;
+  totalPages: number;
+  className?: string;
 }
 
 export default function RwasBoard({
@@ -22,9 +28,13 @@ export default function RwasBoard({
   combinedRwas,
   className,
   hideFilters,
+  totalPages,
   absoluteFilters,
 }: RwasBoardProps) {
+  const searchParams = useSearchParams();
   const { user } = useUserStore();
+
+  const currentPage = parseInt(searchParams.get("page") || "1");
 
   if (isSomeFetching) {
     return (
@@ -59,7 +69,7 @@ export default function RwasBoard({
   }
 
   return (
-    <div className="block">
+    <div className="flex flex-col items-center">
       <div className={cn("flex flex-wrap gap-x-2.5 gap-y-3", className)}>
         {combinedRwas.map((rwa) => (
           <RwaCard
@@ -74,6 +84,13 @@ export default function RwasBoard({
           />
         ))}
       </div>
+
+      <PaginationButtons
+        className="mt-7.5"
+        pages={totalPages}
+        currentPage={currentPage}
+        searchParams={searchParams}
+      />
     </div>
   );
 }

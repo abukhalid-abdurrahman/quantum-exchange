@@ -13,8 +13,10 @@ import { filtersParams } from "@/lib/helpers/filtersParams";
 import { useFilters } from "@/hooks/useFilters";
 import { useSearchParams } from "next/navigation";
 
-export const useRwasData = (initialPage: number) => {
+export const useRwasData = () => {
   const searchParams = useSearchParams();
+  const initialPage = parseInt(searchParams.get("page") || "1");
+  // const [combinedRwas, setCombinedRwas] = useState<CombinedRwa[]>([]);
 
   const [tokenIds, setTokenIds] = useState<string[]>([]);
   const [reqParams, setReqParams] = useState<RwaFiltersParams>({
@@ -56,6 +58,7 @@ export const useRwasData = (initialPage: number) => {
 
     for (const item of [...base, ...changes]) {
       const existing = combinedMap.get(item.tokenId);
+
       combinedMap.set(item.tokenId, {
         ...existing,
         ...item,

@@ -15,11 +15,9 @@ interface RwasWithFiltersProps {
 export default function RwasWithFilters({
   absoluteFilters = false,
 }: RwasWithFiltersProps) {
-  const searchParams = useSearchParams();
-  const initialPage = parseInt(searchParams.get("page") || "1");
   const [hideFilters, setHideFilters] = useState(absoluteFilters || false);
 
-  const { isSomeFetching, combinedRwas, reqParams } = useRwasData(initialPage);
+  const { rwas, isSomeFetching, combinedRwas, reqParams } = useRwasData();
 
   return (
     <div>
@@ -35,6 +33,7 @@ export default function RwasWithFilters({
         >
           <Chips />
           <RwasBoard
+            totalPages={rwas.data?.data?.totalPages}
             reqParams={reqParams}
             isSomeFetching={isSomeFetching}
             combinedRwas={combinedRwas}
