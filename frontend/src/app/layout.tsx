@@ -34,9 +34,7 @@ export default function RootLayout({
         <NextTopLoader color="var(--secondary)" height={2} />
         <TanstackProvider>
           <TooltipProv>
-            <div className="max-w-[1300px] mx-auto md:px-5">
-              <main className="main w-full h-full">{children}</main>
-            </div>
+            <main className="main w-full h-full">{children}</main>
           </TooltipProv>
         </TanstackProvider>
       </body>

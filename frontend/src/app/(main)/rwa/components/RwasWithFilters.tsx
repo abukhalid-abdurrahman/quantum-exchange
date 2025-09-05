@@ -5,7 +5,6 @@ import Filters from "@/app/(main)/rwa/components/Filters";
 import RwasBoard from "@/app/(main)/rwa/components/RwasBoard";
 import TopBar from "@/app/(main)/rwa/components/TopBar";
 import { useRwasData } from "@/hooks/useRwasData";
-import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 interface RwasWithFiltersProps {

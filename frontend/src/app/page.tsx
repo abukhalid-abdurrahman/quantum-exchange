@@ -3,7 +3,7 @@ import SwapForm from "@/components/SwapForm";
 
 export default function page() {
   return (
-    <>
+    <div className="max-w-[1300px] mx-auto md:px-5">
       <Header />
       <div
         style={{
@@ -18,6 +18,6 @@ export default function page() {
           <SwapForm />
         </div>
       </div>
-    </>
+    </div>
   );
 }
