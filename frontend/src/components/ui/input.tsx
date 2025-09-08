@@ -14,7 +14,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       <div className="relative flex w-full items-center">
         {icon && (
           <div
-            className={`absolute top-1/2 -translate-y-1/2 ${iconPosition === "left" && "left-5"} ${iconPosition === "right" && "right-5"}`}
+            className={`absolute top-1/2 -translate-y-1/2 ${iconPosition === "left" && "left-4"} ${iconPosition === "right" && "right-4"}`}
           >
             {icon}
           </div>

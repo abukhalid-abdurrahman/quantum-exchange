@@ -8,7 +8,9 @@ export default async function AdminLayout({
   return (
     <div className="flex">
       <AdminSidebar />
-      <div className="flex-1">{children}</div>
+      <div className="max-w-[1300px] w-full mx-auto pt-12.5 pb-7.5">
+        {children}
+      </div>
     </div>
   );
 }

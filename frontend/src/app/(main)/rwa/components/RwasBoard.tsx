@@ -4,7 +4,6 @@ import FilterCard from "@/app/(main)/rwa/components/FilterCard";
 import RwaCard from "@/components/RwaCard";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useIntersection } from "react-use";
 import { cn } from "@/lib/utils";
 import { useUserStore } from "@/store/useUserStore";
 import { CombinedRwa, RwaFiltersParams } from "@/types/rwa/rwa.type";
