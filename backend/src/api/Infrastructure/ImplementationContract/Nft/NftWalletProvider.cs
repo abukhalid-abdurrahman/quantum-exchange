@@ -1,3 +1,5 @@
+using Common.Contracts.Nft;
+
 namespace Infrastructure.ImplementationContract.Nft;
 
 public sealed class NftWalletProvider(
@@ -35,7 +37,7 @@ public sealed class NftWalletProvider(
             {
                 PrivateKey = Encoding.UTF8.GetBytes(result.PrivateKey),
                 PublicKey = Encoding.UTF8.GetBytes(result.PublicKey),
-                SeedPhrease = Encoding.UTF8.GetBytes(result.SeedPhrase)
+                SeedPhrase = Encoding.UTF8.GetBytes(result.SeedPhrase)
             });
         }
         catch (Exception ex)

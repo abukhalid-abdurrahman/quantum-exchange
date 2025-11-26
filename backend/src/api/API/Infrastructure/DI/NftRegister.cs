@@ -8,7 +8,8 @@ public static class NftRegister
         builder.Services.AddScoped<INftMetadataSerializer, NftMetadataSerializer>();
         builder.Services.AddScoped<INftManager, SolanaNftManager>();
         builder.Services.AddScoped<ISolanaNftManager, SolanaNftManager>();
-        builder.Services.AddScoped<MetadataClient>();
+        builder.Services.AddScoped<MetadataClient>(x
+            => new(x.GetRequiredService<IRpcClient>()));
 
         return builder;
     }

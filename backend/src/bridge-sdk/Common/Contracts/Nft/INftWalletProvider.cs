@@ -1,4 +1,4 @@
-namespace Common.Contracts;
+namespace Common.Contracts.Nft;
 
 /// <summary>
 ///     Contract for providing wallet-related operations for NFT transactions.
